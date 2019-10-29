@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x86">
+      <Configuration>Debug</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86">
+      <Configuration>Release</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{00f24e5a-6600-46e6-a61d-1363223b0b82}</ProjectGuid>
+    <Keyword>Linux</Keyword>
+    <RootNamespace>CHESS_LINUX</RootNamespace>
+    <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
+    <ApplicationType>Linux</ApplicationType>
+    <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
+    <TargetLinuxPlatform>Generic</TargetLinuxPlatform>
+    <LinuxProjectType>{D51BCBC9-82E9-4017-911E-C93873C4EA2B}</LinuxProjectType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <ItemGroup>
+    <ClCompile Include="..\CHESS\chess\chess_channel_daily.cpp" />
+    <ClCompile Include="..\CHESS\chess\chess_climate_daily.cpp" />
+    <ClCompile Include="..\CHESS\chess\chess_patch_daily.cpp" />
+    <ClCompile Include="..\CHESS\clim\compute_atm_pres.cpp" />
+    <ClCompile Include="..\CHESS\clim\compute_toc_wind.cpp" />
+    <ClCompile Include="..\CHESS\cn\allocate_annual_growth.cpp" />
+    <ClCompile Include="..\CHESS\cn\allocate_daily_growth.cpp" />
+    <ClCompile Include="..\CHESS\cn\allocate_daily_growth_Dickenson.cpp" />
+    <ClCompile Include="..\CHESS\cn\allocate_daily_growth_Waring.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_annual_litfall.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_annual_turnover.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_cwd_decay.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_deadleaf_turnover.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_farq_psn.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_froot_litfall.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_growingseason_index.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_growth_resp.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_leaf_litfall.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_maint_resp.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_N_leached.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_potential_decomp.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_potential_N_uptake.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_potential_N_uptake_Dickenson.cpp" />
+    <ClCompile Include="..\CHESS\cn\compute_potential_N_uptake_Waring.cpp" />
+    <ClCompile Include="..\CHESS\cn\Ksat_z_curve.cpp" />
+    <ClCompile Include="..\CHESS\cn\leaf_conductance_APAR_curve.cpp" />
+    <ClCompile Include="..\CHESS\cn\leaf_conductance_CO2_curve.cpp" />
+    <ClCompile Include="..\CHESS\cn\leaf_conductance_LWP_curve.cpp" />
+    <ClCompile Include="..\CHESS\cn\leaf_conductance_tavg_curve.cpp" />
+    <ClCompile Include="..\CHESS\cn\leaf_conductance_tmin_curve.cpp" />
+    <ClCompile Include="..\CHESS\cn\leaf_conductance_vpd_curve.cpp" />
+    <ClCompile Include="..\CHESS\cn\resolve_sminn_competition.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_C_stratum_daily.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_decomp.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_denitrif.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_dissolved_organic_losses.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_mortality.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_nitrif.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_N_stratum_daily.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_phenology.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_rooting_depth.cpp" />
+    <ClCompile Include="..\CHESS\cn\update_septic.cpp" />
+    <ClCompile Include="..\CHESS\cn\zero_stratum_daily_flux.cpp" />
+    <ClCompile Include="..\CHESS\cycle\canopy_stratum_daily_F_old.cpp" />
+    <ClCompile Include="..\CHESS\cycle\canopy_stratum_daily_I.cpp" />
+    <ClCompile Include="..\CHESS\cycle\canopy_stratum_growth.cpp" />
+    <ClCompile Include="..\CHESS\cycle\initialize_phenology_object.cpp" />
+    <ClCompile Include="..\CHESS\cycle\patch_climate_initial.cpp" />
+    <ClCompile Include="..\CHESS\cycle\patch_daily_final.cpp" />
+    <ClCompile Include="..\CHESS\cycle\patch_radiation_daily.cpp" />
+    <ClCompile Include="..\CHESS\cycle\surface_daily_F.cpp" />
+    <ClCompile Include="..\CHESS\cycle\zone_daily_final.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_capillary_rise.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_delta_water.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_field_capacity.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_ground_water_loss.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_hourly_rain_stored.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_infiltration.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_layer_field_capacity.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_litter_rain_stored.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_lwp_predawn.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_nonvascular_stratum_conductance.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_potential_exfiltration.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_potential_rain_interception.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_potential_snow_interception.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_rain_stored.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_ra_overstory.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_ra_surface.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_ra_understory.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_snow_stored.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_snow_sublimation.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_soil_water_potential.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_transmissivity_curve.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_unsat_zone_drainage.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_varbased_flow.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_varbased_returnflow.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_vascular_stratum_conductance.cpp" />
+    <ClCompile Include="..\CHESS\hydro\compute_z_final.cpp" />
+    <ClCompile Include="..\CHESS\hydro\patch_lateral_flow.cpp" />
+    <ClCompile Include="..\CHESS\hydro\penman_monteith.cpp" />
+    <ClCompile Include="..\CHESS\hydro\recompute_gamma.cpp" />
+    <ClCompile Include="..\CHESS\hydro\snowpack_daily_F.cpp" />
+    <ClCompile Include="..\CHESS\hydro\update_drainage_land.cpp" />
+    <ClCompile Include="..\CHESS\hydro\update_drainage_stream.cpp" />
+    <ClCompile Include="..\CHESS\hydro\update_gw_drainage.cpp" />
+    <ClCompile Include="..\CHESS\hydro\update_litter_interception_capacity.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_canopy_strata.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_channel_default.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_climate_defaults.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_command_line.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_landuse_defaults.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_patch.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_reservoir_correponding_data.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_routing_topology_new.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_soil_defaults.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_stratum_defaults.cpp" />
+    <ClCompile Include="..\CHESS\init\contruct_reservoir_default.cpp" />
+    <ClCompile Include="..\CHESS\init\File_IO.cpp" />
+    <ClCompile Include="..\CHESS\init\open_climat_files.cpp" />
+    <ClCompile Include="..\CHESS\init\parse_dyn_flag.cpp" />
+    <ClCompile Include="..\CHESS\init\parse_phenology_type.cpp" />
+    <ClCompile Include="..\CHESS\init\parse_veg_type.cpp" />
+    <ClCompile Include="..\CHESS\init\read_daily_climatedata.cpp" />
+    <ClCompile Include="..\CHESS\init\zero_patch_object.cpp" />
+    <ClCompile Include="..\CHESS\main_dj_be_chan.cpp" />
+    <ClCompile Include="..\CHESS\output\close_patch_output_files.cpp" />
+    <ClCompile Include="..\CHESS\output\construct_basin_output_files.cpp" />
+    <ClCompile Include="..\CHESS\output\construct_gauge_output_files.cpp" />
+    <ClCompile Include="..\CHESS\output\construct_patch_output_files.cpp" />
+    <ClCompile Include="..\CHESS\output\output_basin_daily_growth.cpp" />
+    <ClCompile Include="..\CHESS\output\output_basin_daily_hydrology.cpp" />
+    <ClCompile Include="..\CHESS\output\output_gauge_daily_growth.cpp" />
+    <ClCompile Include="..\CHESS\output\output_gauge_daily_hydrology.cpp" />
+    <ClCompile Include="..\CHESS\output\output_patch_daily_growth.cpp" />
+    <ClCompile Include="..\CHESS\output\output_patch_daily_hydrology.cpp" />
+    <ClCompile Include="..\CHESS\output\out_basin_level_daily.cpp" />
+    <ClCompile Include="..\CHESS\output\out_gauge_level_daily.cpp" />
+    <ClCompile Include="..\CHESS\output\out_patch_level_daily.cpp" />
+    <ClCompile Include="..\CHESS\parallel\init_parallel_environment.cpp" />
+    <ClCompile Include="..\CHESS\parallel\parallel_channel_daily.cpp" />
+    <ClCompile Include="..\CHESS\parallel\parallel_patch_daily.cpp" />
+    <ClCompile Include="..\CHESS\patch\patch_land_initial.cpp" />
+    <ClCompile Include="..\CHESS\rad\compute_diffuse_radiative_fluxes.cpp" />
+    <ClCompile Include="..\CHESS\rad\compute_diffuse_radiative_PAR_fluxes.cpp" />
+    <ClCompile Include="..\CHESS\rad\compute_direct_radiative_fluxes.cpp" />
+    <ClCompile Include="..\CHESS\rad\compute_direct_radiative_PAR_fluxes.cpp" />
+    <ClCompile Include="..\CHESS\rad\compute_Lstar.cpp" />
+    <ClCompile Include="..\CHESS\rad\compute_radiative_fluxes.cpp" />
+    <ClCompile Include="..\CHESS\rad\compute_surface_heat_flux.cpp" />
+    <ClCompile Include="..\CHESS\tec\valid_option.cpp" />
+    <ClCompile Include="..\CHESS\util\alloc.cpp" />
+    <ClCompile Include="..\CHESS\util\check_zero_stores.cpp" />
+    <ClCompile Include="..\CHESS\util\compute_year_day.cpp" />
+    <ClCompile Include="..\CHESS\util\end_day_leap.cpp" />
+    <ClCompile Include="..\CHESS\util\find_patch.cpp" />
+    <ClCompile Include="..\CHESS\util\julday.cpp" />
+    <ClCompile Include="..\CHESS\util\key_compare.cpp" />
+    <ClCompile Include="..\CHESS\util\match_patch.cpp" />
+    <ClCompile Include="..\CHESS\util\read_record.cpp" />
+    <ClCompile Include="..\CHESS\util\rewind_daily_clim.cpp" />
+    <ClCompile Include="..\CHESS\util\sort_patch_layers.cpp" />
+    <ClCompile Include="..\CHESS\util\spaveg.cpp" />
+    <ClCompile Include="..\CHESS\util\yearday.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\CHESS\tec\R_RHESSys_info.txt" />
+  </ItemGroup>
+  <ItemDefinitionGroup />
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>
