@@ -30,9 +30,10 @@
 /*								*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
-#include "CHESS.h"
-#include "Constants.h"
 double	compute_hourly_rain_stored(
 								   int	verbose_flag,
 								   double	*rain,

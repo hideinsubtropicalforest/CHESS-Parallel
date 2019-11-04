@@ -1,9 +1,9 @@
 
 #include <iostream>
 #include <math.h>
-#include "CHESS.h"
-#include "Functions.h"
-#include "Constants.h"
+#include "chess.h"
+#include "functions.h"
+#include "constants.h"
 
 using namespace std;
 

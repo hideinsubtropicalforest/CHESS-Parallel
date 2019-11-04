@@ -52,8 +52,8 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "Constants.h"
-#include "CHESS.h"
+#include "constants.h"
+#include "chess.h"
 
 double	penman_monteith(
 						int	verbose_flag,

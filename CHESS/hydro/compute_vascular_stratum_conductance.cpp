@@ -42,9 +42,9 @@
 /*	Made sure stratum conductance was non zero.		*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 
 double	compute_vascular_stratum_conductance(

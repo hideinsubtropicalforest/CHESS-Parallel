@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include "Functions.h"
+#include "functions.h"
 #include <stdlib.h>
-#include "CHESS.h"
+#include "chess.h"
 #include <iostream>
 using namespace std;
 void out_patch_level_daily(int num_patches,

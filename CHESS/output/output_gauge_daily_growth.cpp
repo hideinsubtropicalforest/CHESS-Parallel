@@ -28,8 +28,8 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 void	output_gauge_daily_growth(struct patch_object *patch,
 	struct	date current_date,

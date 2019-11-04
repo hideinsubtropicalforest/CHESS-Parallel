@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 #include <iostream>
 using namespace std;
 
@@ -33,7 +33,7 @@ void construct_gauge_output_files(struct patch_object *patch,char *outPutPath, s
 			strcat(outGDHfile[gauge_inx], "Gauge_daily_hydro_");
 			strcat(outGDGfile[gauge_inx], "Gauge_daily_plant_");
 
-			_itoa(patch[(gauge_list[gauge_inx])].ID, gauge_name, 10);
+			sprintf(gauge_name, "%d", patch[(gauge_list[gauge_inx])].ID);
 
 			strcat(outGDHfile[gauge_inx], gauge_name);
 			strcat(outGDGfile[gauge_inx], gauge_name);

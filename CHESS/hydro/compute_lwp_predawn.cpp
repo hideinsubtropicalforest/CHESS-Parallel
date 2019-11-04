@@ -80,9 +80,9 @@
 /*	So we have switched the order of these checks.		*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 double	compute_lwp_predawn(
 							int	verbose_flag,

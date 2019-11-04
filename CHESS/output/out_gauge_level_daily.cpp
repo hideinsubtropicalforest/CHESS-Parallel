@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 #include <stdlib.h>
-#include "CHESS.h"
-#include "Functions.h"
+#include "chess.h"
+#include "functions.h"
 #include <iostream>
 
 using namespace std;

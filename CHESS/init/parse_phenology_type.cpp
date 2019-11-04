@@ -5,8 +5,8 @@
 #include <stdio.h>
 
 #include <string.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 int	parse_phenology_type( char *input_string)
 {

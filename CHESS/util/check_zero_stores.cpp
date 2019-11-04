@@ -27,8 +27,8 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 void check_zero_stores(
    struct  soil_c_object   *cs_soil,
    struct  soil_n_object   *ns_soil,

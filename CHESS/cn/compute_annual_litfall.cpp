@@ -28,8 +28,8 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 int compute_annual_litfall( 
 						   struct epconst_struct	epc	,

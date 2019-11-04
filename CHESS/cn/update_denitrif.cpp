@@ -22,9 +22,9 @@
 //								
 //	Parton et al. 1996. Generalized model of N2 and N20 production, Global Biogeochemical cycles, 10:3	401-412							
 //===============================================================================================================================
-#include "CHESS.h"
-#include "Functions.h"
-#include "Constants.h"
+#include "chess.h"
+#include "functions.h"
+#include "constants.h"
 
 #include <stdio.h>
 

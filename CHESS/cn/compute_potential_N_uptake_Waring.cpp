@@ -36,8 +36,8 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 double compute_potential_N_uptake_Waring(
 								  struct	epconst_struct epc,
 								  struct	epvar_struct *epv,

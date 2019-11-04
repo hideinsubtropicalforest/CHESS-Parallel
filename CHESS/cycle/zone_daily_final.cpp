@@ -77,8 +77,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 using namespace std;
 
 

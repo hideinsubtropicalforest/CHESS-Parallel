@@ -19,11 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CHESS.h" />
-    <ClInclude Include="include\Constants.h" />
-    <ClInclude Include="include\Functions.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="chess\chess_channel_daily.cpp" />
     <ClCompile Include="chess\chess_climate_daily.cpp" />
     <ClCompile Include="chess\chess_patch_daily.cpp" />
@@ -130,7 +125,7 @@
     <ClCompile Include="init\parse_phenology_type.cpp" />
     <ClCompile Include="init\parse_veg_type.cpp" />
     <ClCompile Include="init\read_daily_climatedata.cpp" />
-    <ClCompile Include="main_dj_be_chan.cpp" />
+    <ClCompile Include="main_windows.cpp" />
     <ClCompile Include="output\close_patch_output_files.cpp" />
     <ClCompile Include="output\construct_basin_output_files.cpp" />
     <ClCompile Include="output\construct_gauge_output_files.cpp" />
@@ -155,6 +150,7 @@
     <ClCompile Include="rad\compute_Lstar.cpp" />
     <ClCompile Include="rad\compute_radiative_fluxes.cpp" />
     <ClCompile Include="rad\compute_surface_heat_flux.cpp" />
+    <ClCompile Include="tec\math.cpp" />
     <ClCompile Include="tec\valid_option.cpp" />
     <ClCompile Include="util\alloc.cpp" />
     <ClCompile Include="util\check_zero_stores.cpp" />
@@ -172,6 +168,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="tec\R_RHESSys_info.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\chess.h" />
+    <ClInclude Include="include\constants.h" />
+    <ClInclude Include="include\functions.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

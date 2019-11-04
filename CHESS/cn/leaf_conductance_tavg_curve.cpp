@@ -34,7 +34,7 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 
 double	leaf_conductance_tavg_curve(	double	Tair_mean_day,
 									double	topt,

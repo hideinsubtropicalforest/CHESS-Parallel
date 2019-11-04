@@ -3,10 +3,10 @@
 
 #include <stdlib.h> 
 #include <string.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 #include <iostream>
-#include "Functions.h"
+#include "functions.h"
 using namespace std;
 
 void construct_patch(struct patch_object * patch, struct command_line_object * command_line, int rows, int cols, char *filename, char *prefix, int num_patches)

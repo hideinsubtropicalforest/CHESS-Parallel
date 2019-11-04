@@ -58,9 +58,9 @@
 /*	Made sure stratum conductance is non zero.		*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 double	compute_nonvascular_stratum_conductance(
 												int verbose_flag,

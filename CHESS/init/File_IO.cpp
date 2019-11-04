@@ -9,8 +9,8 @@ contains all of the functions for handling file input and output.
 
 #include <stdlib.h> 
 #include <string.h>
-#include "CHESS.h"
-#include "Functions.h"
+#include "chess.h"
+#include "functions.h"
 #include "constants.h"
 #include <iostream>
 
@@ -179,12 +179,12 @@ void header_help(int maxr, int maxc, char *fnhdr) {
 //        input_prompt() - input root filename, create full filenames
 //===============================================================================================================================
 void	read_geo_images(struct patch_object *patch, struct command_line_object *command_line, int rows, int cols, double cellsize, double xll, double yll,
-	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches, int*gauge_list,int thread_num) {
+	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches, int*gauge_list, int thread_num) {
 
 	// filenames for each image and file
 	char  fnpatch[MAXS], fndem[MAXS], fnslope[MAXS], fnaspect[MAXS], fneast_horizon[MAXS], fnwest_horizon[MAXS];
-	char  fnsoil[MAXS], fnveg[MAXS],  fnroads[MAXS], fnstreamorder[MAXS], fnsthread[MAXS], fncthread[MAXS], fngauges[MAXS];
-	char  fnclimate[MAXS], fnlatitude[MAXS], fnreservoir[MAXS];
+	char  fnsoil[MAXS], fnveg[MAXS], fnroads[MAXS], fnstreamorder[MAXS], fnsthread[MAXS], fncthread[MAXS], fngauges[MAXS];
+	char  fnclimate[MAXS], fnlatitude[MAXS], fnreservoir[MAXS], fnpatchorder[MAXS];
 
 
 	//File pointer
@@ -196,21 +196,19 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	float        *pwest_horizon;
 	int          *psoil;
 	int          *pveg;
+	
 	//xu.
 	int			*pstreamorder;
 	int			*psthread;
 	int			*pcthread;
-
+	int         *ppatchorder;
 	int			*pgauges;
 	int			*pclimate;
 	int			*preservoir;
-
 	int          *proads;
 	double       *plon;
 	double       *plat;//y in cordinate system 
-	
-	//xu. 
-	float		*platitude;//geography latitude
+	float		 *platitude;//geography latitude
 
 
 	int i;
@@ -233,7 +231,7 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	strcpy(fnsoil, filename);
 	strcpy(fnveg, filename);
 	strcpy(fnroads, filename);
-	
+
 	//xu.
 	strcpy(fnstreamorder, filename);
 	strcpy(fnsthread, filename);
@@ -242,6 +240,7 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	strcpy(fnclimate, filename);
 	strcpy(fnlatitude, filename);
 	strcpy(fnreservoir, filename);
+	strcpy(fnpatchorder, filename);
 
 	// append '.' extensions to each filename (these should be generalized) */
 	strcat(fnpatch, ".patch");
@@ -253,24 +252,21 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	strcat(fnsoil, ".soil");
 	strcat(fnveg, ".veg");
 	strcat(fnroads, ".road");
-	
-	
+
 	//xu.
 	strcat(fnstreamorder, ".streamorder");
 	strcat(fnsthread, ".sthread");
 	strcat(fncthread, ".cthread");
-	
-	char char_thread[10];
-	_itoa(thread_num, char_thread, 10);
-	strcat(fnsthread, char_thread);
-	//cout << fnsthread << endl;
-	strcat(fncthread, char_thread);
-	//cout << fncthread << endl;
-
+	strcat(fnpatchorder, ".patchorder");
 	strcat(fngauges, ".gauge");
 	strcat(fnclimate, ".climate");
 	strcat(fnlatitude, ".latitude");
 	strcat(fnreservoir, ".reservoir");
+	char char_thread[10];//thread
+	sprintf(char_thread, "%d", thread_num);
+	strcat(fnsthread, char_thread);
+	strcat(fncthread, char_thread);
+
 
 	input_header(rows, cols, fndem, arc_flag);
 
@@ -314,85 +310,81 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 
 	//xu.
 	//controlled by command_line
-
+	// -cf channel flow
+	// -re reservoir
+	// -gg guage output
 	pstreamorder = new int[rows*cols]{};
-	if(command_line->cf == TRUE){
+	if (command_line->cf == TRUE) {
 		input_ascii_int(pstreamorder, fnstreamorder, rows, cols, arc_flag);
 	}
-	
-	psthread = new int[rows*cols]{};
-	input_ascii_int(psthread, fnsthread, rows, cols, arc_flag);
-	
-	pcthread = new int[rows*cols]{};
-	input_ascii_int(pcthread, fncthread, rows, cols, arc_flag);
-
-	
-	pgauges = new int[rows*cols]{};
-	if (command_line->gg == TRUE) {
-		input_ascii_int(pgauges, fngauges, GAUGE_NUM, 1, arc_flag);
-	}
-
-	pclimate = new int[rows*cols]{};
-	input_ascii_int(pclimate, fnclimate, rows, cols,  arc_flag);
-
 	preservoir = new int[rows*cols]{};
 	if (command_line->re == TRUE) {
 		input_ascii_int(preservoir, fnreservoir, rows, cols, arc_flag);
 	}
-
-
-
+	pgauges = new int[rows*cols]{};
+	if (command_line->gg == TRUE) {
+		input_ascii_int(pgauges, fngauges, GAUGE_NUM, 1, arc_flag);
+	}
+	//xu. default extra input
+	psthread = new int[rows*cols]{};
+	input_ascii_int(psthread, fnsthread, rows, cols, arc_flag);
+	pcthread = new int[rows*cols]{};
+	input_ascii_int(pcthread, fncthread, rows, cols, arc_flag);
+	ppatchorder = new int[rows*cols]{};
+	input_ascii_int(ppatchorder, fnpatchorder, rows, cols, arc_flag);
+	pclimate = new int[rows*cols]{};
+	input_ascii_int(pclimate, fnclimate, rows, cols, arc_flag);
 
 	printf("\n");
 	//---------------------------------------------------------------------------------------------------------------------------
 	//xu. 1.MATCH PATHES WITH THEIR GEO IMAGIES
 	//---------------------------------------------------------------------------------------------------------------------------
-	for (int patch_inx = 0; patch_inx < num_patches; patch_inx++) {
-		
-		for (int imag_inx = 0; imag_inx < cols*rows; imag_inx++) {
+	int patchorder;
+	for (int imag_inx = 0; imag_inx < cols*rows; imag_inx++) {
 
-			if (patch[patch_inx].ID == ppatch[imag_inx]) {
-				patch[patch_inx].ID = ppatch[imag_inx];
-				patch[patch_inx].x = plon[imag_inx];
-				patch[patch_inx].y = plat[imag_inx];
-				patch[patch_inx].z = pdem[imag_inx];
-				patch[patch_inx].slope = pslope[imag_inx];
-				patch[patch_inx].aspect = paspect[imag_inx];
-				patch[patch_inx].e_horizon = peast_horizon[imag_inx];
-				patch[patch_inx].w_horizon = pwest_horizon[imag_inx];
+		//allcocate address
+		int patchorder = ppatchorder[imag_inx];
+		//correlate address and input data 
+		if (patchorder >=0 ) {
+			patch[patchorder].ID = ppatch[imag_inx];
+			patch[patchorder].x = plon[imag_inx];
+			patch[patchorder].y = plat[imag_inx];
+			patch[patchorder].z = pdem[imag_inx];
+			patch[patchorder].slope = pslope[imag_inx];
+			patch[patchorder].aspect = paspect[imag_inx];
+			patch[patchorder].e_horizon = peast_horizon[imag_inx];
+			patch[patchorder].w_horizon = pwest_horizon[imag_inx];
 
-				//STREAM ORDER (accociated with _channel.def)
-				patch[patch_inx].streamorder = pstreamorder[imag_inx];
+			//STREAM ORDER (accociated with _channel.def)
+			patch[patchorder].streamorder = pstreamorder[imag_inx];
 
-				//SUB-BASIN (THREAD)
-				patch[patch_inx].sthread = psthread[imag_inx];
+			//SUB-BASIN (THREAD)
+			patch[patchorder].sthread = psthread[imag_inx];
 
-				//CHANNEL (THREAD)
-				patch[patch_inx].cthread = pcthread[imag_inx];
-				if (patch[patch_inx].cthread > 0) {
-					patch[patch_inx].clayer = patch[patch_inx].cthread / 1000;//e.g. 1004 means 1 layer 4th cthread
-					patch[patch_inx].cthread = patch[patch_inx].cthread % 1000;
-				}
-				else
-					patch[patch_inx].clayer = 0;
-
-				//CLIMATE ZONE(accociated with _climate.def)
-				patch[patch_inx].climatetype = pclimate[imag_inx];
-
-				//LATITUDE
-				patch[patch_inx].latitude = platitude[imag_inx];
-
-				//DOWNSTREAM RESERVOIR ID (accociated with _reservoir.def)
-				patch[patch_inx].downslope_reservoir_ID = preservoir[imag_inx];
-
-				patch[patch_inx].road = proads[imag_inx];
-				patch[patch_inx].vegtype = pveg[imag_inx];
-				patch[patch_inx].soiltype = psoil[imag_inx];
-				break;
+			//CHANNEL (THREAD)
+			patch[patchorder].cthread = pcthread[imag_inx];
+			if (patch[patchorder].cthread > 0) {
+				patch[patchorder].clayer = patch[patchorder].cthread / 1000;//e.g. 1004 means 1 layer 4th cthread
+				patch[patchorder].cthread = patch[patchorder].cthread % 1000;
 			}
+			else
+				patch[patchorder].clayer = 0;
+
+			//CLIMATE ZONE(accociated with _climate.def)
+			patch[patchorder].climatetype = pclimate[imag_inx];
+
+			//LATITUDE
+			patch[patchorder].latitude = platitude[imag_inx];
+
+			//DOWNSTREAM RESERVOIR ID (accociated with _reservoir.def)
+			patch[patchorder].downslope_reservoir_ID = preservoir[imag_inx];
+
+			patch[patchorder].road = proads[imag_inx];
+			patch[patchorder].vegtype = pveg[imag_inx];
+			patch[patchorder].soiltype = psoil[imag_inx];
+
 		}
 	}
-	
 
 	//---------------------------------------------------------------------------------------------------------------------------
 	//xu. 2.MATCH PATHES WITH GAUGE_LISTS
@@ -412,27 +404,14 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 		}
 	}
 
-	free(ppatch);
-	free(pdem);
-	free(pslope);
-	free(paspect);
-	free(peast_horizon);
-	free(pwest_horizon);
-	free(psoil);
-	free(pveg);
-	
-	
-	//xu.
-	free(pstreamorder);
-	free(psthread);
-	free(pcthread);
-	free(pgauges);
-	free(pclimate);
-	free(platitude);
 
-	free(proads);
-	free(plon);
-	free(plat);
+	//free matrix memories
+	delete ppatch;delete pdem ;delete pslope ;delete paspect ;delete peast_horizon ;
+	delete pwest_horizon ;delete psoil ;delete pveg ;
+
+	//xu.
+	delete pstreamorder ;delete psthread ;delete pcthread ;delete pgauges ;delete pclimate ;
+	delete platitude; delete proads; delete plon; delete plat; delete ppatchorder;
 
 	//printf("\nFinishing reading_geo_images.cpp\n");
 	return;

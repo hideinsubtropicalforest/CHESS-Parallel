@@ -7,9 +7,9 @@
 //																
 //	PROGRAMMER NOTES											
 //=====================================================================================================================
-#include "CHESS.h"
+#include "chess.h"
 
-#include "Constants.h"
+#include "constants.h"
 #include <iostream>
 
 using std::cout;

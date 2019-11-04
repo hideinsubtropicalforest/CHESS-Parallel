@@ -71,10 +71,10 @@
 /*								*/ 
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
+#include "functions.h"
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 double	compute_diffuse_radiative_PAR_fluxes(	int	verbose_flag,
 											 double	*flux_down_ptr,                     

@@ -3,9 +3,9 @@
 //===============================================================================================================================
 #include <stdio.h>
 
-#include "Functions.h"
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 struct soil_default *construct_soil_defaults(int ntypes, FILE * default_file, struct command_line_object *command_line,
 struct soil_default *soil_default_object_list)

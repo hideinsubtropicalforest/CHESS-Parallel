@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 
 void match_patch(int p,int patch_ID,struct patch_object *patch,int rows,int cols){
 	struct patch_object temp_patch;

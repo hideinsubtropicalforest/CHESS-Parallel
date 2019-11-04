@@ -38,8 +38,8 @@
 #include <stdio.h>
 
 #include <string.h>
-#include "Functions.h"
-#include "CHESS.h"
+#include "functions.h"
+#include "chess.h"
 
 struct command_line_object	*construct_command_line(int main_argc,	char **main_argv,command_line_object *command_line)
 {

@@ -31,7 +31,7 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 
 double	leaf_conductance_APAR_curve(	double	APAR,
 									double	APAR_coef) 	

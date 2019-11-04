@@ -28,10 +28,10 @@
 /*                                                              */
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
+#include "functions.h"
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 double	compute_N_leached(int verbose_flag, 
 			double total_nitrate, 

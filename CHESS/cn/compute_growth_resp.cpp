@@ -23,8 +23,8 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 void compute_growth_resp(int alloc, struct epconst_struct epc,
 						struct cdayflux_struct* cdf)

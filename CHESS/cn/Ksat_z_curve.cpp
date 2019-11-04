@@ -35,8 +35,8 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 double	Ksat_z_curve(	
 					 int	verbose_flag,

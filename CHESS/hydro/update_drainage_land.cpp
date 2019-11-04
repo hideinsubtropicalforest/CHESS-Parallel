@@ -6,9 +6,9 @@
 //  Created by Guoping Tagn
 //-------------------------------------------------------------------------------------------------------------------------------
 #include <stdio.h>
-#include "Functions.h"
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 void  update_drainage_land(struct patch_object *patch,
 	int routing_flag,

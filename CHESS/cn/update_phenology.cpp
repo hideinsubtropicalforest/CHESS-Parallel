@@ -45,8 +45,8 @@
 /*--------------------------------------------------------------*/
 
 #include <stdio.h>
-
-#include "Chess.h"
+#include "functions.h"
+#include "chess.h"
 #include "constants.h"
 #include <iostream>
 using namespace std;

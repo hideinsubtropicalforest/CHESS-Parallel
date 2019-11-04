@@ -25,8 +25,9 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "functions.h"
+#include "constants.h"
 
 int	compute_cwd_decay(
 					  struct epconst_struct *epc,

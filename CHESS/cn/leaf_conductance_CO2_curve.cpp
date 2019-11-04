@@ -26,9 +26,9 @@
 /*								*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 double	leaf_conductance_CO2_curve(	double CO2, double coef_CO2) 	
 {

@@ -25,7 +25,7 @@
 
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 
 struct patch_object *find_patch( int patch_ID,
 								struct patch_object *patch,

@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 #include <iostream>
 using namespace std;
 
@@ -46,7 +46,7 @@ struct command_line_object *command_line
 		strcpy(outPDGfile, outPutPath);
 		//strcpy(outPMHfile,outPutPath);
 		//strcpy(outPMGfile,outPutPath);
-		_itoa(current_date.year, buffer, 10);
+		sprintf(buffer, "%d", current_date.year);
 
 		strcat(outPDHfile, buffer);
 		strcat(outPDGfile, buffer);
@@ -58,7 +58,7 @@ struct command_line_object *command_line
 		//strcat(outPMHfile,"_");
 		//strcat(outPMGfile,"_");
 
-		_itoa(current_date.month, buffer, 10);
+		sprintf(buffer,"%d",current_date.month);
 
 		strcat(outPDHfile, buffer);
 		strcat(outPDGfile, buffer);

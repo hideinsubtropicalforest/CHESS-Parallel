@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include <stdlib.h>
-#include "CHESS.h"
+#include "chess.h"
 
 
 void out_basin_level_daily(int num_patches,

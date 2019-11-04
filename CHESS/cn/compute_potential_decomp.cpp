@@ -37,10 +37,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
+#include "functions.h"
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 int compute_potential_decomp(double tsoil, double maxpsi,
 							 double minpsi,

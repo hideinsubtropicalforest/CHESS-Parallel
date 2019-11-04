@@ -33,9 +33,9 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Functions.h"
-#include "Constants.h"
+#include "chess.h"
+#include "functions.h"
+#include "constants.h"
 
 struct landuse_default *construct_landuse_defaults(
 											   int	nytpes,

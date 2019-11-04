@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "Functions.h"
+#include "functions.h"
 
 int end_day_norm_leap(int year,int month)
 {

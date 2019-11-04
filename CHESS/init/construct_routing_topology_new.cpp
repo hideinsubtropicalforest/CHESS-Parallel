@@ -1,7 +1,7 @@
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 int construct_routing_topology(struct patch_object	*patch,
 	char *routing_filename, char *FlowTableName,
@@ -12,11 +12,6 @@ int construct_routing_topology(struct patch_object	*patch,
 	/*	Local function definition.									*/
 	/*--------------------------------------------------------------*/
 	struct patch_object *find_patch(int, struct patch_object *, int, int);
-
-	int assign_neighbours(struct neighbour_object *,
-		int,
-		struct patch_object *,
-		FILE *, int, int);
 
 	void	*alloc(size_t size, const char *array_name, const char *calling_function);
 
@@ -76,55 +71,20 @@ int construct_routing_topology(struct patch_object	*patch,
 		/*--------------------------------------------------------------*/
 		/*  Allocate neighbour array									*/
 		/*--------------------------------------------------------------*/
-
-		//xu. just assign arrays. the two strings has no means
-		//patch[i].neighbours = (struct neighbour_object *)alloc(patch[i].num_neighbours *sizeof(struct neighbour_object), "neighbours", "construct_routing_topology");
 		patch[i].neighbours = new struct neighbour_object[(patch[i].num_neighbours)]{};
 
-		//we are unknown about neigh's struct address now and it will be fixed in section 2
+		//currently unknown about neigh's struct address
+		//it would be allocated by .pch file that contains the address information
+		//construct patch.cpp
 		for (int neigh = 0; neigh != patch[i].num_neighbours; neigh++) {
-			fscanf(routing_file, "%d %lf",
-				&patch[i].neighbours[neigh].patch,
+			    fscanf(routing_file, "%d %d %lf",
+				&patch[i].neighbours[neigh].patchorder,//elevation order
+				&patch[i].neighbours[neigh].patchID,//ID
 				&patch[i].neighbours[neigh].gamma);
+				patch[i].neighbours[neigh].patch = &patch[patch[i].neighbours[neigh].patchorder];//address
 		}
 
-		//patch[i].num_neighbours = assign_neighbours(patch[i].neighbours, patch[i].num_neighbours, patch, routing_file,rows,cols);
-
-		/*
-		if (patch[i].drainage_type == 2) {
-		fscanf(routing_file,"%d %lf",
-		&patch_ID,
-		&width);
-		patch[i].road_cut_depth = width * tan(patch[i].slope);
-		stream = find_patch(patch_ID, patch, rows,cols);
-		patch[i].next_stream = stream;
-		}*/
 	}
-
-	//=======================================================================================================================
-	//xu. 2. FIND THE ADDRESS OF EACH NEIGHBOURS
-	//=======================================================================================================================
-
-
-
-	for (i = 0; i != num_patches; i++) {
-
-		for (int neigh = 0; neigh != patch[i].num_neighbours; neigh++) {
-			
-			//xu.search for neigh's order and find its address 
-			patch_ID = (int)patch[i].neighbours[neigh].patch;
-			//it should start form i since it's neighbors will have lower elevations
-			for (int patch_inx = i; patch_inx != num_patches; patch_inx++) {
-				if (patch[patch_inx].ID == patch_ID) {
-					patch[i].neighbours[neigh].patch = &(patch[patch_inx]);//find it address and break
-					break;
-				}
-			}
-
-
-		}
-	}
-	//END OF IT
 
 	//printf("\nFinishing construct_routing_topology.cpp\n");
 	return (num_patches);

@@ -69,8 +69,9 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
+#include "functions.h"
 
 double	compute_diffuse_radiative_fluxes(	int	verbose_flag,
 										 double	*flux_down_ptr,                     

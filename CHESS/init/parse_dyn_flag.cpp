@@ -5,8 +5,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 int	parse_dyn_flag( char *input_string)
 {

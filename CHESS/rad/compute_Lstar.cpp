@@ -7,8 +7,8 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "Constants.h"
-#include "CHESS.h"
+#include "constants.h"
+#include "chess.h"
 
 void	compute_Lstar(struct	patch_object	*patch) 
 {

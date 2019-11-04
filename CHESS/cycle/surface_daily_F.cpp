@@ -15,10 +15,10 @@
 //	PROGRAMMER NOTES					
 //-------------------------------------------------------------------------------------------------------------------------------
 #include <stdio.h>
-
+#include "functions.h"
 #include <iostream>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 using namespace std;
 
 void		surface_daily_F(

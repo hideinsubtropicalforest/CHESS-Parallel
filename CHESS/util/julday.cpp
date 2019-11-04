@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include <math.h>
-#include	"CHESS.h"
+#include	"chess.h"
 
 /*------------------------------------------------------------------*/
 /*	julday - converts calendar date to julian day					*/

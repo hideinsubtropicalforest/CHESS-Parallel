@@ -7,7 +7,7 @@
 /*--------------------------------------------------------------*/
 #include	<math.h>
 
-#include	"CHESS.h"
+#include	"chess.h"
 
 long 	yearday(struct date current_date)
 {

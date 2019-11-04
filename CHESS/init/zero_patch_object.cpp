@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "Functions.h"
-#include "CHESS.h"
+#include "functions.h"
+#include "chess.h"
 
 void zero_patch_object(struct patch_object *patch) {
 

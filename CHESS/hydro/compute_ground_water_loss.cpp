@@ -1,8 +1,8 @@
 //Note: this program is derived from hillslope_daly_f.c subroutien in original rhessys
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 void		compute_ground_water_loss(
 							  struct	patch_object *patch,

@@ -24,9 +24,9 @@
 /*								*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 int	compute_leaf_litfall(
 						 struct epconst_struct epc,

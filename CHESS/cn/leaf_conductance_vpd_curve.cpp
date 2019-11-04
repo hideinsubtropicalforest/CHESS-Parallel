@@ -33,7 +33,7 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 double	leaf_conductance_vpd_curve(	double	vpd,
 								   double	vpd_open,
 								   double	vpd_closed)

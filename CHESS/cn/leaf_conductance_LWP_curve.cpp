@@ -34,7 +34,7 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 
 double	leaf_conductance_LWP_curve(	double	LWP_predawn,
 								   double	LWP_min_spring,

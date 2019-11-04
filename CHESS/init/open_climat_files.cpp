@@ -5,9 +5,9 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "CHESS.h"
+#include "chess.h"
 
-#include "Constants.h"
+#include "constants.h"
 
 struct	input_Clim_Files open_Clim_Files(char *inClimFile,char *prefix)
 {

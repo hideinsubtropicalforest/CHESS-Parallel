@@ -26,8 +26,8 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 int update_C_stratum_daily(struct epconst_struct epc,
 						   struct cstate_struct *cs, struct cdayflux_struct *cdf)

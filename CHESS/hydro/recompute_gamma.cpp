@@ -26,9 +26,9 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 #include <math.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 double recompute_gamma(struct patch_object *patch,
 			 double total_gamma)

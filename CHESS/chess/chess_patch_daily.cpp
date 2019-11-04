@@ -4,14 +4,14 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Functions.h"
-#include "Constants.h"
+#include "chess.h"
+#include "functions.h"
+#include "constants.h"
 #include <iostream>
 #include <thread>
 #include <omp.h>
 
-using std::thread;
+//using std::thread;
 
 void  chess_patch_daily(struct patch_object *patch,
 	struct 	command_line_object *command_line,
@@ -38,17 +38,18 @@ void  chess_patch_daily(struct patch_object *patch,
 	}
 	delete[] thd;
 	*/
-	
+	///*
 	//init and run all thread
 	int thread_num = parallel->thread_num;
-	#pragma omp parallel for num_threads(thread_num)
+	//#pragma omp parallel for num_threads(thread_num)
 	for (int thread_inx = 0; thread_inx < thread_num; thread_inx++) {
 
 		//parallel patch daily is served to be a elementary function of patch daily process
 
 		parallel_patch_daily(patch, command_line, current_date, daily_clim, parallel, thread_inx);
 		//printf("%d\n", omp_get_num_threads());
-	}
+	}//*/
+
 	
 	return;
 }//__END OF DAILY PATCH

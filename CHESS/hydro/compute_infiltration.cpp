@@ -53,8 +53,8 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 double	compute_infiltration(int verbose_flag,
 							 double z,

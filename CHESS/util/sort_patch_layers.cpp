@@ -24,7 +24,7 @@
 
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 
 void sort_patch_layers(struct patch_object *patch)
 {

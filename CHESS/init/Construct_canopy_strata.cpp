@@ -38,9 +38,9 @@
 /*	Removed all references to grow or extended state variables.	*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 
 void construct_canopy_strata(

@@ -27,10 +27,10 @@
 //===============================================================================================================================
 #include <stdlib.h>
 #include <stdio.h>
-
+#include "functions.h"
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 void update_decomp(
 				  struct	date	current_date,

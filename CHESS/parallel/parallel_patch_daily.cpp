@@ -4,9 +4,9 @@
 //------------------------------------------------------------------------------------------------------------------------------
 #include <stdio.h>
 #include <math.h>
-#include "CHESS.h"
-#include "Functions.h"
-#include "Constants.h"
+#include "chess.h"
+#include "functions.h"
+#include "constants.h"
 #include <iostream>
 
 
@@ -24,6 +24,7 @@ void		parallel_patch_daily(struct 	patch_object *patch,
 		
 		int pch = parallel->land_pch[thread_inx][patch_inx];
 		int climate_inx = patch[pch].climatetype - 1;//since it start from 1
+		struct patch_object *patch_current= &patch[pch];
 
 		//=======================================================================================================================
 		// 1... INITIALIZATION BEFORE ECO-HYDROLOGICAL SIMULATION
@@ -31,23 +32,23 @@ void		parallel_patch_daily(struct 	patch_object *patch,
 		
 		if (patch[pch].drainage_type != STREAM){
 		// 1.1 Initializing ecohydrological Fluxes as 0 
-		zero_patch_object(&patch[pch]);
+		zero_patch_object(patch_current);
 
 		// 1.2 Initializing Climate Forcing
-		patch_climate_initial(&patch[pch], daily_clim[climate_inx], command_line, current_date);
+		patch_climate_initial(patch_current, daily_clim[climate_inx], command_line, current_date);
 
 		// 1.3 Initializing Land (Hydro-Eco) Pool State
-		patch_land_initial(&patch[pch], command_line, current_date);
+		patch_land_initial(patch_current, command_line, current_date);
 
 		//=======================================================================================================================
 		// 2... ECO-HYDROLOGICAL SIMULATION WITHIN A PATCH
 		//=======================================================================================================================
-		patch_daily_final(&patch[pch], command_line, current_date);
+		patch_daily_final(patch_current, command_line, current_date);
 
 		//=======================================================================================================================
 		// 3... LATERAL FLOW ROUTING AND NUTRIENT TRANSPORT to neighbor patches
 		//=======================================================================================================================
-		patch_lateral_flow(&patch[pch], command_line,  current_date);
+		patch_lateral_flow(patch_current, command_line,  current_date);
 		
 		}
 	}

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 #include <iostream>
 using namespace std;
 

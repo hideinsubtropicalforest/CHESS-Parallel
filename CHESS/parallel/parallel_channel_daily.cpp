@@ -7,9 +7,9 @@
 
 #include <iostream>
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
-#include "Functions.h"
+#include "chess.h"
+#include "constants.h"
+#include "functions.h"
 
 using std::cout;
 using std::endl;

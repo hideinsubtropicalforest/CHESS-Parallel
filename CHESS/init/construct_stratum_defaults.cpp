@@ -3,9 +3,9 @@
 //===============================================================================================================================
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
-#include "Functions.h"
+#include "chess.h"
+#include "constants.h"
+#include "functions.h"
 
 struct stratum_default *construct_stratum_defaults(int	ntypes, FILE * default_file, struct command_line_object *command_line,
 struct stratum_default *stratum_default_object_list)

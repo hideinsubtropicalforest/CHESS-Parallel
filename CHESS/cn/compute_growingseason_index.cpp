@@ -26,8 +26,10 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
+#include "functions.h"
+
 double	compute_growingseason_index(struct patch_object *patch,
 				struct epconst_struct epc) 
 			

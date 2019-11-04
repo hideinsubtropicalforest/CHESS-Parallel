@@ -35,8 +35,8 @@
 
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 void update_mortality(
 					  struct epconst_struct	epc	,
 					  struct cstate_struct *cs,

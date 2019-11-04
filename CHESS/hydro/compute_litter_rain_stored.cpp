@@ -30,9 +30,9 @@
 //--------------------------------------------------------------
 #include <iostream>
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 
 using std::cout;

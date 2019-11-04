@@ -25,11 +25,11 @@
 //		now a function of root density			
 //=====================================================================================================================
 #include <stdio.h>
-
+#include "functions.h"
 #include <stdlib.h>
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 int resolve_sminn_competition(
 							  struct  soil_n_object   *ns_soil,

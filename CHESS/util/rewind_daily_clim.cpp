@@ -43,7 +43,7 @@
 #include <stdio.h>
 
 #include <string.h>
-#include "CHESS.h"
+#include "chess.h"
 
 void	rewind_daily_clim(struct input_Clim_Files inClimFiles)
 {

@@ -427,7 +427,12 @@
     <ClCompile Include="..\CHESS\tec\valid_option.cpp">
       <Filter>源文件\tec</Filter>
     </ClCompile>
-    <ClCompile Include="..\CHESS\main_dj_be_chan.cpp" />
+    <ClCompile Include="..\CHESS\tec\math.cpp">
+      <Filter>源文件\tec</Filter>
+    </ClCompile>
+    <ClCompile Include="main_linux.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="源文件">
@@ -469,10 +474,24 @@
     <Filter Include="源文件\tec">
       <UniqueIdentifier>{60879356-310f-417e-882a-6a57b9eb55cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{ae3bf79c-1218-4fd2-9612-3ae034765d97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CHESS\tec\R_RHESSys_info.txt">
       <Filter>源文件\tec</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\CHESS\include\chess.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CHESS\include\constants.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CHESS\include\functions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

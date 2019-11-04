@@ -32,7 +32,7 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
+#include "chess.h"
 #include "constants.h"
 
 int compute_farq_psn(struct psnin_struct *in,

@@ -31,9 +31,9 @@
 /*                                                              */
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 int update_rooting_depth( struct rooting_zone_object *rootzone,
 						   double rootc,

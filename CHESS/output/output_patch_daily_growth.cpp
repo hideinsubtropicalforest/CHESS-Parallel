@@ -28,7 +28,7 @@
 /*--------------------------------------------------------------*/
 #include <stdio.h>
 
-#include "CHESS.h"
+#include "chess.h"
 
 void	output_patch_daily_growth(struct	patch_object *patch,
 	int pch,

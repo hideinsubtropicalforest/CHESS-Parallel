@@ -79,8 +79,8 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 double	compute_direct_radiative_PAR_fluxes(	int	verbose_flag,
 						double	*flux_down_ptr,                

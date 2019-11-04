@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Functions.h"
-#include "Constants.h"
+#include "chess.h"
+#include "functions.h"
+#include "constants.h"
 #include<iostream>
 #include<fstream>
 
@@ -27,7 +27,7 @@ void construct_resvoir_correponding_data(char *filename,int patchID, struct patc
 	char idchar[20]{};
 	strcpy(inabgname, filename);
 	strcat(inabgname, "re//");
-	_itoa(patchID, idchar, 10);
+	sprintf(idchar, "%d",patchID);
 	strcat(inabgname, idchar);
 	strcat(inabgname, "_alpha_beta_gamma.txt");
 

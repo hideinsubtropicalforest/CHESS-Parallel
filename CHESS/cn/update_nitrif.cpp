@@ -18,10 +18,10 @@
 //  PROGRAMMER NOTES                                            
 //===============================================================================================================================
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 #include <stdio.h>
-
+#include "functions.h"
 #include <math.h>
 
 #define  PARTICLE_DENSITY	2.65	// soil particle density g/cm3 (Dingman) 

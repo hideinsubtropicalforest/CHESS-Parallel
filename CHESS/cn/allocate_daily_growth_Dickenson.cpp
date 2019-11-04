@@ -33,8 +33,9 @@
 
 #include <stdlib.h>
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
+#include "functions.h"
 
 int allocate_daily_growth_Dickenson(int nlimit,
 						  double sen,

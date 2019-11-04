@@ -28,11 +28,11 @@
 //                      dynamic - 1d-bgc ver4.0                 
 //===============================================================================================================================
 #include <stdio.h>
-
+#include "functions.h"
 #include <stdlib.h>
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 int allocate_annual_growth(	int id,
 							int default_ID,
@@ -347,7 +347,7 @@ int allocate_annual_growth(	int id,
 		} // end if resprout 
 	} // end if less than min_leaf_carbon 
 	else  {
-		 cs->num_resprout = max(cs->num_resprout-1,0);	
+		 cs->num_resprout = (int) max(cs->num_resprout-1,0.0);	
 		 cs->age += 1;
 	}
 

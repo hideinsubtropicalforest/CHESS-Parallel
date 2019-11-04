@@ -24,8 +24,8 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 int update_N_stratum_daily(struct epconst_struct epc,
 						   struct nstate_struct *ns, struct ndayflux_struct *ndf,

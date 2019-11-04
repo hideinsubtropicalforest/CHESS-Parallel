@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Constants.h"
+#include "constants.h"
 
 //===============================================================================================================================
 //	Define input climate files							
@@ -263,6 +263,8 @@ struct	neighbour_object
 {
 	double gamma;		/* m**2 / day */
 	struct	patch_object *patch;
+	int patchID;
+	int patchorder;
 };
 
 //===============================================================================================================================

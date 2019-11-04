@@ -8,9 +8,9 @@ Created by Guoping Tang
 -------------------------------------------------------------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <iostream>
-#include "CHESS.h"
-#include "Functions.h"
-#include "Constants.h"
+#include "chess.h"
+#include "functions.h"
+#include "constants.h"
 
 using std::cout;
 using std::endl;

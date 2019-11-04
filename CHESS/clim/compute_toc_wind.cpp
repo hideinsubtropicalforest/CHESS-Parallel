@@ -41,7 +41,7 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
+#include "chess.h"
 
 double	compute_toc_wind(
 						 int	verbose_flag,

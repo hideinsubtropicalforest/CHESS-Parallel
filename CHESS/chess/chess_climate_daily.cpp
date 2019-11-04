@@ -41,9 +41,9 @@
 /*								*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-#include <Constants.h>
+#include <constants.h>
 #include <string.h>
-#include "CHESS.h"
+#include "chess.h"
 
 void chess_climate_daily(struct input_Clim_Files inClimFiles,
 	struct	date	current_date,

@@ -26,8 +26,8 @@
 #include <stdio.h>
 
 #include <string.h>
-#include "Functions.h"
-#include "CHESS.h"
+#include "functions.h"
+#include "chess.h"
 
 int	 valid_option( char *command_line){
 	/*------------------------------------------------------*/

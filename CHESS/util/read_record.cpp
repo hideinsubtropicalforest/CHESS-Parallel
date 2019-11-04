@@ -27,8 +27,8 @@
 #include <stdio.h>
 
 #include <stdlib.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 /*-----------------------------------------------
  ead a record upto a new line or eof

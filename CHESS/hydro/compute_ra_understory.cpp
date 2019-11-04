@@ -57,10 +57,10 @@
 /*	screen height or adjusted to a higher screen height.	*/ 
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
+#include "functions.h"
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 double	compute_ra_understory(
 							  int	verbose_flag,

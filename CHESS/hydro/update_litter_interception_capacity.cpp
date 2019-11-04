@@ -25,8 +25,8 @@
 
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 void	update_litter_interception_capacity(double litter_moist_coef,
 											struct litter_c_object	*litr_cs,

@@ -27,9 +27,9 @@
 /*																*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 void	output_basin_daily_hydrology(int num_patches,struct	patch_object *patch,
 					 struct	date	current_date,

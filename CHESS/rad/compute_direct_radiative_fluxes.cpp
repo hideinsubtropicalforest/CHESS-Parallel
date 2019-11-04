@@ -51,7 +51,7 @@
 #include <stdio.h>
 
 #include <math.h>
-#include "CHESS.h"
+#include "chess.h"
 
 double	compute_direct_radiative_fluxes(	int	verbose_flag,
 										double	*flux_down_ptr,                     

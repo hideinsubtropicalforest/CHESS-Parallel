@@ -1,4 +1,4 @@
-#include "Constants.h"
+#include "constants.h"
 //---------------------------------------------------------------------------------------------------------------------------
 // CHESS INITIALIZATION .function	                                                
 //---------------------------------------------------------------------------------------------------------------------------
@@ -18,7 +18,6 @@ void    chess_patch_daily(struct patch_object *patch, struct 	command_line_objec
 void    chess_channel_daily(struct patch_object *,  struct command_line_object *, struct	date, struct  parallel_object *parallel,struct  daily_clim_object *daily_clim);
 
 
-
 //---------------------------------------------------------------------------------------------------------------------------
 // CHESS OUTPUT .function	                                                
 //---------------------------------------------------------------------------------------------------------------------------
@@ -36,11 +35,6 @@ void	construct_gauge_output_files(struct patch_object *patch, char *outPutPath, 
 //---------------------------------------------------------------------------------------------------------------------------
 int     end_day_norm_leap(int, int);
 void    init_out_monthly(struct patch_object *, struct accumulate_patch_object *, int, int, struct command_line_object *);
-
-
-
-
-
 
 
 
@@ -202,3 +196,10 @@ double  compute_infiltration(int, double, double, double, double, double, double
 
 void construct_resvoir_correponding_data(char *filename, int patchID, struct patch_object *patch);
 long 	yearday(struct date current_date);
+
+
+//---------------------------------------------------------------------------------------------------------------------------
+// math .function	                                                
+//---------------------------------------------------------------------------------------------------------------------------
+double max(double, double);
+double min(double, double);

@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "CHESS.h"
-#include "Functions.h"
-#include "Constants.h"
+#include "chess.h"
+#include "functions.h"
+#include "constants.h"
 
 struct climate_default *construct_climate_defaults(
 	int	nytpes,

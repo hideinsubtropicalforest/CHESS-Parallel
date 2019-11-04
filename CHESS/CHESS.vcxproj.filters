@@ -51,17 +51,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CHESS.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Constants.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Functions.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="cn\allocate_annual_growth.cpp">
       <Filter>源文件\cn</Filter>
     </ClCompile>
@@ -482,19 +471,33 @@
     <ClCompile Include="init\construct_reservoir_correponding_data.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
-    <ClCompile Include="main_dj_be_chan.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="parallel\parallel_channel_daily.cpp">
       <Filter>源文件\parallel</Filter>
     </ClCompile>
     <ClCompile Include="parallel\init_parallel_environment.cpp">
       <Filter>源文件\parallel</Filter>
     </ClCompile>
+    <ClCompile Include="tec\math.cpp">
+      <Filter>源文件\tec</Filter>
+    </ClCompile>
+    <ClCompile Include="main_windows.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="tec\R_RHESSys_info.txt">
       <Filter>源文件\tec</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\chess.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\constants.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\functions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -74,10 +74,10 @@
 /*								*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
+#include "functions.h"
 #include <math.h>
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
 
 double	compute_z_final(
 						int	verbose_flag,

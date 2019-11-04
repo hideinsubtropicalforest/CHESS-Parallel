@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "CHESS.h"
+#include "chess.h"
 /*------------------------------
 sort heights in descending order
 -------------------------------*/  

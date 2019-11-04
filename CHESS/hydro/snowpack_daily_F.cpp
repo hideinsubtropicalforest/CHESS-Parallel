@@ -21,9 +21,9 @@
 /*	Made sure snow height was actually updates at end of routine.*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 
 double	snowpack_daily_F(
 						 struct date   current_date,

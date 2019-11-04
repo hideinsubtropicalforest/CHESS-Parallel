@@ -27,9 +27,9 @@
 /*																*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "functions.h"
+#include "chess.h"
+#include "constants.h"
 #include <iostream>
 
 using namespace std;
@@ -61,7 +61,7 @@ void	output_patch_daily_hydrology(struct	patch_object *patch,
 	aevaporation = (patch->evaporation + patch->exfiltration_sat_zone + patch->exfiltration_unsat_zone);
 	atranspiration = (patch->transpiration_sat_zone + patch->transpiration_unsat_zone);
 	asoilevap = (patch->exfiltration_sat_zone + patch->exfiltration_unsat_zone);
-	RSMC = max(1 - max((patch->sat_deficit - patch->rz_storage - patch->unsat_storage), 0) / patch->soil_defaults->soil_water_cap, 0);
+	RSMC = max(1 - max((patch->sat_deficit - patch->rz_storage - patch->unsat_storage), 0.0) / patch->soil_defaults->soil_water_cap, 0);
 	/*
 	if ((patch->sat_deficit - patch->rz_storage - patch->unsat_storage) / patch->soil_defaults->soil_water_cap > 1.){
 		cout << patch->sat_deficit << " " << patch->soil_defaults->soil_water_cap << endl;
