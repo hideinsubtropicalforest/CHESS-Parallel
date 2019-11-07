@@ -8,14 +8,6 @@ int construct_routing_topology(struct patch_object	*patch,
 	int rows, int cols)
 
 {
-	/*--------------------------------------------------------------*/
-	/*	Local function definition.									*/
-	/*--------------------------------------------------------------*/
-	struct patch_object *find_patch(int, struct patch_object *, int, int);
-
-	void	*alloc(size_t size, const char *array_name, const char *calling_function);
-
-	void match_patch(int, int, struct patch_object *, int, int);
 
 	/*--------------------------------------------------------------*/
 	/*	Local variable definition.									*/
@@ -48,8 +40,6 @@ int construct_routing_topology(struct patch_object	*patch,
 	/*	if it is a stream add it to the basin level routing list	*/
 	/*	otherwise add it to the hillslope level routing list		*/
 	/*--------------------------------------------------------------*/
-
-
 	for (i = 0; i< num_patches; i++) {
 		fscanf(routing_file, "%d %lf %lf %lf %lf %d %lf %d",
 			&patch[i].ID,

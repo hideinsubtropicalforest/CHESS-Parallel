@@ -47,7 +47,7 @@ void  chess_channel_daily(struct patch_object *patch,
 	int thread_num = parallel->thread_num;
 	for (int layer_inx = 0; layer_inx != parallel->layer_num; layer_inx++) {
 		
-		//#pragma omp parallel for num_threads(thread_num)
+		#pragma omp parallel for num_threads(thread_num)
 		for (int thread_inx = 0; thread_inx < parallel->thread_num; thread_inx++) {
 		parallel_channel_daily(patch, command_line, current_date, parallel, layer_inx, thread_inx,daily_clim);
 		}

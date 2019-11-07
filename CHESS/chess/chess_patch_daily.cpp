@@ -41,7 +41,7 @@ void  chess_patch_daily(struct patch_object *patch,
 	///*
 	//init and run all thread
 	int thread_num = parallel->thread_num;
-	//#pragma omp parallel for num_threads(thread_num)
+	#pragma omp parallel for num_threads(thread_num)
 	for (int thread_inx = 0; thread_inx < thread_num; thread_inx++) {
 
 		//parallel patch daily is served to be a elementary function of patch daily process
