@@ -11,7 +11,7 @@
 #include <thread>
 #include <omp.h>
 
-//using std::thread;
+using namespace std;
 
 void  chess_patch_daily(struct patch_object *patch,
 	struct 	command_line_object *command_line,
@@ -39,17 +39,24 @@ void  chess_patch_daily(struct patch_object *patch,
 	delete[] thd;
 	*/
 	///*
+
+	//double tall=0, t1, t2;
 	//init and run all thread
+	//tall-= omp_get_wtime();
 	int thread_num = parallel->thread_num;
-	//#pragma omp parallel for num_threads(thread_num)
+	#pragma omp parallel for schedule(static, 1) num_threads(thread_num) 
 	for (int thread_inx = 0; thread_inx < thread_num; thread_inx++) {
 
 		//parallel patch daily is served to be a elementary function of patch daily process
-
+		//t1 = omp_get_wtime();
 		parallel_patch_daily(patch, command_line, current_date, daily_clim, parallel, thread_inx);
+		//t2 = omp_get_wtime();
+
+		//printf("Thread: %d, Iteration: %d, TIME: %lf %d\n", omp_get_thread_num(), thread_inx,t2-t1, parallel->land_thread_patch_num[thread_inx]);
 		//printf("%d\n", omp_get_num_threads());
 	}//*/
+	//tall += omp_get_wtime();
+	//cout <<"day\t"<< current_date.day <<"\t"<<tall<< endl;
 
-	
 	return;
 }//__END OF DAILY PATCH

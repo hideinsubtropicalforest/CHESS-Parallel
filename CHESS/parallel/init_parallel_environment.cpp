@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 void	init_parallel_environment(struct patch_object *patch,struct parallel_object *parallel)
 {
 
@@ -45,13 +44,16 @@ void	init_parallel_environment(struct patch_object *patch,struct parallel_object
 	int layer_inx = 0;
 	for (int inx = 0; inx < parallel->patch_num; inx++) {
 		
-		//start from 0
+		//hillslope processes
+		if(patch[inx].sthread>0){
 		thread_inx = patch[inx].sthread -1;
 
 		parallel->land_pch[thread_inx][(parallel->land_thread_patch_num[thread_inx])] = inx;
 		
 		parallel->land_thread_patch_num[thread_inx]++;
+		}
 
+		//channel processes
 		if (patch[inx].clayer > 0) {
 			thread_inx = patch[inx].cthread - 1;//start from 0
 			layer_inx = patch[inx].clayer - 1;

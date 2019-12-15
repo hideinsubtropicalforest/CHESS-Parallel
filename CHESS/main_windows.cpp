@@ -67,6 +67,7 @@ using namespace std;
 //=======================================================================================================================
 
 int thread_array[17] = { 1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32 };
+//int thread_array[17] = { 1,4,8,16,24,10,12,14,16,18,20,22,24,26,28,30,32 };
 int SDI_array[8] = { 1,2,3,4,5,6,7,8 };
 int SDI_flag = 1, SDI = 1;
 
@@ -81,14 +82,14 @@ int	main(int main_argc, char **main_argv)
 	_getcwd(file_location, 120);
 
 	strcpy(infpath, file_location);
-	strcat(infpath, "\\thread_test_yc1.txt");
+	strcat(infpath, "\\thread_test_lc20.txt");
 
 	cout << infpath << endl;
 	fstream OUT_INF(infpath, ios::out);
 
 
-	//for (int thread_inx = 1; thread_inx != 17; thread_inx++)
-			for (int thread_inx = 0; thread_inx != 1; thread_inx++)
+	for (int thread_inx = 0; thread_inx != 17; thread_inx++)
+		//for (int thread_inx = 0; thread_inx != 1; thread_inx++)
 		{
 
 			//int thread_num = thread_array[thread_inx];
@@ -99,7 +100,7 @@ int	main(int main_argc, char **main_argv)
 			//===============
 			// 1\YC
 			//===============
-			///*
+			/*
 			//spatial geographic information for the study region
 			const int       maxr = 146, maxc = 177;
 
@@ -130,22 +131,22 @@ int	main(int main_argc, char **main_argv)
 			int gauge_num = 1;
 			int patch_num = 13513;
 
-			//*/
+			*/
 
 			//===============
 			// 2\LC
 			//===============
-			/*
+			///*
 			//spatial geographic information for the study region
-			const int       maxr = 415, maxc = 400;
+			const int       maxr = 807, maxc = 662;
 
-			const double    xll = 874268;
-			const double    yll = 2.67181e+06;
-			const double    cellsize = 300;
+			const double    xll = 566351.89643887;
+			const double    yll = 2634989.1804154;
+			const double    cellsize = 200;
 			const float     NODATA_value = -9999;
 
 			// define the simulation year, month and day
-			const int start_year = 1960, end_year = 1960, start_month = 1, end_month = 12, start_day = 1, end_day = 31;
+			const int start_year = 1960, end_year = 1960, start_month = 1, end_month = 1, start_day = 1, end_day = 31;
 			const int start_hour = 1, end_hour = 24;
 			//int       end_day; //The end of date in February varies between normal and leap year
 
@@ -164,9 +165,9 @@ int	main(int main_argc, char **main_argv)
 			//define
 			int	climate_num = 1;
 			int gauge_num = 1;
-			int patch_num = 85248;
+			int patch_num = 203914;
 
-			*/
+			//*/
 
 			//===============
 			// 3\DJ

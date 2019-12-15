@@ -58,8 +58,6 @@ void  parallel_channel_daily(patch_object *patch, struct command_line_object *co
 			patch_lateral_flow(&patch[pch], command_line, current_date);
 
 
-
-
 		static double route_to_streamflow = 0, route_to_baseflow = 0;
 		double sumstreamflow = 0, sumbaseflow = 0;
 		static double volume = 0;
