@@ -124,7 +124,7 @@ void input_ascii_float(float *indata, char *filename, int mc, int mr, int arc_fl
 //===============================================================================================================================
 //        input_header() - input information (row, col) from [root].header
 //===============================================================================================================================
-void input_header(int maxr, int maxc, char *fndem, int arc_flag) {
+void input_header(char *fndem, int arc_flag, struct  InputGridData *InputGridData) {
 	FILE  *in1;
 	char tmp[100];
 	int i;
@@ -132,16 +132,20 @@ void input_header(int maxr, int maxc, char *fndem, int arc_flag) {
 
 	if ((in1 = fopen(fndem, "r")) == NULL) {
 		fprintf(stderr, "cannot open file %s\n\n", fndem);
-		header_help(maxr, maxc, fndem);
+		header_help(InputGridData->rows, InputGridData->cols, fndem);
 	}
 	else {
 		if (arc_flag == 0) {
 			for (i = 0; i< 9; i++)
 				fscanf(in1, "%s", tmp);
-			fscanf(in1, "%d %*s %d", &maxr, &maxc);
+			fscanf(in1, "%d %*s %d", &InputGridData->rows, &InputGridData->cols);
 		}
-		else
-			fscanf(in1, "%*s %d %*s %d", &maxc, &maxr);
+		else {
+			fscanf(in1, "%*s %d %*s %d ", &InputGridData->cols, &InputGridData->rows);
+			fscanf(in1, "%*s %lf %*s %lf", &InputGridData->xll, &InputGridData->yll);
+			fscanf(in1, "%*s %lf %*s %lf", &InputGridData->cellsize, &InputGridData->no_data_value);
+
+		}
 		fclose(in1);
 	}
 	return;
@@ -178,14 +182,15 @@ void header_help(int maxr, int maxc, char *fnhdr) {
 //===============================================================================================================================
 //        input_prompt() - input root filename, create full filenames
 //===============================================================================================================================
-void	read_geo_images(struct patch_object *patch, struct command_line_object *command_line, int rows, int cols, double cellsize, double xll, double yll,
-	char *filename, char *prefix, int f_flag, int arc_flag, int num_patches, int*gauge_list, int thread_num) {
+void	read_geo_images(struct patch_object *patch, struct command_line_object *command_line,char *prefix ,
+	struct InFilePath *InFilePath, struct  InputGridData *InputGridData,  int f_flag, int arc_flag, int*gauge_list, int thread_num) {
+
+	char *filename = InFilePath->inImgFile;
 
 	// filenames for each image and file
 	char  fnpatch[MAXS], fndem[MAXS], fnslope[MAXS], fnaspect[MAXS], fneast_horizon[MAXS], fnwest_horizon[MAXS];
 	char  fnsoil[MAXS], fnveg[MAXS], fnroads[MAXS], fnstreamorder[MAXS], fnsthread[MAXS], fncthread[MAXS], fngauges[MAXS];
 	char  fnclimate[MAXS], fnlatitude[MAXS], fnreservoir[MAXS], fnpatchorder[MAXS];
-
 
 	//File pointer
 	int          *ppatch;
@@ -196,8 +201,6 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	float        *pwest_horizon;
 	int          *psoil;
 	int          *pveg;
-	
-	//xu.
 	int			*pstreamorder;
 	int			*psthread;
 	int			*pcthread;
@@ -210,8 +213,6 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	double       *plat;//y in cordinate system 
 	float		 *platitude;//geography latitude
 
-
-	int i;
 	//local functions
 	void    header_help(int, int, char*);
 	void	input_ascii_int(int *, char *, int, int, int);
@@ -252,8 +253,6 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	strcat(fnsoil, ".soil");
 	strcat(fnveg, ".veg");
 	strcat(fnroads, ".road");
-
-	//xu.
 	strcat(fnstreamorder, ".streamorder");
 	strcat(fnsthread, ".sthread");
 	strcat(fncthread, ".cthread");
@@ -267,35 +266,38 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	strcat(fnsthread, char_thread);
 	strcat(fncthread, char_thread);
 
-
-	input_header(rows, cols, fndem, arc_flag);
+	//read and deliver values of grid attribute
+	input_header(fndem, arc_flag,InputGridData);
+	int rows = InputGridData->rows, cols = InputGridData->cols;
+	double cellsize = InputGridData->cellsize,xll = InputGridData->xll,  yll = InputGridData->yll;
+	int num_patches = InputGridData->patch_num;
 
 	// allocate and read input map images
-	ppatch = (int *)malloc(rows*cols * sizeof(int));
+	ppatch = new int [rows*cols];
 	input_ascii_int(ppatch, fnpatch, rows, cols, arc_flag);
 
-	plon = (double *)malloc(rows*cols * sizeof(double));
+	plon = new double[rows*cols];
 	create_x_coordinates(plon, rows, cols, cellsize, xll);
 
-	plat = (double *)malloc(rows*cols * sizeof(double));
+	plat = new double[rows*cols];
 	create_y_coordinates(plat, rows, cols, cellsize, yll);
 
-	pdem = (float *)malloc(rows*cols * sizeof(float));
+	pdem = new float[rows*cols];
 	input_ascii_float(pdem, fndem, rows, cols, arc_flag);
 
-	pslope = (float *)malloc(rows*cols * sizeof(float));
+	pslope = new float[rows*cols];
 	input_ascii_float(pslope, fnslope, rows, cols, arc_flag);
 
-	paspect = (float *)malloc(rows*cols * sizeof(float));
+	paspect = new float[rows*cols];
 	input_ascii_float(paspect, fnaspect, rows, cols, arc_flag);
 
-	peast_horizon = (float *)malloc(rows*cols * sizeof(float));
+	peast_horizon = new float[rows*cols];
 	input_ascii_float(peast_horizon, fneast_horizon, rows, cols, arc_flag);
 
-	pwest_horizon = (float *)malloc(rows*cols * sizeof(float));
+	pwest_horizon = new float [rows*cols];
 	input_ascii_float(pwest_horizon, fnwest_horizon, rows, cols, arc_flag);
 
-	psoil = (int *)malloc(rows*cols * sizeof(int));
+	psoil = new int[rows*cols];
 	input_ascii_int(psoil, fnsoil, rows, cols, arc_flag);
 
 	pveg = new int[rows*cols]{};

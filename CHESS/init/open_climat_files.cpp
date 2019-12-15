@@ -9,8 +9,11 @@
 
 #include "constants.h"
 
-struct	input_Clim_Files open_Clim_Files(char *inClimFile,char *prefix)
+struct	input_Clim_Files open_Clim_Files(struct InFilePath *InFilePath,char *prefix)
 {
+	
+	char *inClimFile = InFilePath->inClimPath;
+
 	//------------------------------------------------------------------------------------------------------------------------------
 	//	local variable declarations 							
 	//------------------------------------------------------------------------------------------------------------------------------

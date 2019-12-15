@@ -46,7 +46,7 @@
 #include "chess.h"
 #include "functions.h"
 
-void read_daily_climate(struct input_Clim_Files inClimFiles,struct Input_Data_Range InRange,
+void read_daily_climate(struct input_Clim_Files inClimFiles,struct InputDateRange InRange,
 	double DailyRain[][12][31],double DailyTmax[][12][31],double DailyTmin[][12][31],double AnnCO2[])
 {
 	int   yr=0,mo=0,dy=0;

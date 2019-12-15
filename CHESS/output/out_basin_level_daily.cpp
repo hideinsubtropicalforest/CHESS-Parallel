@@ -7,7 +7,7 @@
 void out_basin_level_daily(int num_patches,
 				struct patch_object *patch,
 			   struct date current_date,
-			   struct out_date_range outdate,
+			   struct OutputDateRange outdate,
 			   struct output_hydro_plant *DM_outfiles,
 			   struct command_line_object *command_line)
 {

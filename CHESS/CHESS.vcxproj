@@ -110,11 +110,12 @@
     <ClCompile Include="init\construct_canopy_strata.cpp" />
     <ClCompile Include="init\construct_channel_default.cpp" />
     <ClCompile Include="init\construct_command_line.cpp" />
+    <ClCompile Include="init\construct_infile_path.cpp" />
     <ClCompile Include="init\construct_landuse_defaults.cpp" />
     <ClCompile Include="init\construct_patch.cpp" />
     <ClCompile Include="init\construct_climate_defaults.cpp" />
     <ClCompile Include="init\construct_reservoir_correponding_data.cpp" />
-    <ClCompile Include="init\construct_routing_topology_new.cpp" />
+    <ClCompile Include="init\construct_routing_topology.cpp" />
     <ClCompile Include="init\construct_soil_defaults.cpp" />
     <ClCompile Include="init\construct_stratum_defaults.cpp" />
     <ClCompile Include="init\contruct_reservoir_default.cpp" />

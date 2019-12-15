@@ -276,9 +276,6 @@
     <ClCompile Include="init\construct_patch.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
-    <ClCompile Include="init\construct_routing_topology_new.cpp">
-      <Filter>源文件\init</Filter>
-    </ClCompile>
     <ClCompile Include="init\construct_soil_defaults.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
@@ -482,6 +479,12 @@
     </ClCompile>
     <ClCompile Include="main_windows.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_routing_topology.cpp">
+      <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="init\construct_infile_path.cpp">
+      <Filter>源文件\init</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

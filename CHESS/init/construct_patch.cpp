@@ -9,9 +9,12 @@
 #include "functions.h"
 using namespace std;
 
-void construct_patch(struct patch_object * patch, struct command_line_object * command_line, int rows, int cols, char *filename, char *prefix, int num_patches)
+void construct_patch(struct patch_object * patch, struct command_line_object * command_line,
+	char *prefix,struct InFilePath *InputFilePath, struct InputGridData* InputGridData)
 {
 	//defaults filename
+	int rows = InputGridData->rows, cols = InputGridData->cols,num_patches = InputGridData->patch_num;
+	char *filename = InputFilePath->inDefFile;
 
 	//xu.
 	char fnclimatedef[MAXS], fnsoildef[MAXS], fnlandusedef[MAXS], fnvegdef[MAXS], fnchanneldef[MAXS], fnreservoirdef[MAXS];

@@ -66,24 +66,11 @@ using namespace std;
 //================================================s=======================================================================
 int	main(int main_argc, char **main_argv)
 {
-
-	char file_location[120]{};
+	char *file_location=new char [120];
 	_getcwd(file_location, 120);
 
 	int thread_num = 2;
 
-
-	//===============
-	// 1\YC
-	//===============
-	///*
-	//spatial geographic information for the study region
-	const int       maxr = 146, maxc = 177;
-
-	const double    xll = 799600.000120;
-	const double    yll = 2647174.387550;
-	const double    cellsize = 200;
-	const float     NODATA_value = -9999;
 
 	// define the simulation year, month and day
 	const int start_year = 1960, end_year = 1964, start_month = 1, end_month = 12, start_day = 1, end_day = 31;
@@ -91,8 +78,8 @@ int	main(int main_argc, char **main_argv)
 	//int       end_day; //The end of date in February varies between normal and leap year
 
 	// define the time period for outputting simulation results
-	// out_date_range outdate={first_year, last_year, first_month, last_month, first_day, last_day, first_hour, last_hour};
-	struct out_date_range out_date = { 1972, 1972, 1, 12, 1, 31, 1, 24 };
+	// OutputDateRange outdate={first_year, last_year, first_month, last_month, first_day, last_day, first_hour, last_hour};
+	struct OutputDateRange out_date = { 1972, 1972, 1, 12, 1, 31, 1, 24 };
 
 	// define the number of spin years required for vegetation and soil carbon to reach the stable state with long-term
 	// climatology. Spin interval is the period of input climate data used for spin-up simulations
@@ -105,45 +92,6 @@ int	main(int main_argc, char **main_argv)
 	//define 
 	int	climate_num = 1;
 	int gauge_num = 1;
-	int patch_num = 13513;
-
-
-
-	char file_prefix[120]{};
-	strcpy(file_prefix, file_location);
-	strcat(file_prefix, "\\");
-	strcat(file_prefix, prefix);
-	strcat(file_prefix, "\\");
-
-	char  inImgFile[121] = {};
-	strcpy(inImgFile, file_prefix);
-	strcat(inImgFile, "geo\\");
-
-	char  inFlowFile[121] = {};
-	strcpy(inFlowFile, file_prefix);
-	strcat(inFlowFile, "geo\\");
-
-	char  inClimPath[121] = {};
-	strcpy(inClimPath, file_prefix);
-	strcat(inClimPath, "clim\\");
-
-	cout << inClimPath << endl;
-
-	char  inDefFile[121] = {};
-	strcpy(inDefFile, file_prefix);
-	strcat(inDefFile, "defs\\");
-
-	char  outPutPath[121] = {};
-	strcpy(outPutPath, file_prefix);
-	strcat(outPutPath, "out\\");
-
-	cout << outPutPath << endl;
-
-	char  FlowTableName[40]{};
-	strcpy(FlowTableName, prefix);
-	strcat(FlowTableName, "_flow_table_D8.dat");
-	cout << FlowTableName << endl;
-
 
 	//=======================================================================================================================
 	//xu. LOCAL VARS FOR SIMULATION
@@ -152,24 +100,27 @@ int	main(int main_argc, char **main_argv)
 	struct  date current_date {};
 	struct  output_hydro_plant DM_outfiles {};
 	struct  input_Clim_Files   inClimFiles {};
-	struct  reservoir_object   reservoir;
+
+	struct  InputDateRange * InputDateRange = new struct InputDateRange;
+	struct  InputGridData *InputGridData = new struct InputGridData;
+	struct  InFilePath *InFilePath = new struct  InFilePath;
 	struct command_line_object *command_line = new struct command_line_object;
 	struct OutArray_object *OutArray = new struct OutArray_object;
 	struct parallel_object *parallel = new struct parallel_object;
 
-
-	//xu. for lower use memory we use patch_num instead of cols*rows
-	//only 1/4 memory are needed now
-	struct patch_object *patch=new struct patch_object [patch_num]{};
-	struct  daily_clim_object *daily_clim = new struct daily_clim_object[climate_num]{};//change it as a pointer
-
-	int		*gauge_list = new int [GAUGE_NUM] {};
-
+	//local parameters
+	struct patch_object *patch=nullptr;
+	struct  daily_clim_object *daily_clim = new struct daily_clim_object[climate_num]{};
 	int     kk = 0;
 	int     f_flag = 1, arc_flag = 1, CO2_flag = 1, out_flag = 0;
 	int     i = 0, j = 0, endyear = 0, spin_yrs = 0;
 	int     firstmonth, lastmonth, firstday, lastday;
 	double  time1=0, time2=0;
+
+	//local para that determined by input of user
+	int	*gauge_list = new int [gauge_num] {};
+	parallel->thread_num = thread_num;
+
 	//=======================================================================================================================
 	//xu. BUILD AND INITIAL THE ENDVIRONMENT FOR SIMULATION
 	//=======================================================================================================================
@@ -178,26 +129,32 @@ int	main(int main_argc, char **main_argv)
 	//construct and assign command line arguments
 	construct_command_line(main_argc, main_argv, command_line);
 
+	//compute file_list
+	construct_infile_path(file_location,prefix,InFilePath);
+
 	//xu. I sugguest should 1\ flow table then  2\construct patch and read images
-	parallel->patch_num = construct_routing_topology(patch, inFlowFile, FlowTableName, maxr, maxc);
-	parallel->cell_size = cellsize;
-	parallel->thread_num = thread_num;
+	patch=construct_routing_topology(patch,InFilePath,InputGridData);
 
 	//reading GRASS- or ArcInfo-based input images such as DEM,slope,aspect....stream,roads, gauge_lists
-	read_geo_images(patch, command_line, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag, parallel->patch_num, gauge_list, thread_num);
+	read_geo_images(patch, command_line, prefix, InFilePath, InputGridData, f_flag, arc_flag, gauge_list, thread_num);
 
 	//Initialize the default values of patch fields/members
-	construct_patch(patch, command_line, maxr, maxc, inDefFile, prefix, parallel->patch_num);
+	construct_patch(patch, command_line, prefix, InFilePath, InputGridData);
 
 	//open input climate files (daily precipitation, minimum temperature and maximum temperature)
-	inClimFiles = open_Clim_Files(inClimPath, prefix);
+	inClimFiles = open_Clim_Files(InFilePath, prefix);
+
+
+	//12.15 dealt next time 
+	parallel->patch_num = InputGridData->patch_num;
+	parallel->cellsize = InputGridData->cellsize;
+	char *outPutPath = InFilePath->outPutPath;
 
 	//distribute parallel threads of each
 	init_parallel_environment(patch, parallel);
 
 	//time spent in initialization
-	time2 = omp_get_wtime(); printf("Finishing initialization:: %lf second \n",time2-time1);
-
+	time2 = omp_get_wtime(); printf("Finishing initialization:: %lf seconds \n",time2-time1);
 
 	//=======================================================================================================================
 	//xu. SPIN UP and CHESS SIMULATION
@@ -209,7 +166,7 @@ int	main(int main_argc, char **main_argv)
 			endyear = start_year + spin_interval - 1;
 			spin_flag = true;
 
-			//spin_up needs routing_flag now for channel flow
+			//SpinUp needs routing_flag now for channel flow
 			command_line->routing_flag = 1;
 		}
 		else {
@@ -237,6 +194,9 @@ int	main(int main_argc, char **main_argv)
 		//=======================================================================================================================
 		for (current_date.year = start_year; current_date.year <= endyear; current_date.year++) {
 
+
+			time1= omp_get_wtime();
+
 			if (current_date.year == start_year)
 				firstmonth = start_month;
 			else
@@ -253,7 +213,7 @@ int	main(int main_argc, char **main_argv)
 
 				//construct patch-level daily output files for a month
 				if (!spin_flag && command_line->p != NULL) {
-					construct_patch_output_files(current_date, out_date, outPutPath, patch_num, &DM_outfiles, OutArray, command_line);
+					construct_patch_output_files(current_date, out_date, outPutPath, parallel->patch_num, &DM_outfiles, OutArray, command_line);
 				}
 
 				if (current_date.year == start_year && current_date.month == start_month)
@@ -297,7 +257,7 @@ int	main(int main_argc, char **main_argv)
 						if (command_line->p != NULL)
 							out_patch_level_daily(parallel->patch_num, patch, current_date, out_date, &DM_outfiles, OutArray, command_line);
 						if (command_line->gg != NULL)
-							out_gauge_level_daily(parallel->patch_num, patch, current_date, out_date, &DM_outfiles, command_line, gauge_list, cellsize);
+							out_gauge_level_daily(parallel->patch_num, patch, current_date, out_date, &DM_outfiles, command_line, gauge_list, parallel->cellsize);
 					}
 
 				}
@@ -315,6 +275,7 @@ int	main(int main_argc, char **main_argv)
 
 
 			CO2_flag = 1;
+			time2 = omp_get_wtime();
 
 			if (!spin_flag)
 				printf("year, month, day and execution time:: %d %d %d %lf seconds\n", current_date.year, current_date.month - 1, current_date.day - 1,time2-time1);

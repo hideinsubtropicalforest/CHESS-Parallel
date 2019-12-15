@@ -13,7 +13,7 @@
 //===============================================================================================================================
 //	Define input climate files							
 //===============================================================================================================================
-struct In_File_Path
+struct InFilePath
 {
 	char  prefix[20];
 	char  inDefFile[120];
@@ -24,17 +24,20 @@ struct In_File_Path
 	char  FlowTableName[30];
 };
 
-struct Input_Grid_Data
+struct InputGridData
 {
-	long rows;
-	long cols;
+	int patch_num;
+	double cell_size;
+
+	int rows;
+	int cols;
 	double xll;
 	double yll;
 	double cellsize;
 	double no_data_value;
 };
 
-struct Input_Data_Range
+struct InputDateRange
 {
 	long start_year;
 	long end_year;
@@ -49,7 +52,7 @@ struct Input_Data_Range
 //===============================================================================================================================
 //	Define a calendar out date object.					
 //===============================================================================================================================
-struct out_date_range	{
+struct OutputDateRange	{
 	long  first_year;
 	long  last_year;
 	long  first_month;
@@ -60,7 +63,7 @@ struct out_date_range	{
 	long  last_hour;
 };
 
-struct Spin_Up
+struct SpinUp
 {
 	long spin_years;
 	long spin_interval;
@@ -1623,11 +1626,12 @@ struct OutArray_object {
 
 struct parallel_object {
 
+	int patch_num;
+	double cellsize;
+
 	//environment
 	int thread_num;
 	int layer_num;
-	int patch_num;
-	double cell_size;
 
 	//arrays
 	int **land_pch;

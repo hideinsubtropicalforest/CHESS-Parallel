@@ -6,7 +6,7 @@
 using namespace std;
 
 //struct output_hydro_plant construct_output_files(int start_year,int end_year,
-void construct_patch_output_files(struct date current_date, struct out_date_range outdate,
+void construct_patch_output_files(struct date current_date, struct OutputDateRange outdate,
 	char *outPutPath,
 	int patch_num,
 	struct output_hydro_plant *DM_outfiles,

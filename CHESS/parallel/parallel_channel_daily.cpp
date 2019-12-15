@@ -71,7 +71,7 @@ void  parallel_channel_daily(patch_object *patch, struct command_line_object *co
 		//xu.
 		double V1 = 0, V2 = 0, OUT_all = 0, INOUT_ratio = 0;
 
-		double cellsize = parallel->cell_size;
+		double cellsize = parallel->cellsize;
 
 		//For river channel, soil should be mostly saturated. So, we assume one-tenth of
 		//surface and subsurface flow are used to reduce soil saturation deficit in channel
