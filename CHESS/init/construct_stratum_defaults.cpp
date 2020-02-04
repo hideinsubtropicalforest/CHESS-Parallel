@@ -7,7 +7,7 @@
 #include "constants.h"
 #include "functions.h"
 
-struct stratum_default *construct_stratum_defaults(int	ntypes, FILE * default_file, struct command_line_object *command_line,
+struct stratum_default *construct_stratum_defaults(int	ntypes, FILE * default_file, struct CommandLineObject *ComLin,
 struct stratum_default *stratum_default_object_list)
 {
 	//--------------------------------------------------------------
@@ -226,7 +226,7 @@ struct stratum_default *stratum_default_object_list)
 
 	for (i = 0; i<ntypes; i++){
 		if ((stratum_default_object_list[i].epc.leaflitr_cn <
-			stratum_default_object_list[i].epc.leaf_cn) && (command_line->grow_flag > 0)){
+			stratum_default_object_list[i].epc.leaf_cn) && (ComLin->grow_flag > 0)){
 			fprintf(stderr, "\nWARNING construct_stratum_defaults");
 			fprintf(stderr, "\n  leaf litter C:N < leaf C:N");
 		}

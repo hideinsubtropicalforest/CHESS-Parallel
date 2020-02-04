@@ -30,7 +30,7 @@ void	canopy_stratum_daily_F(
 struct	patch_object		*patch,
 struct   layer_object		*layer,
 struct 	canopy_strata_object 	*stratum,
-struct 	command_line_object	*command_line,
+struct 	CommandLineObject	*ComLin,
 struct 	date 			current_date)
 {
 	//--------------------------------------------------------------
@@ -294,7 +294,7 @@ struct 	date 			current_date)
 	//      since we figured that climate above the zone was well mixed.                                                  
 	//===========================================================================================================================
 	stratum->Kstar_diffuse = compute_diffuse_radiative_fluxes(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		&(Kdown_diffuse),
 		Kdown_direct,
 		-1 * stratum->defaults->epc.ext_coef,
@@ -304,7 +304,7 @@ struct 	date 			current_date)
 		stratum->defaults->K_reflectance);
 
 	stratum->APAR_diffuse = compute_diffuse_radiative_PAR_fluxes(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		&(PAR_diffuse),
 		PAR_direct,
 		-1 * stratum->defaults->epc.ext_coef,
@@ -328,7 +328,7 @@ struct 	date 			current_date)
 	//===========================================================================================================================
 
 	stratum->Kstar_direct = compute_direct_radiative_fluxes(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		&(Kdown_direct),
 		-1 * stratum->defaults->epc.ext_coef,
 		stratum->gap_fraction,
@@ -340,7 +340,7 @@ struct 	date 			current_date)
 
 	stratum->APAR_direct = compute_direct_radiative_fluxes( //double_check if compute_direct_radiative_fluxes is the same as 
 		// compute_direct_radiative_par_fluxes????
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		&(PAR_direct),
 		-1 * stratum->defaults->epc.ext_coef,
 		stratum->gap_fraction,
@@ -379,7 +379,7 @@ struct 	date 			current_date)
 			if (stratum->epv.height == patch->layers->height){
 				stratum->ga = 1.0 / compute_ra_overstory(
 
-					command_line->verbose_flag,
+					ComLin->verbose_flag,
 					stratum->defaults->wind_attenuation_coeff,
 					&(wind),
 					patch->screen_height,
@@ -392,7 +392,7 @@ struct 	date 			current_date)
 			//--------------------------------------------------------------
 			else if (stratum->epv.height > (patch->layers->height * 0.1)){
 				stratum->ga = 1.0 / compute_ra_understory(
-					command_line->verbose_flag,
+					ComLin->verbose_flag,
 					stratum->defaults->wind_attenuation_coeff,
 					&(wind),
 					stratum->epv.height,
@@ -405,7 +405,7 @@ struct 	date 			current_date)
 			else{
 				stratum->ga = 1.0 /
 					compute_ra_surface(
-					command_line->verbose_flag,
+					ComLin->verbose_flag,
 					stratum->defaults->wind_attenuation_coeff,
 					&(wind),
 					stratum->epv.height,
@@ -440,7 +440,7 @@ struct 	date 			current_date)
 	//===========================================================================================================================
 	if (stratum->epv.all_pai > 0){
 		stratum->gsurf = compute_nonvascular_stratum_conductance(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			stratum->rain_stored + rain_throughfall,
 			stratum->epv.all_pai
 			* stratum->defaults->specific_rain_capacity,
@@ -450,7 +450,7 @@ struct 	date 			current_date)
 	}
 	else{
 		stratum->gsurf = compute_nonvascular_stratum_conductance(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->unsat_storage + rain_throughfall,
 			patch->sat_deficit,
 			stratum->defaults->epc.gl_c,
@@ -465,7 +465,7 @@ struct 	date 			current_date)
 	//	suggest that when it snows it is likely ET is small.	
 	//===========================================================================================================================
 	stratum->snow_stored = compute_snow_stored(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->metv.tday,
 		1000.0,
 		&(snow_throughfall),
@@ -507,7 +507,7 @@ struct 	date 			current_date)
 	//------------------------------------------------------------------
 	if (stratum->snow_stored < ZERO)  {
 		stratum->gs_sunlit = compute_vascular_stratum_conductance(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			stratum->defaults->epc.ppfd_coef,
 			stratum->defaults->epc.gl_c,
 			stratum->defaults->lai_stomatal_fraction,
@@ -530,7 +530,7 @@ struct 	date 			current_date)
 			stratum, patch);
 
 		stratum->potential_gs_sunlit = compute_vascular_stratum_conductance(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			stratum->defaults->epc.ppfd_coef,
 			stratum->defaults->epc.gl_c,
 			stratum->defaults->lai_stomatal_fraction,
@@ -553,7 +553,7 @@ struct 	date 			current_date)
 			stratum, patch);
 
 		stratum->gs_shade = compute_vascular_stratum_conductance(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			stratum->defaults->epc.ppfd_coef,
 			stratum->defaults->epc.gl_c,
 			stratum->defaults->lai_stomatal_fraction,
@@ -576,7 +576,7 @@ struct 	date 			current_date)
 			stratum, patch);
 
 		stratum->potential_gs_shade = compute_vascular_stratum_conductance(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			stratum->defaults->epc.ppfd_coef,
 			stratum->defaults->epc.gl_c,
 			stratum->defaults->lai_stomatal_fraction,
@@ -616,7 +616,7 @@ struct 	date 			current_date)
 	if (stratum->epv.height == 0) {
 		stratum->surface_heat_flux =
 			-1 * compute_surface_heat_flux(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			stratum->snow_stored,
 			stratum->rain_stored + patch->rain_throughfall,
 			stratum->epv.all_pai *
@@ -660,7 +660,7 @@ struct 	date 			current_date)
 	//--------------------------------------------------------------
 	if ((stratum->gsurf > ZERO) && (stratum->ga > ZERO) && (rnet_evap > ZERO)) {
 		potential_evaporation_rate = penman_monteith(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->metv.tday,
 			patch->metv.pa,
 			patch->metv.vpd,
@@ -669,7 +669,7 @@ struct 	date 			current_date)
 			1 / stratum->ga,
 			2);
 		potential_rainy_evaporation_rate = penman_monteith(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->metv.tday,
 			patch->metv.pa,
 			0,
@@ -724,7 +724,7 @@ struct 	date 			current_date)
 	if ((rnet_trans_sunlit > ZERO) &&
 		(stratum->defaults->lai_stomatal_fraction > ZERO) && (stratum->gs_sunlit > ZERO) && (stratum->ga > ZERO)){
 		transpiration_rate_sunlit = penman_monteith(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->metv.tday,
 			patch->metv.pa,
 			patch->metv.vpd ,
@@ -733,7 +733,7 @@ struct 	date 			current_date)
 			1 / stratum->ga,
 			2);
 		potential_transpiration_rate_sunlit = penman_monteith(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->metv.tday,
 			patch->metv.pa,
 			patch->metv.vpd,
@@ -752,7 +752,7 @@ struct 	date 			current_date)
 		(stratum->gs_shade > ZERO) && (stratum->ga > ZERO)){
 
 		transpiration_rate_shade = penman_monteith(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->metv.tday,
 			patch->metv.pa,
 			patch->metv.vpd,
@@ -762,7 +762,7 @@ struct 	date 			current_date)
 			2);
 
 		potential_transpiration_rate_shade = penman_monteith(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->metv.tday,
 			patch->metv.pa,
 			patch->metv.vpd,
@@ -811,7 +811,7 @@ struct 	date 			current_date)
 	//	Update rain storage ( this also updates the patch level rain_throughfall and stratum->potential_evaporation	
 	//===========================================================================================================================
 	stratum->rain_stored = compute_rain_stored(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		&(rain_throughfall),
 		stratum,&patch->potential_evapotranspiration);
 
@@ -1118,7 +1118,7 @@ struct 	date 			current_date)
 	//===================================================================================================================
 	//	perform growth related computations (if grow flag is on) 
 	//===================================================================================================================
-	if ((command_line->grow_flag > 0) && (stratum->defaults->epc.veg_type != NON_VEG)) {
+	if ((ComLin->grow_flag > 0) && (stratum->defaults->epc.veg_type != NON_VEG)) {
 		//--------------------------------------------------------------
 		//	compute N uptake from the soil 				
 		//--------------------------------------------------------------

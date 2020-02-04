@@ -40,7 +40,7 @@ void	output_patch_daily_hydrology(struct	patch_object *patch,
 	double(*HydroMon)[HYDRO_NUM],
 	struct	date current_date,
 	FILE *outfile,
-	struct command_line_object *command_line)
+	struct CommandLineObject *ComLin)
 {
 	/*------------------------------------------------------*/
 	/*	Local Variable Definition. 							*/
@@ -88,7 +88,7 @@ void	output_patch_daily_hydrology(struct	patch_object *patch,
 
 	//FILE OUT FUCTION
 
-	if (command_line->pday == true) {
+	if (ComLin->pday == true) {
 
 		fprintf(outfile, "%4.0d", current_date.year);
 		fprintf(outfile, "%4.0d", current_date.month);
@@ -139,7 +139,7 @@ void	output_patch_daily_hydrology(struct	patch_object *patch,
 	}
 	//we use else if since daily and monthly share a same file 
 	//it need to altered if both of which are needed to bu output
-	else if (command_line->pmon == true) {
+	else if (ComLin->pmon == true) {
 
 		HydroMon[pch][0] = current_date.year;
 		HydroMon[pch][1] = current_date.month;

@@ -3,9 +3,8 @@
 #include "chess.h"
 #include "constants.h"
 
-struct patch_object * construct_routing_topology(struct patch_object	*patch,
-	struct  InFilePath *InFilePath, struct  InputGridData *InputGridData)
-
+struct patch_object *construct_routing_topology(struct patch_object* patch,struct  SimulationInformation* SimInf,
+	struct InFilePath *InFilePath)
 {
 
 	/*--------------------------------------------------------------*/
@@ -31,10 +30,10 @@ struct patch_object * construct_routing_topology(struct patch_object	*patch,
 			InFilePath->FlowTableName);
 		exit(0);
 	} /*end if*/
-	fscanf(routing_file, "%d", &InputGridData->patch_num);
+	fscanf(routing_file, "%d", &SimInf->patch_num);
 
 	//allocate memory
-	patch = new struct patch_object[InputGridData->patch_num]{};
+	patch = new struct patch_object[SimInf->patch_num]{};
 
 
 	/*--------------------------------------------------------------*/
@@ -42,7 +41,7 @@ struct patch_object * construct_routing_topology(struct patch_object	*patch,
 	/*	if it is a stream add it to the basin level routing list	*/
 	/*	otherwise add it to the hillslope level routing list		*/
 	/*--------------------------------------------------------------*/
-	for (i = 0; i< InputGridData->patch_num; i++) {
+	for (i = 0; i< SimInf->patch_num; i++) {
 		fscanf(routing_file, "%d %lf %lf %lf %lf %d %lf %d",
 			&patch[i].ID,
 			&patch[i].x, &patch[i].y, &patch[i].z,

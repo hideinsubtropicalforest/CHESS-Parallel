@@ -11,7 +11,7 @@ using namespace std;
 struct channel_default *construct_channel_defaults(
 	int	nytpes,
 	FILE	*default_file,
-struct command_line_object *command_line,
+struct CommandLineObject *ComLin,
 struct channel_default * channel_default_object_list)
 {
 	/*--------------------------------------------------------------*/

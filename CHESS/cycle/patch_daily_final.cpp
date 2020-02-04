@@ -27,7 +27,7 @@ using namespace std;
 
 
 void	patch_daily_final(struct 	patch_object *patch,
-	struct 	command_line_object *command_line,
+	struct 	CommandLineObject *ComLin,
 	struct	date   current_date)
 {
 	//--------------------------------------------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	// Zone_daily_F
 	// Daylength, Radiation, Rain_duration
 	//---------------------------------------------------------------------------------------------------------------------------
-	//zone_daily_final(patch,command_line,current_date);
+	//zone_daily_final(patch,ComLin,current_date);
 
 
 	if ((patch->daylength_flag == 0) && (patch->e_horizon == 0) && (patch->w_horizon == 0)) {
@@ -185,7 +185,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	//  Determine patch SOIL heat flux. This is ignored if there is a 0 height stratum.
 	//--------------------------------------------------------------------------------------------------------------------------
 	patch->surface_heat_flux = -1 * compute_surface_heat_flux(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->snow_stored,
 		patch->unsat_storage,
 		patch->sat_deficit,
@@ -231,7 +231,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 				&(patch->layers[layer]),
 				//patch->canopy_strata[(patch->layers[layer].strata[stratum])], //by guoping
 				patch->canopy_strata,
-				command_line,
+				ComLin,
 				current_date);
 			//}
 			patch->Kdown_direct = patch->Kdown_direct_final;
@@ -263,7 +263,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 		//--------------------------------------------------------------
 		patch->snow_melt = snowpack_daily_F(
 			current_date,
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			&patch->snowpack,
 			patch->metv.tavg,
 			patch->e_dewpoint,
@@ -333,7 +333,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 				&(patch->layers[layer]),
 				//patch->canopy_strata[(patch->layers[layer].strata[stratum])],
 				patch->canopy_strata,
-				command_line,
+				ComLin,
 				current_date);
 			//}
 			patch->Kdown_direct = patch->Kdown_direct_final;
@@ -371,7 +371,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 				&(patch->layers[layer]),
 				//patch->canopy_strata[(patch->layers[layer].strata[stratum])],
 				patch->canopy_strata,
-				command_line,
+				ComLin,
 				current_date);
 			//}
 			patch->Kdown_direct = patch->Kdown_direct_final;
@@ -421,7 +421,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	//--------------------------------------------------------------------------------------------------------------------------
 	//	finally process surface or litter layer
 	//--------------------------------------------------------------------------------------------------------------------------
-	surface_daily_F(patch, command_line, current_date);
+	surface_daily_F(patch, ComLin, current_date);
 
 	//--------------------------------------------------------------------------------------------------------------------------
 	// 	Above ground Hydrologic Processes compute infiltration into the soil from snowmelt or rain_throughfall for now
@@ -434,8 +434,8 @@ void	patch_daily_final(struct 	patch_object *patch,
 		//------------------------------------------------------------------------
 		//	drainage to a deeper groundwater store move both nitrogen and water
 		//------------------------------------------------------------------------
-		if (command_line->gw_flag > 0) {
-			update_gw_drainage(patch, command_line, current_date);
+		if (ComLin->gw_flag > 0) {
+			update_gw_drainage(patch, ComLin, current_date);
 		}
 		else patch->gw_drainage = 0.;
 
@@ -450,7 +450,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 
 		if (patch->rootzone.depth > ZERO) {
 			infiltration = compute_infiltration(
-				command_line->verbose_flag,
+				ComLin->verbose_flag,
 				patch->sat_deficit_z,
 				patch->rootzone.S,
 				patch->Ksat_vertical,
@@ -464,7 +464,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 		}
 		else {
 			infiltration = compute_infiltration(
-				command_line->verbose_flag,
+				ComLin->verbose_flag,
 				patch->sat_deficit_z,
 				patch->S,
 				patch->Ksat_vertical,
@@ -480,7 +480,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	else infiltration = 0.0;
 
 	//patch->rain_throughfall += patch->preday_detention_store;
-	compute_ground_water_loss(patch, command_line, current_date); //added by guoping for ground water loss
+	compute_ground_water_loss(patch, ComLin, current_date); //added by guoping for ground water loss
 
 																  //--------------------------------------------------------------------------------------------------------------------------
 																  // determine fate of hold infiltration excess in detention store infiltration excess will removed during routing portion
@@ -506,7 +506,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 											//--------------------------------------------------------------------------------------------------------------------------
 											// allow infiltration of surface N
 											//--------------------------------------------------------------------------------------------------------------------------
-	if ((command_line->grow_flag > 0) && (infiltration > ZERO)) {
+	if ((ComLin->grow_flag > 0) && (infiltration > ZERO)) {
 		patch->soil_ns.nitrate += infiltration / net_inflow * patch->surface_NO3;
 		patch->soil_ns.sminn += infiltration / net_inflow * patch->surface_NH4;
 		patch->surface_NO3 -= infiltration / net_inflow * patch->surface_NO3;
@@ -671,7 +671,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	//  capacity and field capacity dependent on the basis of water table depth ---- comment from Guoping
 	//--------------------------------------------------------------------------------------------------------------------------
 	patch->sat_deficit_z = compute_z_final(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->soil_defaults->porosity_0,
 		patch->soil_defaults->porosity_decay,
 		patch->soil_defaults->soil_depth,
@@ -680,7 +680,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 
 	if (patch->sat_deficit_z < patch->rootzone.depth) {
 		patch->rootzone.field_capacity = compute_layer_field_capacity(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->psi_air_entry,
 			patch->soil_defaults->pore_size_index,
@@ -693,7 +693,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	}
 	else {
 		patch->rootzone.field_capacity = compute_layer_field_capacity(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->psi_air_entry,
 			patch->soil_defaults->pore_size_index,
@@ -704,7 +704,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 			patch->rootzone.depth, 0.0);
 
 		patch->field_capacity = compute_layer_field_capacity(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->psi_air_entry,
 			patch->soil_defaults->pore_size_index,
@@ -732,7 +732,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	//--------------------------------------------------------------------------------------------------------------------------
 	if (available_sat_water > ZERO) {
 		add_field_capacity = compute_layer_field_capacity(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->psi_air_entry,
 			patch->soil_defaults->pore_size_index,
@@ -824,7 +824,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	//--------------------------------------------------------------------------------------------------------------------------
 	// 	Resolve plant uptake and soil microbial N demands
 	//--------------------------------------------------------------------------------------------------------------------------
-	if (command_line->grow_flag > 0) {
+	if (ComLin->grow_flag > 0) {
 		resolve_sminn_competition(&(patch->soil_ns), patch->surface_NO3, patch->surface_NH4, &(patch->ndf));
 	}
 
@@ -837,12 +837,12 @@ void	patch_daily_final(struct 	patch_object *patch,
 		strata =
 			//patch->canopy_strata[(patch->layers[layer].strata[stratum])]; //uncommentted by guoping
 			patch->canopy_strata;
-		if ((strata->defaults->epc.veg_type != NON_VEG) && command_line->grow_flag>0) {
+		if ((strata->defaults->epc.veg_type != NON_VEG) && ComLin->grow_flag>0) {
 			vegtype = 1;
 			canopy_stratum_growth(
 				patch,
 				strata,
-				command_line,
+				ComLin,
 				current_date);
 		}
 		else {
@@ -890,7 +890,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	//--------------------------------------------------------------------------------------------------------------------------
 	if (patch->rootzone.depth > ZERO)
 		patch->rootzone.potential_sat = compute_delta_water(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->porosity_0,
 			patch->soil_defaults->porosity_decay,
 			patch->soil_defaults->soil_depth,
@@ -913,7 +913,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 																	//-------------------------------------------------------
 		patch->rootzone.S = min(patch->rz_storage / patch->rootzone.potential_sat, 1.0);
 		patch->rz_drainage = compute_unsat_zone_drainage(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->pore_size_index,
 			patch->rootzone.S,
@@ -929,7 +929,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 		patch->rootzone.S = min(patch->rz_storage / patch->rootzone.potential_sat, 1.0);
 
 		patch->unsat_drainage = compute_unsat_zone_drainage(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->pore_size_index,
 			patch->S,
@@ -948,7 +948,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 		patch->S = min(patch->rz_storage / patch->sat_deficit, 1.0);
 		patch->rootzone.S = min(patch->rz_storage / patch->rootzone.potential_sat, 1.0);
 		patch->rz_drainage = compute_unsat_zone_drainage(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->pore_size_index,
 			patch->S,
@@ -974,7 +974,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	//--------------------------------------------------------------------------------------------------------------------------
 	//	finalized soil and litter decomposition	and any septic losses
 	//--------------------------------------------------------------------------------------------------------------------------
-	if ((command_line->grow_flag > 0) && (vegtype == 1)) {
+	if ((ComLin->grow_flag > 0) && (vegtype == 1)) {
 		patch->ndf.plant_Nuptake = 0.; //added by guoping for check nitrogen balance
 									   /*
 									   patch->soil_ns.totaln = patch->soil_ns.soil1n + patch->soil_ns.soil2n + patch->soil_ns.soil3n + patch->soil_ns.soil4n;
@@ -1226,7 +1226,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 	//---------------------------------------------------------------------------------------------------------------------------
 	//	get rid of any negative soil or litter stores
 	//---------------------------------------------------------------------------------------------------------------------------
-	if (command_line->grow_flag > 0)
+	if (ComLin->grow_flag > 0)
 		check_zero_stores(&(patch->soil_cs), &(patch->soil_ns), &(patch->litter_cs), &(patch->litter_ns));
 
 

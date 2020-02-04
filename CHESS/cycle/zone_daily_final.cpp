@@ -82,7 +82,7 @@
 using namespace std;
 
 
-void	zone_daily_final(struct 	patch_object 	*patch, struct command_line_object *command_line,
+void	zone_daily_final(struct 	patch_object 	*patch, struct CommandLineObject *ComLin,
 						struct 	date 	current_date)
 {
 	//===========================================================================================================================

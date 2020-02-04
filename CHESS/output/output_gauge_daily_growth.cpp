@@ -33,7 +33,7 @@
 
 void	output_gauge_daily_growth(struct patch_object *patch,
 	struct	date current_date,
-	FILE *outfile, struct command_line_object *command_line,int cellsize)
+	FILE *outfile, struct CommandLineObject *ComLin,int cellsize)
 {
 	/*------------------------------------------------------*/
 	/*	Local Function Declarations.						*/
@@ -136,7 +136,7 @@ void	output_gauge_daily_growth(struct patch_object *patch,
 	//sun_lai+=patch->canopy_strata->epv.proj_lai_sunlit;
 	//shade_lai+=patch->canopy_strata->epv.proj_lai_shade;
 
-	if (command_line->routing_flag == 1) {
+	if (ComLin->routing_flag == 1) {
 		//=====================================================================
 		// if water is routed
 		//=====================================================================

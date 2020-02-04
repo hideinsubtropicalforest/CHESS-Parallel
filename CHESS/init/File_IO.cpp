@@ -182,10 +182,15 @@ void header_help(int maxr, int maxc, char *fnhdr) {
 //===============================================================================================================================
 //        input_prompt() - input root filename, create full filenames
 //===============================================================================================================================
-void	read_geo_images(struct patch_object *patch, struct command_line_object *command_line,char *prefix ,
-	struct InFilePath *InFilePath, struct  InputGridData *InputGridData,  int f_flag, int arc_flag, int*gauge_list, int thread_num) {
+void	read_geo_images(struct patch_object *patch, struct CommandLineObject *ComLin, struct  SimulationInformation* SimInf,
+	struct InFilePath *InFilePath, struct  InputGridData *InputGridData) {
 
+
+	//static parameters and delivered values
+	int f_flag = 1, arc_flag = 1;
+	char *prefix=SimInf->prefix;
 	char *filename = InFilePath->inImgFile;
+
 
 	// filenames for each image and file
 	char  fnpatch[MAXS], fndem[MAXS], fnslope[MAXS], fnaspect[MAXS], fneast_horizon[MAXS], fnwest_horizon[MAXS];
@@ -262,7 +267,7 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	strcat(fnlatitude, ".latitude");
 	strcat(fnreservoir, ".reservoir");
 	char char_thread[10];//thread
-	sprintf(char_thread, "%d", thread_num);
+	sprintf(char_thread, "%d", SimInf->thread_num);
 	strcat(fnsthread, char_thread);
 	strcat(fncthread, char_thread);
 
@@ -270,7 +275,7 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	input_header(fndem, arc_flag,InputGridData);
 	int rows = InputGridData->rows, cols = InputGridData->cols;
 	double cellsize = InputGridData->cellsize,xll = InputGridData->xll,  yll = InputGridData->yll;
-	int num_patches = InputGridData->patch_num;
+	int num_patches = SimInf->patch_num;
 
 	// allocate and read input map images
 	ppatch = new int [rows*cols];
@@ -311,20 +316,20 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 
 
 	//xu.
-	//controlled by command_line
+	//controlled by ComLin
 	// -cf channel flow
 	// -re reservoir
 	// -gg guage output
 	pstreamorder = new int[rows*cols]{};
-	if (command_line->cf == TRUE) {
+	if (ComLin->cf == TRUE) {
 		input_ascii_int(pstreamorder, fnstreamorder, rows, cols, arc_flag);
 	}
 	preservoir = new int[rows*cols]{};
-	if (command_line->re == TRUE) {
+	if (ComLin->re == TRUE) {
 		input_ascii_int(preservoir, fnreservoir, rows, cols, arc_flag);
 	}
 	pgauges = new int[rows*cols]{};
-	if (command_line->gg == TRUE) {
+	if (ComLin->gg == TRUE) {
 		input_ascii_int(pgauges, fngauges, GAUGE_NUM, 1, arc_flag);
 	}
 	//xu. default extra input
@@ -391,15 +396,15 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	//---------------------------------------------------------------------------------------------------------------------------
 	//xu. 2.MATCH PATHES WITH GAUGE_LISTS
 	//---------------------------------------------------------------------------------------------------------------------------
-	if (command_line->gg == TRUE) {
+	if (ComLin->gg == TRUE) {
 		for (int gauge_inx = 0; gauge_inx != GAUGE_NUM; gauge_inx++) {
 
-			gauge_list[gauge_inx] = pgauges[gauge_inx];
+			SimInf->gauge_list[gauge_inx] = pgauges[gauge_inx];
 
 			for (int patch_inx = 0; patch_inx != num_patches; patch_inx++) {
 
-				if (patch[patch_inx].ID == gauge_list[gauge_inx]) {	//where the list was replaced with patch_inx
-					gauge_list[gauge_inx] = patch_inx;
+				if (patch[patch_inx].ID == SimInf->gauge_list[gauge_inx]) {	//where the list was replaced with patch_inx
+					SimInf->gauge_list[gauge_inx] = patch_inx;
 					break;
 				}
 			}
@@ -410,10 +415,11 @@ void	read_geo_images(struct patch_object *patch, struct command_line_object *com
 	//free matrix memories
 	delete ppatch;delete pdem ;delete pslope ;delete paspect ;delete peast_horizon ;
 	delete pwest_horizon ;delete psoil ;delete pveg ;
-
-	//xu.
 	delete pstreamorder ;delete psthread ;delete pcthread ;delete pgauges ;delete pclimate ;
 	delete platitude; delete proads; delete plon; delete plat; delete ppatchorder;
+
+	//deliver cellsize values to SimInf
+	SimInf->cell_size = InputGridData->cellsize;
 
 	//printf("\nFinishing reading_geo_images.cpp\n");
 	return;

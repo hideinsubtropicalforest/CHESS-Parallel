@@ -15,7 +15,7 @@
 using std::cout;
 using std::endl;
 
-void  patch_radiation_daily(struct patch_object *patch, struct command_line_object *command_line, struct	date current_date)
+void  patch_radiation_daily(struct patch_object *patch, struct CommandLineObject *ComLin, struct	date current_date)
 {
 
 	//=================================================================================================================

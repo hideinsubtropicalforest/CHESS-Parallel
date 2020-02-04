@@ -33,7 +33,7 @@
 
 void	output_gauge_daily_hydrology(struct	patch_object *patch,
 	struct	date	current_date,
-	FILE *outfile, struct command_line_object *command_line,int cellsize)
+	FILE *outfile, struct CommandLineObject *ComLin,int cellsize)
 {
 	/*------------------------------------------------------*/
 	/*	Local Function Declarations.						*/
@@ -106,7 +106,7 @@ void	output_gauge_daily_hydrology(struct	patch_object *patch,
 	if (patch->sat_deficit <= ZERO)
 		asat_area += 1.0;
 
-	if (command_line->routing_flag == 1) {
+	if (ComLin->routing_flag == 1) {
 		//=====================================================================
 		// if water is routed
 		//=====================================================================

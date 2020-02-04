@@ -15,7 +15,7 @@
 /*	int update_gw_drainage(					*/
 /*			struct patch_object *			*/
 /*			struct hillslope_object *		*/
-/*			struct command_line_object *		*/
+/*			struct CommandLineObject *		*/
 /*			struct date,				*/
 /*			)					*/
 /*								*/
@@ -41,7 +41,7 @@
 
 void update_gw_drainage(
 				  struct  patch_object   *patch,
-				  struct  command_line_object *command_line,
+				  struct  CommandLineObject *ComLin,
 				  struct	date	current_date)
 {
 	/*------------------------------------------------------*/

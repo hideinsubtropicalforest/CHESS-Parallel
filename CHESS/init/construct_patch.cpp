@@ -9,11 +9,12 @@
 #include "functions.h"
 using namespace std;
 
-void construct_patch(struct patch_object * patch, struct command_line_object * command_line,
-	char *prefix,struct InFilePath *InputFilePath, struct InputGridData* InputGridData)
+void construct_patch(struct patch_object * patch, struct CommandLineObject * ComLin, struct  SimulationInformation* SimInf,
+	struct InFilePath *InputFilePath, struct InputGridData* InputGridData)
 {
 	//defaults filename
-	int rows = InputGridData->rows, cols = InputGridData->cols,num_patches = InputGridData->patch_num;
+	int rows = InputGridData->rows, cols = InputGridData->cols,num_patches = SimInf->patch_num;
+	char* prefix = SimInf->prefix;
 	char *filename = InputFilePath->inDefFile;
 
 	//xu.
@@ -27,29 +28,29 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 
 	//7 local functions to read four defaults and two template files 
 	struct soil_default *soil_default_object_list{};
-	struct soil_default *construct_soil_defaults(int, FILE *, struct command_line_object *, struct soil_default *);
+	struct soil_default *construct_soil_defaults(int, FILE *, struct CommandLineObject *, struct soil_default *);
 
 	struct stratum_default *stratum_default_object_list{};
-	struct stratum_default *construct_stratum_defaults(int, FILE	*, struct command_line_object *, struct stratum_default *);
+	struct stratum_default *construct_stratum_defaults(int, FILE	*, struct CommandLineObject *, struct stratum_default *);
 
 	struct landuse_default *landuse_default_object_list{};
-	struct landuse_default *construct_landuse_defaults(int, FILE	*, struct command_line_object *, struct landuse_default *);
+	struct landuse_default *construct_landuse_defaults(int, FILE	*, struct CommandLineObject *, struct landuse_default *);
 
 	struct climate_default *climate_default_object_list{};
-	struct climate_default *construct_climate_defaults(int, FILE	*, struct command_line_object *, struct climate_default *);
+	struct climate_default *construct_climate_defaults(int, FILE	*, struct CommandLineObject *, struct climate_default *);
 
 	//xu.
 	struct channel_default *channel_default_object_list{};
-	struct channel_default *construct_channel_defaults(int, FILE *, struct command_line_object *, struct channel_default *);
+	struct channel_default *construct_channel_defaults(int, FILE *, struct CommandLineObject *, struct channel_default *);
 
 	struct reservoir_default *reservoir_default_object_list{};
-	struct reservoir_default *construct_reservoir_defaults(int, FILE *, struct command_line_object *, struct reservoir_default *);
+	struct reservoir_default *construct_reservoir_defaults(int, FILE *, struct CommandLineObject *, struct reservoir_default *);
 
 
 	struct canopy_strata_object *canopy_strata{};
-	void   construct_canopy_strata(struct command_line_object	*, double, double, double, struct canopy_strata_object *);
+	void   construct_canopy_strata(struct CommandLineObject	*, double, double, double, struct canopy_strata_object *);
 
-	void    *print(struct command_line_object *);
+	void    *print(struct CommandLineObject *);
 	char    record[MAXSTR];
 	void	*alloc(size_t size, const char *array_name, const char *calling_function);
 	double  atm_pres(double);
@@ -97,7 +98,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		printf("out of memory for assinging soil default_object_list in construct_patch.c 1\n");
 		return;
 	}
-	construct_soil_defaults(soiltypes, default_file, command_line, soil_default_object_list);
+	construct_soil_defaults(soiltypes, default_file, ComLin, soil_default_object_list);
 	//printf("Finishing reading soil default file  \n");
 
 
@@ -123,7 +124,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		printf("out of memory for assinging vegetation default in construct_patch.c 1\n");
 		return;
 	}
-	construct_stratum_defaults(vegtypes, default_file, command_line, stratum_default_object_list);
+	construct_stratum_defaults(vegtypes, default_file, ComLin, stratum_default_object_list);
 	//printf("Finishing reading vegetation_default file  \n");
 
 
@@ -149,7 +150,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		printf("out of memory for assinging landuse default in construct_patch.c 1\n");
 		return;
 	}
-	construct_landuse_defaults(landusetypes, default_file, command_line, landuse_default_object_list);
+	construct_landuse_defaults(landusetypes, default_file, ComLin, landuse_default_object_list);
 	//printf("Finishing reading landuse_default file  \n");
 
 	//===========================================================================================================================
@@ -174,14 +175,14 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		printf("out of memory for assinging climate default in construct_patch.c 1\n");
 		return;
 	}
-	construct_climate_defaults(climatetypes, default_file, command_line, climate_default_object_list);
+	construct_climate_defaults(climatetypes, default_file, ComLin, climate_default_object_list);
 	//printf("Finishing reading climate_default file  \n");
 
 
 	//===========================================================================================================================
 	// 5. read channel default files
 	//===========================================================================================================================
-	if (command_line->cf == TRUE) {
+	if (ComLin->cf == TRUE) {
 
 		if ((default_file = fopen(fnchanneldef, "r")) == NULL) {
 			fprintf(stderr, "cannot open channel default file %s\n", fnchanneldef);
@@ -203,7 +204,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 			return;
 		}
 
-		construct_channel_defaults(channeltypes, default_file, command_line, channel_default_object_list);
+		construct_channel_defaults(channeltypes, default_file, ComLin, channel_default_object_list);
 		//printf("Finishing reading channel_default file  \n");
 	}
 
@@ -211,7 +212,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 	//===========================================================================================================================
 	// 6. read reservoir default files
 	//===========================================================================================================================
-	if (command_line->cf == TRUE) {
+	if (ComLin->cf == TRUE) {
 
 		if ((default_file = fopen(fnreservoirdef, "r")) == NULL) {
 			fprintf(stderr, "cannot open reservoir default file %s\n", fnreservoirdef);
@@ -233,12 +234,9 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 			return;
 		}
 
-		construct_reservoir_defaults(reservoirtypes, default_file, command_line, reservoir_default_object_list);
+		construct_reservoir_defaults(reservoirtypes, default_file, ComLin, reservoir_default_object_list);
 		//printf("Finishing reading reservoir_default file  \n");
 	}
-
-
-
 
 
 	//===========================================================================================================================
@@ -482,10 +480,10 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		//patch[p].canopy_strata->defaults->epc.phenology_type=
 
 		for (j = 0; j < patch[p].num_canopy_strata; j++) { //only one strata occurs
-														  //patch[p].canopy_strata = construct_canopy_strata(command_line,soil_depth,air_entry,pore_size,
+														  //patch[p].canopy_strata = construct_canopy_strata(ComLin,soil_depth,air_entry,pore_size,
 														  //	canopy_strata,patch[p].canopy_strata->defaults,p);stratum.cover_fraction
 
-			construct_canopy_strata(command_line, soil_depth, air_entry, pore_size, patch[p].canopy_strata);
+			construct_canopy_strata(ComLin, soil_depth, air_entry, pore_size, patch[p].canopy_strata);
 
 			// initialize other canopy related variables
 			patch[p].rain_stored += patch[p].canopy_strata->rain_stored	* patch[p].canopy_strata->cover_fraction;
@@ -506,7 +504,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 			patch[p].litter.moist_coef += patch[p].canopy_strata->defaults->epc.litter_moist_coef
 				* patch[p].canopy_strata->cover_fraction;
 
-			if (command_line->grow_flag > 0) //for vegetation simulation Guoping
+			if (ComLin->grow_flag > 0) //for vegetation simulation Guoping
 				patch[p].canopy_strata->rootzone.depth = 0.;
 
 			patch[p].rootzone.depth = max(patch[p].rootzone.depth, patch[p].canopy_strata->rootzone.depth);
@@ -534,7 +532,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		//--------------------------------------------------------------
 		patch[p].unsat_zone_volume = patch[p].sat_deficit + patch[p].unsat_storage;
 		patch[p].sat_deficit_z = compute_z_final(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch[p].soil_defaults->porosity_0,
 			patch[p].soil_defaults->porosity_decay,
 			patch[p].soil_defaults->soil_depth,
@@ -560,7 +558,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 		//=============================================================================================================================
 
 
-		if (command_line->cf == TRUE) {
+		if (ComLin->cf == TRUE) {
 			if (patch[p].streamorder > 0) {
 
 				//xu. assigning size
@@ -590,7 +588,7 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 
 				//xu.
 				//IF ITS ALSO A RESERVOIR POINT
-				if (command_line->re == TRUE) {
+				if (ComLin->re == TRUE) {
 					
 					//DELIVER RESERVOIR DEFAULT
 					for (j = 0; j < reservoirtypes; j++) {
@@ -635,8 +633,8 @@ void construct_patch(struct patch_object * patch, struct command_line_object * c
 };
 
 
-void *print(struct command_line_object *command_line) {
-	printf("command_line %d \n", command_line->grow_flag);
+void *print(struct CommandLineObject *ComLin) {
+	printf("ComLin %d \n", ComLin->grow_flag);
 	getchar();
 	return 0;
 };

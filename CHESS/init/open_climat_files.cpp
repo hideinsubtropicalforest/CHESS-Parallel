@@ -9,7 +9,7 @@
 
 #include "constants.h"
 
-struct	input_Clim_Files open_Clim_Files(struct InFilePath *InFilePath,char *prefix)
+struct	input_Clim_Files open_Clim_Files(struct  SimulationInformation* SimInf, struct InFilePath *InFilePath, struct daily_clim_object*daily_clim)
 {
 	
 	char *inClimFile = InFilePath->inClimPath;
@@ -17,6 +17,7 @@ struct	input_Clim_Files open_Clim_Files(struct InFilePath *InFilePath,char *pref
 	//------------------------------------------------------------------------------------------------------------------------------
 	//	local variable declarations 							
 	//------------------------------------------------------------------------------------------------------------------------------
+	char* prefix = SimInf->prefix;
 	char  inPrec[MAXSTR],inTmin[MAXSTR],inTmax[MAXSTR],inCO2[MAXSTR];
     struct input_Clim_Files inClimFiles;
 	

@@ -40,7 +40,7 @@
 struct landuse_default *construct_landuse_defaults(
 											   int	nytpes,
 											   FILE	*default_file,
-											   struct command_line_object *command_line,
+											   struct CommandLineObject *ComLin,
 											   struct landuse_default *landuse_default_object_list) 
 {
 	/*--------------------------------------------------------------*/

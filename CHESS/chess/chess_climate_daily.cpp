@@ -45,15 +45,18 @@
 #include <string.h>
 #include "chess.h"
 
-void chess_climate_daily(struct input_Clim_Files inClimFiles,
+void chess_climate_daily(struct patch_object* patch, 
+	struct CommandLineObject* ComLin,
+	struct  SimulationInformation* SimInf,
 	struct	date	current_date,
-	struct  daily_clim_object *daily_clim,
-	int climate_num,
-	int start_year,
-	int start_month,
-	int start_day, int *CO2_flag
+	struct input_Clim_Files inClimFiles,
+	struct  daily_clim_object *daily_clim
 )
 {
+	//
+	int climate_num=SimInf->climate_num;
+
+	//
 	int   yr=0,mo=0,dy=0;
 
 	static int annual_order=0;
@@ -100,14 +103,16 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 		exit (0);
 	}
 
-    if(yr == current_date.year && *CO2_flag==1){
+
+	static int CO2_flag = 1;//set static flag
+    if(yr == current_date.year && CO2_flag==1){
 		//reading annual atmospheric CO2 data
 		//xu. for CO2, we assume all basins has a same annual CO2 input
 		fscanf(inClimFiles.pCO2,"%d %lf ",&yr,&(daily_clim->CO2));
 		for (int  clim_inx = 0;  clim_inx != climate_num;  clim_inx++) {
 			daily_clim[clim_inx].CO2 = daily_clim->CO2;
 		}
-		*CO2_flag=0;
+		CO2_flag=0;
 		if(current_date.year !=yr ){
 			printf("CO2 data do not match \n");
 			printf("year %d \n",current_date.year);
@@ -117,6 +122,8 @@ void chess_climate_daily(struct input_Clim_Files inClimFiles,
 		}
 		//printf("co2 is %d %d %12.8f \n",yr,current_date.year,CO2_PPM);
 	}
+	if (current_date.month == 12 && current_date.day == 31)
+		CO2_flag = 1;
 
 
 	//---------------------------------------------------------------------------------------------------------------------------

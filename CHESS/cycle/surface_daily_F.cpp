@@ -23,7 +23,7 @@ using namespace std;
 
 void		surface_daily_F(
 							struct	patch_object		*patch,
-							struct 	command_line_object	*command_line,
+							struct 	CommandLineObject	*ComLin,
 							struct 	date 			current_date)
 {
 	//--------------------------------------------------------------
@@ -135,7 +135,7 @@ void		surface_daily_F(
 	//      since we figured that climate above the zone was well mixed.                                                  
     //---------------------------------------------------------------------------------------------------------------------------
 	Kstar_diffuse = compute_diffuse_radiative_fluxes(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		&(patch->Kdown_diffuse),
 		(patch->Kdown_direct),
 		-10000.0,
@@ -145,7 +145,7 @@ void		surface_daily_F(
 		albedo);
 	
 	APAR_diffuse = compute_diffuse_radiative_fluxes(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		&(patch->PAR_diffuse),
 		patch->PAR_direct,
 		-10000.0,
@@ -176,7 +176,7 @@ void		surface_daily_F(
 	//      mixed.                                                  
     //---------------------------------------------------------------------------------------------------------------------------
 	Kstar_direct = compute_direct_radiative_fluxes(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		&(patch->Kdown_direct),
 		-10000,
 		0.0,
@@ -185,7 +185,7 @@ void		surface_daily_F(
 		albedo,
 		albedo);
 	APAR_direct = compute_direct_radiative_fluxes(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		&(patch->PAR_direct),
 		-10000,
 		0.0,
@@ -204,7 +204,7 @@ void		surface_daily_F(
 	//	are supplied via the stratum default file.					
     //---------------------------------------------------------------------------------------------------------------------------
 	litter->gsurf = compute_nonvascular_stratum_conductance(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			litter->rain_stored + patch->rain_throughfall,
 			litter->rain_capacity,
 			litter->gl_c,	
@@ -213,7 +213,7 @@ void		surface_daily_F(
 	
 	if (patch->rootzone.depth > ZERO)
 		patch->gsurf = compute_nonvascular_stratum_conductance(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->rz_storage + patch->rain_throughfall,
 			patch->sat_deficit,
 			patch->soil_defaults->gl_c,	
@@ -222,7 +222,7 @@ void		surface_daily_F(
 
 	else
 		patch->gsurf = compute_nonvascular_stratum_conductance(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->unsat_storage + patch->rain_throughfall,
 			patch->sat_deficit,
 			patch->soil_defaults->gl_c,	
@@ -250,7 +250,7 @@ void		surface_daily_F(
 	//	Estimate potential evap rates.				
     //---------------------------------------------------------------------------------------------------------------------------
 	potential_evaporation_rate = penman_monteith(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->metv.tday,
 		patch->metv.pa,
 		patch->metv.vpd,
@@ -260,7 +260,7 @@ void		surface_daily_F(
 		2) ;
 
  	potential_rainy_evaporation_rate = penman_monteith(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->metv.tday,
 		patch->metv.pa,
 		10,
@@ -270,7 +270,7 @@ void		surface_daily_F(
 		2) ;
 
 	PE_rate = penman_monteith(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->metv.tday,
 		patch->metv.pa,
 		patch->metv.vpd,
@@ -280,7 +280,7 @@ void		surface_daily_F(
 		2) ;
 
 	PE_rainy_rate = penman_monteith(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->metv.tday,
 		patch->metv.pa,
 		10,
@@ -325,7 +325,7 @@ void		surface_daily_F(
 	//	Update rain storage ( this also updates the patch level rain_throughfall and potential_evaporation	
     //---------------------------------------------------------------------------------------------------------------------------
 	balance = patch->litter.preday_rain_stored + patch->rain_throughfall;
-	litter->rain_stored  = compute_litter_rain_stored(command_line->verbose_flag, patch);
+	litter->rain_stored  = compute_litter_rain_stored(ComLin->verbose_flag, patch);
 
 
 
@@ -340,7 +340,7 @@ void		surface_daily_F(
 	//	The surface heat flux of the soil column is estimated aasuming no litter covering the surface (0 m height).	
     //---------------------------------------------------------------------------------------------------------------------------
 	soil_potential_rainy_evaporation_rate = penman_monteith(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->metv.tday,
 		patch->metv.pa,
 		10.0,
@@ -350,7 +350,7 @@ void		surface_daily_F(
 		2);
 	
 	soil_potential_dry_evaporation_rate = penman_monteith(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->metv.tday,
 		patch->metv.pa,
 		patch->metv.vpd,

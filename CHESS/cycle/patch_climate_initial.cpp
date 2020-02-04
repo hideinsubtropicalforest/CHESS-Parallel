@@ -60,7 +60,7 @@ using std::cout;
 using std::endl;
 
 void patch_climate_initial(struct 	patch_object 	*patch,struct    daily_clim_object daily_clim,
-				  struct 	command_line_object *command_line, struct 	date 	current_date)
+				  struct 	CommandLineObject *ComLin, struct 	date 	current_date)
 {
 	//=====================================================================================================================================
 	//1..  Local variable definition.
@@ -717,7 +717,7 @@ void patch_climate_initial(struct 	patch_object 	*patch,struct    daily_clim_obj
 	//---------------------------------------------------------------------------------------------------------------------------
 	// Kdirect and Kdiffuse
 	//---------------------------------------------------------------------------------------------------------------------------
-	patch_radiation_daily(patch, command_line, current_date);
+	patch_radiation_daily(patch, ComLin, current_date);
 	//---------------------------------------------------------------------------------------------------------------------------
 
 	return;

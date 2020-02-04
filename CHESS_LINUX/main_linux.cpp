@@ -345,7 +345,7 @@ int	main(int main_argc, char **main_argv)
 			struct  output_hydro_plant DM_outfiles {};
 			struct  input_Clim_Files   inClimFiles {};
 			struct  reservoir_object   reservoir;
-			struct command_line_object *command_line = new struct command_line_object;
+			struct CommandLineObject *ComLin = new struct CommandLineObject;
 			struct OutArray_object *OutArray = new struct OutArray_object;
 			struct parallel_object *parallel = new struct parallel_object;
 
@@ -372,7 +372,7 @@ int	main(int main_argc, char **main_argv)
 			//printf("Starting initialization:: \n");
 
 			//construct and assign command line arguments
-			construct_command_line(main_argc, main_argv, command_line);
+			construct_ComLin(main_argc, main_argv, ComLin);
 
 			//xu. I sugguest should 1\ flow table then  2\construct patch and read images
 			parallel->patch_num = construct_routing_topology(patch, inFlowFile, FlowTableName, maxr, maxc);
@@ -380,10 +380,10 @@ int	main(int main_argc, char **main_argv)
 			parallel->thread_num = thread_num;
 
 			//reading GRASS- or ArcInfo-based input images such as DEM,slope,aspect....stream,roads, gauge_lists
-			read_geo_images(patch, command_line, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag, parallel->patch_num, gauge_list, thread_num);
+			read_geo_images(patch, ComLin, maxr, maxc, cellsize, xll, yll, inImgFile, prefix, f_flag, arc_flag, parallel->patch_num, gauge_list, thread_num);
 
 			//Initialize the default values of patch fields/members
-			construct_patch(patch, command_line, maxr, maxc, inDefFile, prefix, parallel->patch_num);
+			construct_patch(patch, ComLin, maxr, maxc, inDefFile, prefix, parallel->patch_num);
 
 			//open input climate files (daily precipitation, minimum temperature and maximum temperature)
 			inClimFiles = open_Clim_Files(inClimPath, prefix);
@@ -400,29 +400,29 @@ int	main(int main_argc, char **main_argv)
 			printf("\n Starting simulation:: \n");
 			do {
 				t1 = clock();
-				if (spin_yrs < spin_years) { //&& command_line->grow_flag>0
+				if (spin_yrs < spin_years) { //&& ComLin->grow_flag>0
 					endyear = start_year + spin_interval - 1;
 					spin_flag = true;
 
 					//SpinUp needs routing_flag now for channel flow
-					command_line->routing_flag = 1;
+					ComLin->routing_flag = 1;
 				}
 				else {
 					endyear = end_year;
 					spin_flag = false;
-					command_line->routing_flag = 1;
+					ComLin->routing_flag = 1;
 				}
 
 				//contruct daily output files
 				if (!spin_flag && out_flag == 0) {
 
 					//basin-level
-					if (!spin_flag && command_line->b != NULL) {
-						construct_basin_output_files(outPutPath, &DM_outfiles, command_line);
+					if (!spin_flag && ComLin->b != NULL) {
+						construct_basin_output_files(outPutPath, &DM_outfiles, ComLin);
 					}
 					//xu. gauge-level
-					if (!spin_flag && command_line->gg != NULL) {
-						construct_gauge_output_files(patch, outPutPath, &DM_outfiles, command_line, gauge_list);
+					if (!spin_flag && ComLin->gg != NULL) {
+						construct_gauge_output_files(patch, outPutPath, &DM_outfiles, ComLin, gauge_list);
 					}
 					out_flag = 1;
 				}
@@ -452,8 +452,8 @@ int	main(int main_argc, char **main_argv)
 					for (current_date.month = firstmonth; current_date.month <= lastmonth; current_date.month++) {
 
 						//construct patch-level daily output files for a month
-						if (!spin_flag && command_line->p != NULL) {
-							construct_patch_output_files(current_date, out_date, outPutPath, patch_num, &DM_outfiles, OutArray, command_line);
+						if (!spin_flag && ComLin->p != NULL) {
+							construct_patch_output_files(current_date, out_date, outPutPath, patch_num, &DM_outfiles, OutArray, ComLin);
 						}
 
 						if (current_date.year == start_year && current_date.month == start_month)
@@ -487,7 +487,7 @@ int	main(int main_argc, char **main_argv)
 							//---------------------------------------------------------------------------------------------------------------------------
 							//xu. PATCH.. Initial and run parallel CHESS daily Ecohydrological process and Transport of water and nutrients
 							//---------------------------------------------------------------------------------------------------------------------------
-							chess_patch_daily(patch, command_line, current_date, daily_clim, parallel);//daily_clim is a pointer now, the changes through out chess land daily
+							chess_patch_daily(patch, ComLin, current_date, daily_clim, parallel);//daily_clim is a pointer now, the changes through out chess land daily
 
 
 							t2 = clock();
@@ -497,7 +497,7 @@ int	main(int main_argc, char **main_argv)
 							//---------------------------------------------------------------------------------------------------------------------------
 							//xu. CHANNEL.. Channel flow routing process the route out the water
 							//---------------------------------------------------------------------------------------------------------------------------
-							chess_channel_daily(patch, command_line, current_date, parallel, daily_clim);
+							chess_channel_daily(patch, ComLin, current_date, parallel, daily_clim);
 
 							t3 = clock();
 							channel_time += omp_get_wtime();
@@ -505,12 +505,12 @@ int	main(int main_argc, char **main_argv)
 
 							//output daily-step variables
 							if (!spin_flag) {
-								if (command_line->b != NULL)
-									out_basin_level_daily(parallel->patch_num, patch, current_date, out_date, &DM_outfiles, command_line);
-								if (command_line->p != NULL)
-									out_patch_level_daily(parallel->patch_num, patch, current_date, out_date, &DM_outfiles, OutArray, command_line);
-								if (command_line->gg != NULL)
-									out_gauge_level_daily(parallel->patch_num, patch, current_date, out_date, &DM_outfiles, command_line, gauge_list, cellsize);
+								if (ComLin->b != NULL)
+									out_basin_level_daily(parallel->patch_num, patch, current_date, out_date, &DM_outfiles, ComLin);
+								if (ComLin->p != NULL)
+									out_patch_level_daily(parallel->patch_num, patch, current_date, out_date, &DM_outfiles, OutArray, ComLin);
+								if (ComLin->gg != NULL)
+									out_gauge_level_daily(parallel->patch_num, patch, current_date, out_date, &DM_outfiles, ComLin, gauge_list, cellsize);
 							}
 
 						}
@@ -519,7 +519,7 @@ int	main(int main_argc, char **main_argv)
 						//=======================================================================================================================
 
 						//close patch_level_output_files
-						if (!spin_flag && command_line->p == true)
+						if (!spin_flag && ComLin->p == true)
 							close_patch_output_files(&DM_outfiles, OutArray);
 
 					} //end of months
@@ -548,7 +548,7 @@ int	main(int main_argc, char **main_argv)
 			if (current_date.year == end_year)
 				cout << "\n\n" << land_time << "\t" << channel_time << endl;;
 
-			if (command_line->b != NULL)
+			if (ComLin->b != NULL)
 			{
 				fclose(DM_outfiles.fBasinDailyHydro);
 				fclose(DM_outfiles.fBasinDailyPlant);
@@ -558,7 +558,7 @@ int	main(int main_argc, char **main_argv)
 			delete[] patch;
 			delete[] daily_clim;
 
-			delete command_line;
+			delete ComLin;
 
 			OUT_INF << prefix << "\t" << thread_num << "\t" << SDI << "\t" << land_time << "\t" << channel_time << endl;
 

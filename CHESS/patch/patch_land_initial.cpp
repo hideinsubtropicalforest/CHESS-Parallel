@@ -8,7 +8,7 @@
 using namespace std;
 
 void		patch_land_initial(struct patch_object *patch,
-	struct command_line_object *command_line,
+	struct CommandLineObject *ComLin,
 	struct	date current_date)
 {
 	//---------------------------------------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ void		patch_land_initial(struct patch_object *patch,
 	//---------------------------------------------------------------------------------------------------------------------------			
 	if (patch->rootzone.depth > ZERO)
 		patch->rootzone.potential_sat = compute_delta_water(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->porosity_0,
 			patch->soil_defaults->porosity_decay,
 			patch->soil_defaults->soil_depth,
@@ -36,7 +36,7 @@ void		patch_land_initial(struct patch_object *patch,
 	//  capacity and field capacity on the basis of water table depth ---- comment from Guoping
 	//---------------------------------------------------------------------------------------------------------------------------
 	patch->sat_deficit_z = compute_z_final(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->soil_defaults->porosity_0,
 		patch->soil_defaults->porosity_decay,
 		patch->soil_defaults->soil_depth,
@@ -46,7 +46,7 @@ void		patch_land_initial(struct patch_object *patch,
 
 	if (patch->sat_deficit_z < patch->rootzone.depth) {
 		patch->rootzone.field_capacity = compute_layer_field_capacity(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->psi_air_entry,
 			patch->soil_defaults->pore_size_index,
@@ -61,7 +61,7 @@ void		patch_land_initial(struct patch_object *patch,
 	}
 	else {
 		patch->rootzone.field_capacity = compute_layer_field_capacity(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->psi_air_entry,
 			patch->soil_defaults->pore_size_index,
@@ -72,7 +72,7 @@ void		patch_land_initial(struct patch_object *patch,
 			patch->rootzone.depth, 0.0);
 
 		patch->field_capacity = compute_layer_field_capacity(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->soil_defaults->psi_air_entry,
 			patch->soil_defaults->pore_size_index,
@@ -88,7 +88,7 @@ void		patch_land_initial(struct patch_object *patch,
 	//	Estimate potential cap rise. limited to water in sat zone.	
 	//---------------------------------------------------------------------------------------------------------------------------
 	patch->potential_cap_rise = compute_capillary_rise(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->sat_deficit_z,
 		patch->soil_defaults->psi_air_entry,
 		patch->soil_defaults->pore_size_index,
@@ -114,7 +114,7 @@ void		patch_land_initial(struct patch_object *patch,
 			//	Estimate potential exfiltration from active zone 
 			//--------------------------------------------------------------
 			patch->potential_exfiltration = compute_potential_exfiltration(
-				command_line->verbose_flag,
+				ComLin->verbose_flag,
 				patch->rootzone.S,
 				patch->soil_defaults->active_zone_z,
 				patch->soil_defaults->Ksat_0,
@@ -129,7 +129,7 @@ void		patch_land_initial(struct patch_object *patch,
 			//	Estimate potential exfiltration from active zone
 			//--------------------------------------------------------------
 			patch->potential_exfiltration = compute_potential_exfiltration(
-				command_line->verbose_flag,
+				ComLin->verbose_flag,
 				patch->rootzone.S,
 				patch->sat_deficit_z,
 				patch->soil_defaults->Ksat_0,
@@ -172,7 +172,7 @@ void		patch_land_initial(struct patch_object *patch,
 				patch,
 				//patch->canopy_strata[(patch->layers[layer].strata[stratum])],
 				patch->canopy_strata,
-				command_line,
+				ComLin,
 				current_date);
 		}
 	}
@@ -185,7 +185,7 @@ void		patch_land_initial(struct patch_object *patch,
 	patch->soil_cs.frootc = 0.0;
 
 	for (stratum = 0; stratum < patch->num_canopy_strata; stratum++) {
-		if (command_line->grow_flag > 0) {
+		if (ComLin->grow_flag > 0) {
 			patch->soil_cs.frootc += patch->canopy_strata->cover_fraction * patch->canopy_strata->cs.frootc;
 			//patch->preday_totalc  += patch->canopy_strata->cover_fraction * patch->canopy_strata->cs.preday_totalc;
 			//patch->preday_totaln  += patch->canopy_strata->cover_fraction * patch->canopy_strata->ns.preday_totaln;
@@ -211,7 +211,7 @@ void		patch_land_initial(struct patch_object *patch,
 		rzm = patch->rz_storage + patch->rootzone.potential_sat - patch->sat_deficit;
 
 	patch->psi = compute_soil_water_potential(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->soil_defaults->theta_psi_curve,
 		patch->soil_defaults->psi_air_entry,
 		patch->soil_defaults->pore_size_index,
@@ -223,7 +223,7 @@ void		patch_land_initial(struct patch_object *patch,
 		patch->metv.tsoil);
 
 
-	if (command_line->grow_flag > 0) {
+	if (ComLin->grow_flag > 0) {
 		update_litter_interception_capacity(patch->litter.moist_coef, &(patch->litter_cs), &(patch->litter));
 	}
 

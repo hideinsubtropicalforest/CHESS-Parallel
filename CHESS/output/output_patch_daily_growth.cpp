@@ -35,7 +35,7 @@ void	output_patch_daily_growth(struct	patch_object *patch,
 	double(*PlantMon)[PLANT_NUM],
 	struct	date current_date,
 	FILE *outfile,
-	struct command_line_object *command_line)
+	struct CommandLineObject *ComLin)
 {
 
 	/*------------------------------------------------------*/
@@ -174,7 +174,7 @@ void	output_patch_daily_growth(struct	patch_object *patch,
 	atotaln = aleafn + astemn + adstemn + afrootn + acrootn + adcrootn + alitrn + asoiln;
 	atotalc = aleafc + astemc + adstemc + afrootc + acrootc + adcrootc + alitrc + asoilc;
 
-	if (command_line->pday == true) {
+	if (ComLin->pday == true) {
 		fprintf(outfile, "%4.0d", current_date.year);
 		fprintf(outfile, "%4.0d", current_date.month);
 		fprintf(outfile, "%4.0d", current_date.day);
@@ -219,7 +219,7 @@ void	output_patch_daily_growth(struct	patch_object *patch,
 		fprintf(outfile, "%12.2f", arootdepth);                  // annual root zone depth
 		fprintf(outfile, "\n");
 	}
-	else if (command_line->pmon == true) {
+	else if (ComLin->pmon == true) {
 
 
 		PlantMon[pch][0] = current_date.year;

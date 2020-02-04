@@ -5,10 +5,9 @@
 using namespace std;
 
 //struct output_hydro_plant construct_output_files(int start_year,int end_year,
-void construct_basin_output_files(char *outPutPath, struct output_hydro_plant *DM_outfiles,
-struct command_line_object *command_line
-	)
+void construct_basin_output_files(struct CommandLineObject* ComLin,struct InFilePath *InFilePath, struct output_hydro_plant *DM_outfiles)
 {
+	char* outPutPath = InFilePath->outPutPath;
 	//define local variables
 	static int i = 0;
 
@@ -23,7 +22,7 @@ struct command_line_object *command_line
 	//char  outBMGfile[120]; //Basin monthly growth 
 
 
-	if (command_line->b != NULL){ //basin level output
+	if (ComLin->b != NULL){ //basin level output
 		strcpy(outBDHfile, outPutPath);
 		strcpy(outBDGfile, outPutPath);
 		//strcpy(outBMHfile,outPutPath);
@@ -31,7 +30,7 @@ struct command_line_object *command_line
 		strcat(outBDHfile, "Basin_daily_hydro.dat");
 		strcat(outBDGfile, "Basin_daily_plant.dat");
 
-		//if(command_line->daily_out_flag==0){ //for daily output question: need resolve commandline here
+		//if(ComLin->daily_out_flag==0){ //for daily output question: need resolve commandline here
 		DM_outfiles->fBasinDailyHydro = fopen(outBDHfile, "w");
 		if (DM_outfiles->fBasinDailyHydro == NULL){
 			printf("can not create basin daily hydrology output file! \n");

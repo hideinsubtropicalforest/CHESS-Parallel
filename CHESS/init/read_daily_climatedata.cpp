@@ -46,7 +46,7 @@
 #include "chess.h"
 #include "functions.h"
 
-void read_daily_climate(struct input_Clim_Files inClimFiles,struct InputDateRange InRange,
+void read_daily_climate(struct input_Clim_Files inClimFiles,struct SimulationDateRange SimDate,
 	double DailyRain[][12][31],double DailyTmax[][12][31],double DailyTmin[][12][31],double AnnCO2[])
 {
 	int   yr=0,mo=0,dy=0;
@@ -55,21 +55,21 @@ void read_daily_climate(struct input_Clim_Files inClimFiles,struct InputDateRang
 	static double CO2_PPM;
 	struct date current_date;
 
-	for (year=InRange.start_year; year<=InRange.end_year; year++){
+	for (year=SimDate.start_year; year<=SimDate.end_year; year++){
 		current_date.year=year;
 
-		for(month=InRange.start_month; month<=InRange.end_month; month++){
+		for(month=SimDate.start_month; month<=SimDate.end_month; month++){
 			current_date.month=month;
 
 			//determine if the year is leap year and thus the end day of February can be different
-			InRange.end_day=end_day_norm_leap(year,month-1);
+			SimDate.end_day=end_day_norm_leap(year,month-1);
 
-			for(day=InRange.start_day; day<=InRange.end_day; day++){ 
+			for(day=SimDate.start_day; day<=SimDate.end_day; day++){ 
 				/*--------------------------------------------------------------*/
 				/*	reading daily climate data             .					*/
 				/*--------------------------------------------------------------*/
 				current_date.day=day;
-				fscanf(inClimFiles.pPrec,"%d %d %d %lf ",&yr,&mo,&dy,&DailyRain[year-InRange.start_year][month-InRange.start_month][day-InRange.start_day]);
+				fscanf(inClimFiles.pPrec,"%d %d %d %lf ",&yr,&mo,&dy,&DailyRain[year-SimDate.start_year][month-SimDate.start_month][day-SimDate.start_day]);
 				//printf("year month day is %d %d %d \n",yr,mo,dy);
 
 				if(current_date.year !=yr || current_date.month!=mo ||current_date.day!=dy){
@@ -80,7 +80,7 @@ void read_daily_climate(struct input_Clim_Files inClimFiles,struct InputDateRang
 				}
 
 				//reading maximum temperature data
-				fscanf(inClimFiles.pTmax,"%d %d %d %lf ",&yr,&mo,&dy,&DailyTmax[year-InRange.start_year][month-InRange.start_month][day-InRange.start_day]);
+				fscanf(inClimFiles.pTmax,"%d %d %d %lf ",&yr,&mo,&dy,&DailyTmax[year-SimDate.start_year][month-SimDate.start_month][day-SimDate.start_day]);
 				if(current_date.year !=yr || current_date.month!=mo ||current_date.day!=dy){
 					printf("Maximum temperature data don't match \n");
 					printf("year,month,day %d %d %d \n",current_date.year,current_date.month,current_date.day);
@@ -88,7 +88,7 @@ void read_daily_climate(struct input_Clim_Files inClimFiles,struct InputDateRang
 					exit (0);
 				}
 				//reading minimum temperature data
-				fscanf(inClimFiles.pTmin,"%d %d %d %lf ",&yr,&mo,&dy,&DailyTmin[year-InRange.start_year][month-InRange.start_month][day-InRange.start_day]);
+				fscanf(inClimFiles.pTmin,"%d %d %d %lf ",&yr,&mo,&dy,&DailyTmin[year-SimDate.start_year][month-SimDate.start_month][day-SimDate.start_day]);
 				if(current_date.year !=yr || current_date.month!=mo ||current_date.day!=dy){
 					printf("minimum temperature data don't match \n");
 					printf("year,month,day %d %d %d \n",current_date.year,current_date.month,current_date.day);
@@ -103,11 +103,11 @@ void read_daily_climate(struct input_Clim_Files inClimFiles,struct InputDateRang
 	fclose(inClimFiles.pTmin);
 	fclose(inClimFiles.pTmax);
 
-	for (year=InRange.start_year; year<=InRange.end_year; year++){
+	for (year=SimDate.start_year; year<=SimDate.end_year; year++){
 		current_date.year=year;
 		//reading annual atmospheric CO2 data
-		fscanf(inClimFiles.pCO2,"%d %lf ",&yr,&AnnCO2[year-InRange.start_year]);
-		//printf("co2 is %f \n",AnnCO2[year-InRange.start_year]);
+		fscanf(inClimFiles.pCO2,"%d %lf ",&yr,&AnnCO2[year-SimDate.start_year]);
+		//printf("co2 is %f \n",AnnCO2[year-SimDate.start_year]);
 		//getchar();
 
 		if(current_date.year !=yr ){

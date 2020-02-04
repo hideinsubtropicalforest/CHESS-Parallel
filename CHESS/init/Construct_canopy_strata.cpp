@@ -9,7 +9,7 @@
 /*																*/
 /*	SYNOPSIS													*/
 /*	struct canopy_strata_object  construct_canopy_strata( 		*/
-/*				struct	command_line_object	*command_line,		*/
+/*				struct	CommandLineObject	*ComLin,		*/
 /*				FILE	*world_file)						*/
 /*																*/
 /*																*/
@@ -44,7 +44,7 @@
 
 
 void construct_canopy_strata(
-	struct	command_line_object	*command_line,
+	struct	CommandLineObject	*ComLin,
 	double soil_depth,double air_entry,double pore_size,
 	struct	canopy_strata_object	*canopy_strata)
 
@@ -213,7 +213,7 @@ void construct_canopy_strata(
 
 	if (compute_annual_litfall(canopy_strata->defaults->epc,
 		&(canopy_strata->phen),
-		&(canopy_strata->cs), command_line->grow_flag) ){
+		&(canopy_strata->cs), ComLin->grow_flag) ){
 		fprintf(stderr,"FATAL ERROR: in compute_annual_litfall() ... Exiting\n");
 		exit(1);
 	}
@@ -224,7 +224,7 @@ void construct_canopy_strata(
 	/* 	for static non-grow version use the worldfile rooting depth */
 	/*	as read in above					*/
 	/*--------------------------------------------------------------*/
-	if (( command_line->grow_flag != 0) )  {
+	if (( ComLin->grow_flag != 0) )  {
 		rootc = canopy_strata->cs.frootc+canopy_strata->cs.live_crootc+canopy_strata->cs.dead_crootc;
 		if (rootc > ZERO){
 			if (update_rooting_depth(
@@ -244,7 +244,7 @@ void construct_canopy_strata(
 	/*--------------------------------------------------------------*/
 	/*	initialize leaf out for non-grow version		*/
 	/*--------------------------------------------------------------*/
-	if (( command_line->grow_flag == 0) && 
+	if (( ComLin->grow_flag == 0) && 
 		(canopy_strata->defaults->epc.veg_type != NON_VEG) ){
 		/*
 		canopy_strata->cs.leafc_transfer = canopy_strata->phen.leaflitfallc;

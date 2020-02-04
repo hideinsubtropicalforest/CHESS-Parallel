@@ -6,14 +6,20 @@
 using namespace std;
 
 //struct output_hydro_plant construct_output_files(int start_year,int end_year,
-void construct_patch_output_files(struct date current_date, struct OutputDateRange outdate,
-	char *outPutPath,
-	int patch_num,
+void construct_patch_output_files(struct CommandLineObject* ComLin,
+	struct  SimulationInformation* SimInf,
+	struct InFilePath* InFilePath,
+	struct OutputDateRange * OutDate,
 	struct output_hydro_plant *DM_outfiles,
 	struct OutArray_object *OutArray,
-struct command_line_object *command_line
+	struct date current_date
+
 	)
 {
+	struct OutputDateRange outdate = *OutDate;
+	int patch_num = SimInf->patch_num;
+	char* outPutPath = InFilePath->outPutPath;
+
 	//define local variables
 	const int hydro_num = 36;
 	const int plant_num = 36;
@@ -32,7 +38,7 @@ struct command_line_object *command_line
 	//char  outBMGfile[120]; //Basin monthly growth
 
 	//xu. allocate the pmon array and it is used in out_patch_level_daily
-	if(command_line->pmon== true){
+	if(ComLin->pmon== true){
 		OutArray->HydroMon = new double[patch_num][HYDRO_NUM]{};
 		OutArray->PlantMon = new double[patch_num][PLANT_NUM]{};
 	}
@@ -41,7 +47,7 @@ struct command_line_object *command_line
 	if (current_date.year == outdate.first_year && current_date.month == outdate.first_month)
 		out_patch_flag = 1;
 
-	if (out_patch_flag == 1 && command_line->p != NULL){
+	if (out_patch_flag == 1 && ComLin->p != NULL){
 		strcpy(outPDHfile, outPutPath);
 		strcpy(outPDGfile, outPutPath);
 		//strcpy(outPMHfile,outPutPath);
@@ -76,7 +82,7 @@ struct command_line_object *command_line
 		//if(DM_outfiles->fPatchMonthlyHydro!=NULL) fclose(DM_outfiles->fPatchMonthlyHydro);
 		//if(DM_outfiles->fPatchMonthlyPlant!=NULL) fclose(DM_outfiles->fPatchMonthlyPlant);
 
-		//if(command_line->daily_out_flag==0){ //daily output at the patch level
+		//if(ComLin->daily_out_flag==0){ //daily output at the patch level
 
 		DM_outfiles->fPatchDailyHydro = fopen(outPDHfile, "w");
 		if (DM_outfiles->fPatchDailyHydro == NULL){

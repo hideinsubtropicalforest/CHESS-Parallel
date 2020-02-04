@@ -19,7 +19,7 @@ using namespace std;
 void	canopy_stratum_daily_I(
 							   struct	patch_object	*patch,
 							   struct 	canopy_strata_object 	*stratum,
-							   struct 	command_line_object	    *command_line,
+							   struct 	CommandLineObject	    *ComLin,
 							   struct 	date 			current_date)
 {
     //---------------------------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ void	canopy_stratum_daily_I(
 	int	update_rootzone_moist(
 		struct patch_object	*,
 		struct	rooting_zone_object	*,
-		struct command_line_object *);
+		struct CommandLineObject *);
 	
 	void	update_mortality(
 		struct epconst_struct,
@@ -124,7 +124,7 @@ void	canopy_stratum_daily_I(
 		//	Currently defaulted at non-stressed value.		
 		//-------------------------------------------------------------------------------------------------------------
 		stratum->epv.psi =	compute_lwp_predawn(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch->soil_defaults->theta_psi_curve,
 			patch->metv.tsoil,
 			stratum->defaults->epc.psi_open,
@@ -146,7 +146,7 @@ void	canopy_stratum_daily_I(
 		//-----------------------------------------------------------------------------------------------
 		//	keep track of water stress days for annual allocation   
 		//-----------------------------------------------------------------------------------------------
-		if ( (command_line->grow_flag > 0) && (stratum->epv.psi <= stratum->defaults->epc.psi_close )) {
+		if ( (ComLin->grow_flag > 0) && (stratum->epv.psi <= stratum->defaults->epc.psi_close )) {
 			stratum->epv.wstress_days += 1;
 		}
 		
@@ -154,7 +154,7 @@ void	canopy_stratum_daily_I(
 		//-----------------------------------------------------------------------------------------------
 		//	perform plant mortality losses	(if grow flag is on)					
 		//-----------------------------------------------------------------------------------------------
-		if (command_line->grow_flag > 0)  {
+		if (ComLin->grow_flag > 0)  {
 			cs = &(stratum->cs);
 			ns = &(stratum->ns);
 
@@ -213,7 +213,7 @@ void	canopy_stratum_daily_I(
 			stratum->gap_fraction,
 			patch->theta_noon,
 			current_date,
-			command_line->grow_flag);
+			ComLin->grow_flag);
 		
 		//===========================================================================================================================================
 		//following is used to check nitrogen balance
@@ -244,7 +244,7 @@ void	canopy_stratum_daily_I(
         //---------------------------------------------------------------------------------
 		// if it is the last day of litterfall, perform carbon/nitrogen	allocations						
 		//---------------------------------------------------------------------------------
-		if (command_line->grow_flag > 0) {
+		if (ComLin->grow_flag > 0) {
 			if ( stratum->phen.annual_allocation == 1) {
 				//--------------------------------------------------------------
 				//	livewood and leaf turnover				                    

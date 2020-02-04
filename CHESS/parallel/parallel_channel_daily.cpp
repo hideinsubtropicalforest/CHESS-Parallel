@@ -16,18 +16,23 @@ using std::endl;
 
 #define round(x) ((x)>=0?(long)((x)+0.5):(long)((x)-0.5))
 
-void  parallel_channel_daily(patch_object *patch, struct command_line_object *command_line,
-	struct	date current_date, struct parallel_object *parallel,int layer_inx,int thread_inx, struct  daily_clim_object *daily_clim)
+void  parallel_channel_daily(patch_object *patch, struct CommandLineObject *ComLin,
+	struct  SimulationInformation* SimInf,
+	struct	date current_date, 
+	struct  daily_clim_object* daily_clim,
+	int layer_inx,
+	int thread_inx 
+	)
 {
 
-	for (int patch_inx = 0; patch_inx != parallel->channel_layer_thread_patch_num[layer_inx][thread_inx]; patch_inx++) {
+	for (int patch_inx = 0; patch_inx != SimInf->channel_layer_thread_patch_num[layer_inx][thread_inx]; patch_inx++) {
 
 		
 
 		struct patch_object	*neigh;
 		int i, j, k = 0, kk = 0;
 
-		i = parallel->channel_pch[layer_inx][thread_inx][patch_inx];
+		i = SimInf->channel_pch[layer_inx][thread_inx][patch_inx];
 
 
 		//remove to here
@@ -42,20 +47,20 @@ void  parallel_channel_daily(patch_object *patch, struct command_line_object *co
 			zero_patch_object(&patch[pch]);
 
 			// 1.2 Initializing Climate Forcing
-			patch_climate_initial(&patch[pch], daily_clim[climate_inx], command_line, current_date);
+			patch_climate_initial(&patch[pch], daily_clim[climate_inx], ComLin, current_date);
 
 			// 1.3 Initializing Land (Hydro-Eco) Pool State
-			patch_land_initial(&patch[pch], command_line, current_date);
+			patch_land_initial(&patch[pch], ComLin, current_date);
 
 			//=======================================================================================================================
 			// 2... ECO-HYDROLOGICAL SIMULATION WITHIN A PATCH
 			//=======================================================================================================================
-			patch_daily_final(&patch[pch], command_line, current_date);
+			patch_daily_final(&patch[pch], ComLin, current_date);
 
 			//=======================================================================================================================
 			// 3... LATERAL FLOW ROUTING AND NUTRIENT TRANSPORT to neighbor patches
 			//=======================================================================================================================
-			patch_lateral_flow(&patch[pch], command_line, current_date);
+			patch_lateral_flow(&patch[pch], ComLin, current_date);
 
 
 
@@ -71,7 +76,7 @@ void  parallel_channel_daily(patch_object *patch, struct command_line_object *co
 		//xu.
 		double V1 = 0, V2 = 0, OUT_all = 0, INOUT_ratio = 0;
 
-		double cellsize = parallel->cellsize;
+		double cellsize = SimInf->cell_size;
 
 		//For river channel, soil should be mostly saturated. So, we assume one-tenth of
 		//surface and subsurface flow are used to reduce soil saturation deficit in channel
@@ -93,7 +98,7 @@ void  parallel_channel_daily(patch_object *patch, struct command_line_object *co
 
 
 		patch[i].sat_deficit_z = compute_z_final(
-			command_line->verbose_flag,
+			ComLin->verbose_flag,
 			patch[i].soil_defaults->porosity_0,
 			patch[i].soil_defaults->porosity_decay,
 			patch[i].soil_defaults->soil_depth,
@@ -112,7 +117,7 @@ void  parallel_channel_daily(patch_object *patch, struct command_line_object *co
 				//---------------------------------------------------------------------------------------------------------------------------
 				//S1. For large basins, the channel routing and reservoirs
 				//---------------------------------------------------------------------------------------------------------------------------
-				if (command_line->cf == TRUE) {
+				if (ComLin->cf == TRUE) {
 
 
 					//Q_IN
@@ -132,7 +137,7 @@ void  parallel_channel_daily(patch_object *patch, struct command_line_object *co
 					//---------------------------------------------------------------------------------------------------------------------------
 					//1. For Reservoirs (Target Release)
 					//---------------------------------------------------------------------------------------------------------------------------
-					if (command_line->re == TRUE && patch[i].channel->ID == RESERVOIR && current_date.year >= patch[i].channel->reservoir->StartYear)
+					if (ComLin->re == TRUE && patch[i].channel->ID == RESERVOIR && current_date.year >= patch[i].channel->reservoir->StartYear)
 					{
 						//STORAGE
 						patch[i].channel->storage += patch[i].channel->Q_in;

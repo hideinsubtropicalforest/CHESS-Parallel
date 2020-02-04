@@ -29,7 +29,7 @@ using namespace std;
 void	canopy_stratum_growth(
 							  struct	patch_object		*patch,
 							  struct 	canopy_strata_object 	*stratum,
-							  struct 	command_line_object	*command_line,
+							  struct 	CommandLineObject	*ComLin,
 							  struct 	date 			current_date)
 {
 	//--------------------------------------------------------------
@@ -219,7 +219,7 @@ void	canopy_stratum_growth(
 		if (allocate_annual_growth(
 			stratum->ID,
 			stratum->defaults->ID,
-			command_line->vmort_flag,
+			ComLin->vmort_flag,
 			stratum->cover_fraction,
 			&(stratum->epv),
 			&(stratum->cdf),

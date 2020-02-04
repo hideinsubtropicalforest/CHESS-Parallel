@@ -5,11 +5,13 @@
 using namespace std;
 
 //struct output_hydro_plant construct_output_files(int start_year,int end_year,
-void construct_gauge_output_files(struct patch_object *patch,char *outPutPath, struct output_hydro_plant *DM_outfiles,
-	struct command_line_object *command_line,
-	int *gauge_list
-)
+void construct_gauge_output_files(struct patch_object *patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct InFilePath* InFilePath, struct output_hydro_plant *DM_outfiles)
 {
+	char* outPutPath = InFilePath->outPutPath;
+	int* gauge_list = SimInf->gauge_list;
+
+
 	//define local variables
 	static int i = 0;
 
@@ -25,7 +27,7 @@ void construct_gauge_output_files(struct patch_object *patch,char *outPutPath, s
 	//char  outBMGfile[120]; //Basin monthly growth 
 
 	for (int gauge_inx = 0; gauge_inx != GAUGE_NUM; gauge_inx++) {
-		if (command_line->b != NULL) { //basin level output
+		if (ComLin->b != NULL) { //basin level output
 			strcpy(outGDHfile[gauge_inx], outPutPath);
 			strcpy(outGDGfile[gauge_inx], outPutPath);
 			//strcpy(outBMHfile,outPutPath);
@@ -43,7 +45,7 @@ void construct_gauge_output_files(struct patch_object *patch,char *outPutPath, s
 
 
 
-			//if(command_line->daily_out_flag==0){ //for daily output question: need resolve commandline here
+			//if(ComLin->daily_out_flag==0){ //for daily output question: need resolve commandline here
 			DM_outfiles->fGaugeDailyHydro[gauge_inx] = fopen(outGDHfile[gauge_inx], "w");
 			if (DM_outfiles->fGaugeDailyHydro[gauge_inx] == NULL) {
 				printf("can not create basin daily hydrology output file! \n");

@@ -1,21 +1,21 @@
 /*--------------------------------------------------------------*/
 /* 																*/
-/*					construct_command_line						*/
+/*					construct_ComLin						*/
 /*																*/
-/*	construct_command_line->c - creates command line object		*/
+/*	construct_ComLin->c - creates command line object		*/
 /*																*/
 /*	NAME														*/
-/*	construct_command_line->c - creates command line object		*/
+/*	construct_ComLin->c - creates command line object		*/
 /*																*/
 /*	SYNOPSIS													*/
-/*	struct	command_line_object	*construct_command_line(		*/
-/*								argc, argv, command_line)		*/
+/*	struct	CommandLineObject	*command_line(		*/
+/*								argc, argv, ComLin)		*/
 /*																*/
 /*	OPTIONS														*/
 /*																*/
 /*	DESCRIPTION													*/
 /*																*/
-/*	Creates a command_line object which consists of flags		*/
+/*	Creates a ComLin object which consists of flags		*/
 /*	entered on the command line during execution of rhessys.	*/
 /*	Some error checking is performed but error checking must	*/
 /*	wait until the world object has been specified.				*/
@@ -41,7 +41,7 @@
 #include "functions.h"
 #include "chess.h"
 
-struct command_line_object	*construct_command_line(int main_argc,	char **main_argv,command_line_object *command_line)
+struct CommandLineObject *construct_command_line(int main_argc,	char **main_argv,CommandLineObject *ComLin)
 {
 	/*--------------------------------------------------------------*/
 	/*	Local function definition.									*/
@@ -57,20 +57,20 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 	/*--------------------------------------------------------------*/
 	/*	Initialize the options as null				*/
 	/*--------------------------------------------------------------*/
-	command_line->grow_flag = 1;
-	command_line->road_flag = 1;
-	command_line->verbose_flag = 0;
-	command_line->routing_flag = 1;
-	command_line->tec_flag = 0;
-	command_line->vmort_flag = 0;
-	command_line->gw_flag = 0;
-	command_line->b = true;
-	command_line->p = NULL;
-	command_line->gg = NULL;
-	command_line->cf = NULL;
-	command_line->re = NULL;
-	command_line->pmon = NULL;
-	command_line->pday = NULL;
+	ComLin->grow_flag = 1;
+	ComLin->road_flag = 1;
+	ComLin->verbose_flag = 0;
+	ComLin->routing_flag = 1;
+	ComLin->tec_flag = 0;
+	ComLin->vmort_flag = 0;
+	ComLin->gw_flag = 0;
+	ComLin->b = true;
+	ComLin->p = NULL;
+	ComLin->gg = NULL;
+	ComLin->cf = NULL;
+	ComLin->re = NULL;
+	ComLin->pmon = NULL;
+	ComLin->pday = NULL;
 
 	/*-------------------------------------------------*/
 	/*	Loop through each arguement in the command line.*/
@@ -90,19 +90,19 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 					/*------------------------------------------*/
 					/* assume we want verbose level 1			  */
 					/*------------------------------------------*/
-					command_line->verbose_flag= 1;
+					ComLin->verbose_flag= 1;
 				}
 				else if ( valid_option(main_argv[i]) == 1 ){
 					/*----------------------------------------------*/
 					/*	check if the next arguement is an option.		*/
 					/*----------------------------------------------*/
-					command_line->verbose_flag= 1;
+					ComLin->verbose_flag= 1;
 				}
 				else{
 					/*-------------------------------------------------*/
 					/*	read in the value of the verbose level.			*/
 					/*-------------------------------------------------*/
-					command_line->verbose_flag = (int)atoi(main_argv[i]);
+					ComLin->verbose_flag = (int)atoi(main_argv[i]);
 					i++;
 				}/*end if*/
 			}/*end if*/
@@ -111,14 +111,14 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*Check if the variable mortality flag is next.           */
 			/*------------------------------------------*/
 			else if ( strcmp(main_argv[i],"-vmort") == 0 ){
-				command_line->vmort_flag = 1;
+				ComLin->vmort_flag = 1;
 				i++;
 			}
 			/*------------------------------------------*/
 			/*Check if the grow flag is next.           */
 			/*------------------------------------------*/
 			else if ( strcmp(main_argv[i],"-g") == 0 ){
-				command_line->grow_flag = 1;
+				ComLin->grow_flag = 1;
 				i++;
 			}
 		    /*-------------------------------------------------*/
@@ -126,7 +126,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*-------------------------------------------------*/
 			else if ( strcmp(main_argv[i],"-gw") == 0 ){
 				i++;
-				command_line->gw_flag = 1;
+				ComLin->gw_flag = 1;
 				if ((i == main_argc-1) || (valid_option(main_argv[i])==1)){
 					fprintf(stderr,"FATAL ERROR: Values for gw coefficients not specified\n");
 					exit(0);
@@ -134,9 +134,9 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 				/*-------------------------------*/
 				/*Read in the loss to gw rate multiplier values		*/
 				/*-------------------------------*/
-				command_line->sat_to_gw_coeff_mult = (double)atof(main_argv[i]);
+				ComLin->sat_to_gw_coeff_mult = (double)atof(main_argv[i]);
 				i++;
-				command_line->gw_loss_coeff_mult = (double)atof(main_argv[i]);
+				ComLin->gw_loss_coeff_mult = (double)atof(main_argv[i]);
 				i++;
 			}/* end if */
 
@@ -145,7 +145,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*		Check if the routing option file is next.				*/
 			/*--------------------------------------------------------------*/
 			else if ( strcmp(main_argv[i],"-r") == 0 ){
-				command_line->routing_flag = 1;
+				ComLin->routing_flag = 1;
 
 				i++;
 			} /*end if*/
@@ -158,7 +158,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 				/*--------------------------------------------------------------*/
 				/*			Check that the next arguement exists.				*/
 				/*--------------------------------------------------------------*/
-				command_line->tec_flag = 1;
+				ComLin->tec_flag = 1;
 				i++;
 				if ((i == main_argc) || (valid_option(main_argv[i])==1) ){
 					fprintf(stderr,"FATAL ERROR: TEC file name not specified\n");
@@ -171,7 +171,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*--------------------------------------------------------------*/
 			else if( strcmp(main_argv[i],"-b") == 0 ){
 
-				command_line->b = true;
+				ComLin->b = true;
 				i++;
 
 			} /*end if*/
@@ -183,8 +183,8 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 				/*--------------------------------------------------------------*/
 				/*			Allocate the patch output specifier.				*/
 				/*--------------------------------------------------------------*/
-				command_line->p = true;
-				command_line->pday = true;
+				ComLin->p = true;
+				ComLin->pday = true;
 				i++;
 			} /*end if*/
 			/*--------------------------------------------------------------*/
@@ -194,8 +194,8 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*--------------------------------------------------------------*/
 			/*			Allocate the patch output specifier.				*/
 			/*--------------------------------------------------------------*/
-			command_line->p = true;//both will be activate
-			command_line->pmon = true;
+			ComLin->p = true;//both will be activate
+			ComLin->pmon = true;
 			i++;
 			} /*end if*/
 			  
@@ -206,7 +206,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*--------------------------------------------------------------*/
 			/*			Allocate the patch output specifier.				*/
 			/*--------------------------------------------------------------*/
-			command_line->gg = true;
+			ComLin->gg = true;
 			i++;
 			} /*end if*/
 			/*--------------------------------------------------------------*/
@@ -216,7 +216,7 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*--------------------------------------------------------------*/
 			/*			Allocate the patch output specifier.				*/
 			/*--------------------------------------------------------------*/
-			command_line->cf = true;
+			ComLin->cf = true;
 			i++;
 			} /*end if*/
 			/*--------------------------------------------------------------*/
@@ -226,17 +226,17 @@ struct command_line_object	*construct_command_line(int main_argc,	char **main_ar
 			/*--------------------------------------------------------------*/
 			/*			Allocate the patch output specifier.				*/
 			/*--------------------------------------------------------------*/
-			command_line->re = true;
+			ComLin->re = true;
 			i++;
 			} /*end if*/
 			else{
 				fprintf(stderr,
-					"FATAL ERROR: in construct_command_line option #%d is invalid.\n",i);
+					"FATAL ERROR: in construct_ComLin option #%d is invalid.\n",i);
 				fprintf(stderr,"for argument %s\n", main_argv[i]);
 				exit(0);
 			} /*end if*/
 		} /*end if*/
 	} /*end while*/
 
-	return(command_line);
-} /*end construct_command_line*/
+	return(ComLin);
+} /*end construct_ComLin*/

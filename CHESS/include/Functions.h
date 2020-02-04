@@ -1,42 +1,66 @@
 #include "constants.h"
 //---------------------------------------------------------------------------------------------------------------------------
-// CHESS INITIALIZATION .function	                                                
+// PART I: INITIALIZATION	                                                
 //---------------------------------------------------------------------------------------------------------------------------
 
-struct  command_line_object	*construct_command_line(int main_argc, char **, struct command_line_object *);
-struct patch_object * construct_routing_topology(struct patch_object *patch, struct  InFilePath *InFilePath, struct  InputGridData *InputGridData);
-void	read_geo_images(struct patch_object *patch, struct command_line_object *command_line, char *prefix,
-	struct InFilePath *InFilePath, struct  InputGridData *InputGridData, int f_flag, int arc_flag, int*gauge_list, int thread_num);
-void construct_patch(struct patch_object * patch, struct command_line_object * command_line,
-	char *prefix, struct InFilePath *InputFilePath, struct InputGridData* InputGridData);
-	struct	input_Clim_Files open_Clim_Files(struct InFilePath *InFilePath, char *prefix);
-void	construct_infile_path(char* file_location, char * prefix, struct InFilePath *InputFilePath);
-//---------------------------------------------------------------------------------------------------------------------------
-// CHESS SIMULATION .function	                                                
-//---------------------------------------------------------------------------------------------------------------------------
-void    chess_climate_daily(struct input_Clim_Files,  struct date, struct  daily_clim_object *daily_clim, int climate_num, int, int, int, int *);
-void    chess_patch_daily(struct patch_object *patch, struct 	command_line_object *command_line, struct	date 			current_date,
-			struct  daily_clim_object *daily_clim, struct  parallel_object *parallel);
-void    chess_channel_daily(struct patch_object *,  struct command_line_object *, struct	date, struct  parallel_object *parallel,struct  daily_clim_object *daily_clim);
+struct CommandLineObject* construct_command_line(int main_argc, char** main_argv, CommandLineObject* ComLin);
+void construct_infile_path(struct  SimulationInformation* SimInf, struct InFilePath* InputFilePath);
+struct patch_object* construct_routing_topology(struct patch_object* patch,struct  SimulationInformation* SimInf, struct InFilePath* InFilePath);
+void	read_geo_images(struct patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct InFilePath* InFilePath, struct  InputGridData* InputGridData);
+void construct_patch(struct patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct InFilePath* InputFilePath, struct InputGridData* InputGridData);
+struct	input_Clim_Files open_Clim_Files(struct  SimulationInformation* SimInf, struct InFilePath* InFilePath, struct daily_clim_object* daily_clim);
+void	init_parallel_environment(struct patch_object* patch, struct  SimulationInformation* SimInf);
 
 
 //---------------------------------------------------------------------------------------------------------------------------
-// CHESS OUTPUT .function	                                                
+// PART II: SIMULATION                                                
 //---------------------------------------------------------------------------------------------------------------------------
-void    construct_basin_output_files(char *, struct output_hydro_plant *, struct command_line_object *);
-void    construct_patch_output_files(struct date, struct OutputDateRange, char *, int patch_num, struct output_hydro_plant *, struct OutArray_object *OutArray, struct command_line_object *);
+//main
+void chess_climate_daily(struct patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct	date	current_date, struct input_Clim_Files inClimFiles, struct  daily_clim_object* daily_clim);
+void  chess_patch_daily(struct patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct	date	current_date, struct  daily_clim_object* daily_clim);
+void  chess_channel_daily(struct patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct	date	current_date, struct  daily_clim_object* daily_clim);
+
+//sub
+void		parallel_patch_daily(struct patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct	date current_date, struct  daily_clim_object* daily_clim, int	thread_inx);
+void  parallel_channel_daily(patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf, struct	date current_date,
+	struct  daily_clim_object* daily_clim, int layer_inx, int thread_inx);
+
+
+//---------------------------------------------------------------------------------------------------------------------------
+// PART III: OUTPUT 	                                                
+//---------------------------------------------------------------------------------------------------------------------------
+//construct file title
+void  construct_basin_output_files(struct CommandLineObject* ComLin, struct InFilePath* InFilePath, struct output_hydro_plant* DM_outfiles);
+void  construct_gauge_output_files(struct patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct InFilePath* InFilePath, struct output_hydro_plant* DM_outfiles);
+void  construct_patch_output_files(struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf, struct InFilePath* InFilePath,
+	struct OutputDateRange* OutDate, struct output_hydro_plant* DM_outfiles, struct OutArray_object* OutArray, struct date current_date);
+
+//write files
+void out_basin_level_daily(	struct patch_object* patch,	struct CommandLineObject* ComLin,	struct  SimulationInformation* SimInf,
+	struct date current_date,	struct OutputDateRange* OutDate,	struct output_hydro_plant* DM_outfiles);
+void out_patch_level_daily(	struct patch_object* patch,	struct CommandLineObject* ComLin,	struct  SimulationInformation* SimInf,	
+	struct date current_date,struct OutputDateRange* OutDate,	struct output_hydro_plant* DM_outfiles,	struct OutArray_object* OutArray);
+void out_gauge_level_daily(struct patch_object* patch,struct CommandLineObject* ComLin,struct  SimulationInformation* SimInf,
+	struct date current_date,struct OutputDateRange* OutDate,struct output_hydro_plant* DM_outfiles);
+
+//close files
 void    close_patch_output_files(struct output_hydro_plant *, struct OutArray_object *OutArray);
 
-//xu.
-void	construct_gauge_output_files(struct patch_object *patch, char *outPutPath, struct output_hydro_plant *DM_outfiles, struct command_line_object *command_line,
-		int *gauge_list);
+
 
 
 //---------------------------------------------------------------------------------------------------------------------------
-// CHESS OUTPUT .function	                                                
+// PART IV: OTHERS                                                
 //---------------------------------------------------------------------------------------------------------------------------
 int     end_day_norm_leap(int, int);
-void    init_out_monthly(struct patch_object *, struct accumulate_patch_object *, int, int, struct command_line_object *);
+void    init_out_monthly(struct patch_object *, struct accumulate_patch_object *, int, int, struct CommandLineObject *);
 
 
 
@@ -44,32 +68,28 @@ void    init_out_monthly(struct patch_object *, struct accumulate_patch_object *
 // Patch daily .function	                                                
 //---------------------------------------------------------------------------------------------------------------------------
 void	zero_patch_object(struct patch_object *patch);
-void    patch_climate_initial(struct patch_object *, struct daily_clim_object, struct command_line_object *, struct	date);
-void    patch_land_initial(struct patch_object *,  struct command_line_object *, struct date);
+void    patch_climate_initial(struct patch_object *, struct daily_clim_object, struct CommandLineObject *, struct	date);
+void    patch_land_initial(struct patch_object *,  struct CommandLineObject *, struct date);
 
 
-void    patch_radiation_daily(struct patch_object *, struct command_line_object *, struct	date);
-void	patch_daily_final(struct patch_object *, struct command_line_object *, struct date);
+void    patch_radiation_daily(struct patch_object *, struct CommandLineObject *, struct	date);
+void	patch_daily_final(struct patch_object *, struct CommandLineObject *, struct date);
 
 //patch lateral flow
-void    patch_lateral_flow(patch_object *, struct command_line_object *,  struct date);
+void    patch_lateral_flow(patch_object *, struct CommandLineObject *,  struct date);
 void	update_drainage_stream(struct patch_object *, int, double, int, int);
 void	update_drainage_land(struct patch_object *, int, double, int, int);
 
 
 
-void    out_daily(int, struct patch_object *, struct date, struct OutputDateRange, struct output_hydro_plant *, struct command_line_object *);
-void    out_basin_level_daily(int, struct patch_object *, struct date, struct OutputDateRange, struct output_hydro_plant *, struct command_line_object *);
-void    out_patch_level_daily(int, struct patch_object *, struct date, struct OutputDateRange, struct output_hydro_plant *, struct OutArray_object *OutArray, struct command_line_object *);
+void    out_daily(int, struct patch_object *, struct date, struct OutputDateRange, struct output_hydro_plant *, struct CommandLineObject *);
 void    output_patch_daily_hydrology(struct patch_object *patch, int pch,double(*HydroMon)[HYDRO_NUM],struct	date current_date,FILE *outfile,
-		struct command_line_object *command_line);
+		struct CommandLineObject *ComLin);
 void	output_patch_daily_growth(struct patch_object *patch, int pch,double(*PlantMon)[PLANT_NUM],struct	date current_date,FILE *outfile,
-		struct command_line_object *command_line);
+		struct CommandLineObject *ComLin);
 //xu.
-void	out_gauge_level_daily(int num_patches, struct patch_object *patch, struct date current_date, struct OutputDateRange outdate,
-		struct output_hydro_plant *DM_outfiles, struct command_line_object *command_line,int *gauge_list, int cellsize);
-void	output_gauge_daily_hydrology(struct	patch_object *patch, struct	date	current_date, FILE *outfile, struct command_line_object *command_line,int cellsize);
-void	output_gauge_daily_growth(struct patch_object *patch, struct	date current_date, FILE *outfile, struct command_line_object *command_line, int cellsize);
+void	output_gauge_daily_hydrology(struct	patch_object *patch, struct	date	current_date, FILE *outfile, struct CommandLineObject *ComLin,int cellsize);
+void	output_gauge_daily_growth(struct patch_object *patch, struct	date current_date, FILE *outfile, struct CommandLineObject *ComLin, int cellsize);
 
 void    *alloc(size_t, char *, char *);
 void    rewind_daily_clim(struct input_Clim_Files);
@@ -77,24 +97,15 @@ void    read_daily_climate(struct input_Clim_Files, struct InputDateRange, doubl
 
 
 int read_record(FILE *, char *);
-void init_phenology_object(patch_object *, int);
+void init_phenology_object(patch_object* patch, struct  SimulationInformation* SimInf);
 
-//---------------------------------------------------------------------------------------------------------------------------
-// Parallel .function	                                                
-//---------------------------------------------------------------------------------------------------------------------------
-
-void	init_parallel_environment(struct 	patch_object *patch, struct parallel_object *parallel);
-void	parallel_patch_daily(struct 	patch_object *patch, struct 	command_line_object *command_line, struct	date 			current_date,
-	struct  daily_clim_object *daily_clim, struct  parallel_object *parallel, int		thread_inx);
-void    parallel_channel_daily(patch_object *patch, struct command_line_object *command_line,
-	struct	date current_date, struct parallel_object *parallel, int layer_inx, int thread_inx, struct  daily_clim_object *daily_clim);
 
 
 
 
 //LOCAL FUNCTION IN PATCH DAILY I
 
-void   canopy_stratum_daily_I(struct	patch_object *,struct canopy_strata_object *,struct command_line_object *,struct date);
+void   canopy_stratum_daily_I(struct	patch_object *,struct canopy_strata_object *,struct CommandLineObject *,struct date);
 
 double	compute_layer_field_capacity(int,int,double,double,double,double,double,double,double,double);
 
@@ -121,16 +132,16 @@ void update_litter_interception_capacity(double,struct  litter_c_object *,struct
 
 
 //LOCAL FUNCTION IN PATCH DAILY F
-void zone_daily_final(struct patch_object *, struct command_line_object *, struct date);
+void zone_daily_final(struct patch_object *, struct CommandLineObject *, struct date);
 void compute_Lstar(struct patch_object *);
 double compute_delta_water(int, double, double, double, double, double);
 
 double compute_layer_field_capacity(int,int,double,double,double,double,double,double,double,double);
 
-void canopy_stratum_daily_F(struct patch_object *,struct layer_object *,struct canopy_strata_object *,struct command_line_object *,
+void canopy_stratum_daily_F(struct patch_object *,struct layer_object *,struct canopy_strata_object *,struct CommandLineObject *,
 	struct date);
 
-void   surface_daily_F(struct patch_object *,struct command_line_object *,struct date);
+void   surface_daily_F(struct patch_object *,struct CommandLineObject *,struct date);
 
 double	snowpack_daily_F(struct date,int,struct	snowpack_object	*,double,double,double,double,double,double,double,double *,double *,
 	double *,double *,double,double,double,double,double);
@@ -166,13 +177,13 @@ void update_denitrif(struct  soil_c_object   *,struct  soil_n_object   *,struct 
 
 int	resolve_sminn_competition(struct  soil_n_object   *,double, double,struct ndayflux_patch_struct *);
 
-void canopy_stratum_growth(struct patch_object *,struct canopy_strata_object *,struct command_line_object *,struct date);
+void canopy_stratum_growth(struct patch_object *,struct canopy_strata_object *,struct CommandLineObject *,struct date);
 
-void update_gw_drainage( struct patch_object *,struct command_line_object *,struct date);
+void update_gw_drainage( struct patch_object *,struct CommandLineObject *,struct date);
 
 long julday(struct date);
 
-void compute_ground_water_loss(struct	patch_object *, struct 	command_line_object *, struct 	date);
+void compute_ground_water_loss(struct	patch_object *, struct 	CommandLineObject *, struct 	date);
 
 
 

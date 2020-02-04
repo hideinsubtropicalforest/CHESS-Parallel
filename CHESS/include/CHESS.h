@@ -10,9 +10,60 @@
 #include <string.h>
 #include "constants.h"
 
+
 //===============================================================================================================================
-//	Define input climate files							
+// 	Define a CommandLineObject object.				
 //===============================================================================================================================
+struct	CommandLineObject
+{
+	bool    b;
+	bool    p;
+	//monthly patch out, when it activates the -p command line is also activate
+	//shared a same output fuction 
+	bool	pmon;
+	bool	pday;
+
+	bool	gg;	//gauges' outputs in the gauge patchID list
+	bool	cf; //enable dynamic channel flow simulation
+	bool	re;	//enable reservoir simulation
+
+	int     spin_flag;
+	int		grow_flag;
+	int		routing_flag;
+	double	sat_to_gw_coeff_mult;
+	double	gw_loss_coeff_mult;
+	int		road_flag;
+	int		verbose_flag;
+	int		tec_flag;
+	int		gw_flag;
+	int		vmort_flag;
+};
+
+
+struct SimulationInformation
+{
+	//user-defined
+	char  prefix[20];
+	int   thread_num;
+	int	  climate_num;
+	int	  gauge_num;
+	int*  gauge_list;
+
+	//read information
+	int patch_num;
+	double cell_size;
+	int layer_num;
+	//arrays
+	int** land_pch;
+	int*** channel_pch;
+
+	//corresponding numbers
+	int* land_thread_patch_num;
+	int** channel_layer_thread_patch_num;
+
+};
+
+
 struct InFilePath
 {
 	char  prefix[20];
@@ -26,9 +77,6 @@ struct InFilePath
 
 struct InputGridData
 {
-	int patch_num;
-	double cell_size;
-
 	int rows;
 	int cols;
 	double xll;
@@ -37,7 +85,7 @@ struct InputGridData
 	double no_data_value;
 };
 
-struct InputDateRange
+struct SimulationDateRange
 {
 	long start_year;
 	long end_year;
@@ -49,9 +97,6 @@ struct InputDateRange
 	long end_hour;
 };
 
-//===============================================================================================================================
-//	Define a calendar out date object.					
-//===============================================================================================================================
 struct OutputDateRange	{
 	long  first_year;
 	long  last_year;
@@ -63,12 +108,17 @@ struct OutputDateRange	{
 	long  last_hour;
 };
 
-struct SpinUp
+struct SpinInformation
 {
 	long spin_years;
 	long spin_interval;
-	long spin_flag;
+	bool spin_flag;
 };
+
+
+
+
+
 
 //===============================================================================================================================
 //	Define input climate files							
@@ -1049,34 +1099,6 @@ struct	patch_hourly_object
 	double	sin_slope;				    /*	DIM	*/
 };
 
-//===============================================================================================================================
-// 	Define a command_line_object object.				
-//===============================================================================================================================
-struct	command_line_object
-{
-	bool    b;
-	bool    p;
-
-	//monthly patch out, when it activates the -p command line is also activate
-	//shared a same output fuction 
-	bool	pmon;
-	bool	pday;
-
-	bool	gg;	//gauges' outputs in the gauge patchID list
-	bool	cf; //enable dynamic channel flow simulation
-	bool	re;	//enable reservoir simulation
-
-	int     spin_flag;
-	int		grow_flag;
-	int		routing_flag;
-	double	sat_to_gw_coeff_mult;
-	double	gw_loss_coeff_mult;
-	int		road_flag;
-	int		verbose_flag;
-	int		tec_flag;
-	int		gw_flag;
-	int		vmort_flag;
-};
 
 //===============================================================================================================================
 // 	Define carbon and nitrogen related struct.				
@@ -1623,22 +1645,3 @@ struct OutArray_object {
 
 };
 
-
-struct parallel_object {
-
-	int patch_num;
-	double cellsize;
-
-	//environment
-	int thread_num;
-	int layer_num;
-
-	//arrays
-	int **land_pch;
-	int ***channel_pch;
-
-	//corresponding numbers
-	int *land_thread_patch_num;
-	int **channel_layer_thread_patch_num;
-
-};

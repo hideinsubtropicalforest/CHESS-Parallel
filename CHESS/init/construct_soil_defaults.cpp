@@ -7,7 +7,7 @@
 #include "chess.h"
 #include "constants.h"
 
-struct soil_default *construct_soil_defaults(int ntypes, FILE * default_file, struct command_line_object *command_line,
+struct soil_default *construct_soil_defaults(int ntypes, FILE * default_file, struct CommandLineObject *ComLin,
 struct soil_default *soil_default_object_list)
 {
 	//--------------------------------------------------------------
@@ -156,8 +156,8 @@ struct soil_default *soil_default_object_list)
 	read_record(default_file, record);
 
 	for(i=0; i<ntypes; i++){
-		if (command_line->gw_flag > 0) {
-			soil_default_object_list[i].sat_to_gw_coeff *= command_line->sat_to_gw_coeff_mult;
+		if (ComLin->gw_flag > 0) {
+			soil_default_object_list[i].sat_to_gw_coeff *= ComLin->sat_to_gw_coeff_mult;
 		}
 	}
 

@@ -7,7 +7,7 @@
 struct climate_default *construct_climate_defaults(
 	int	nytpes,
 	FILE	*default_file,
-	struct command_line_object *command_line,
+	struct CommandLineObject *ComLin,
 	struct climate_default * climate_default_object_list)
 {
 	/*--------------------------------------------------------------*/
@@ -175,8 +175,8 @@ struct climate_default *construct_climate_defaults(
 		climate_default_object_list[i].wet_lapse_rate = 0.0049;
 
 		climate_default_object_list[i].gw_loss_coeff = 1.;
-		if (command_line->gw_flag > 0) {
-			climate_default_object_list[i].gw_loss_coeff *= command_line->gw_loss_coeff_mult;
+		if (ComLin->gw_flag > 0) {
+			climate_default_object_list[i].gw_loss_coeff *= ComLin->gw_loss_coeff_mult;
 		}
 	}
 

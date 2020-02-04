@@ -13,11 +13,11 @@
 
 //using std::thread;
 
-void  chess_patch_daily(struct patch_object *patch,
-	struct 	command_line_object *command_line,
-	struct	date 			current_date,
-	struct  daily_clim_object *daily_clim,
-	struct  parallel_object *parallel
+void  chess_patch_daily(struct patch_object* patch,
+	struct CommandLineObject* ComLin,
+	struct  SimulationInformation* SimInf,
+	struct	date	current_date,
+	struct  daily_clim_object* daily_clim
 )
 {
 	//---------------------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ void  chess_patch_daily(struct patch_object *patch,
 	for (int thread_inx = 0; thread_inx != parallel->thread_num; thread_inx++) {
 
 		//parallel patch daily is served to be a elementary function of patch daily process
-		thd[thread_inx] = thread(parallel_patch_daily, patch, command_line, current_date, daily_clim,parallel, thread_inx);
+		thd[thread_inx] = thread(parallel_patch_daily, patch, ComLin, current_date, daily_clim,parallel, thread_inx);
 	}
 	//wait till all threads terminate
 	for (int thread_inx = 0; thread_inx != parallel->thread_num; thread_inx++) {
@@ -40,13 +40,13 @@ void  chess_patch_daily(struct patch_object *patch,
 	*/
 	///*
 	//init and run all thread
-	int thread_num = parallel->thread_num;
+	int thread_num = SimInf->thread_num;
 	#pragma omp parallel for num_threads(thread_num)
 	for (int thread_inx = 0; thread_inx < thread_num; thread_inx++) {
 
 		//parallel patch daily is served to be a elementary function of patch daily process
 
-		parallel_patch_daily(patch, command_line, current_date, daily_clim, parallel, thread_inx);
+		parallel_patch_daily(patch, ComLin, SimInf,current_date, daily_clim, thread_inx);
 		//printf("%d\n", omp_get_num_threads());
 	}//*/
 

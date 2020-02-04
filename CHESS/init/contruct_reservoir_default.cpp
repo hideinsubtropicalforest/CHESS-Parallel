@@ -11,7 +11,7 @@ using namespace std;
 struct reservoir_default *construct_reservoir_defaults(
 	int	nytpes,
 	FILE	*default_file,
-	struct command_line_object *command_line,
+	struct CommandLineObject *ComLin,
 	struct reservoir_default * reservoir_default_object_list)
 {
 	/*--------------------------------------------------------------*/

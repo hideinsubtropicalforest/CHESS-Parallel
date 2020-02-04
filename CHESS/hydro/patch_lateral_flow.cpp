@@ -12,7 +12,7 @@
 
 
 
-void  patch_lateral_flow(patch_object *patch,struct command_line_object *command_line,
+void  patch_lateral_flow(patch_object *patch,struct CommandLineObject *ComLin,
 						 struct	date	current_date)
 {
 	//-----------------------------------------------------------------------------------------------------------------
@@ -28,18 +28,18 @@ void  patch_lateral_flow(patch_object *patch,struct command_line_object *command
 	//	3. regular land patches - route to downslope neighbours                                            
 	//-----------------------------------------------------------------------------------------------------------------
 	if (patch->drainage_type == STREAM){
-		update_drainage_stream(patch, command_line->routing_flag, time_int, command_line->verbose_flag,
-			command_line->grow_flag);
+		update_drainage_stream(patch, ComLin->routing_flag, time_int, ComLin->verbose_flag,
+			ComLin->grow_flag);
 	}
 	else{
-		update_drainage_land(patch, command_line->routing_flag, time_int, command_line->verbose_flag,
-			command_line->grow_flag);
+		update_drainage_land(patch, ComLin->routing_flag, time_int, ComLin->verbose_flag,
+			ComLin->grow_flag);
 	}
 	
 
 	//Update sat_deficit_z when soil saturation deficit (soil moisture)is changed
 	patch->sat_deficit_z = compute_z_final(
-		command_line->verbose_flag,
+		ComLin->verbose_flag,
 		patch->soil_defaults->porosity_0,
 		patch->soil_defaults->porosity_decay,
 		patch->soil_defaults->soil_depth,
