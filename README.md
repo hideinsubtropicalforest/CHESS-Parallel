@@ -23,7 +23,7 @@ Besides, four default files of patch, soil, vegetation and land-use are provided
 relevant to soil, vegetation and land-use that are required to parameterize before running R-RHESSys.
 
 ## Simulation Dynamics
-As its predecessor, R-RHESSys is able to simulate::
+As its predecessor, CHESS is able to simulate::
 * Land surface hydrology, including river stream flow, base flow, ET, plant transpiration, soil moisture, and etc.
 * Ecosystem dynamics: vegetation growth and productivity, cycling of carbon and nitrogen (e.g., soil autotrophic and heterotrophic respiration) in terrestrial ecosystems, and etc. 
 * Biogeochemical dynamics:: soil nitrification and denitrification, river nitrate, dissolved DOC and DON, soil mineralization, and etc.
