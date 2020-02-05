@@ -151,8 +151,8 @@ struct output_hydro_plant
 	FILE *fBasinDailyPlant;
 	FILE *fPatchDailyHydro;
 	FILE *fPatchDailyPlant;
-	FILE *fGaugeDailyHydro[GAUGE_NUM];
-	FILE *fGaugeDailyPlant[GAUGE_NUM];
+	FILE** fGaugeDailyHydro;
+	FILE** fGaugeDailyPlant;
 
 };
 

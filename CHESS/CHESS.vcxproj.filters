@@ -486,6 +486,9 @@
     <ClCompile Include="init\construct_infile_path.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
+    <ClCompile Include="output\close_all_output_files.cpp">
+      <Filter>源文件\output</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="tec\R_RHESSys_info.txt">

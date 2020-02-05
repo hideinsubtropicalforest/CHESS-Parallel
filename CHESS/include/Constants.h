@@ -9,20 +9,6 @@
 //CONSTANTS TO BE DEFINED
 //=======================================================================================================================
 
-//---------------------------------------------------------------------------------------------------------------------------
-//xu. define threads and patch num
-//in most cases, the thread_num and basin_num should be the same
-//otherwise input or simulation module should be updated.
-//---------------------------------------------------------------------------------------------------------------------------
-/*
-#define BASIN_NUM	24
-#define CLIMATE_NUM	11
-#define PATCH_NUM	790304
-#define GAUGE_NUM	8=
-*/
-
-//waiting tobe totally removed 
-#define GAUGE_NUM	12
 
 #define HYDRO_NUM	42
 #define PLANT_NUM	42

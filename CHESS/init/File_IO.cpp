@@ -330,7 +330,7 @@ void	read_geo_images(struct patch_object *patch, struct CommandLineObject *ComLi
 	}
 	pgauges = new int[rows*cols]{};
 	if (ComLin->gg == TRUE) {
-		input_ascii_int(pgauges, fngauges, GAUGE_NUM, 1, arc_flag);
+		input_ascii_int(pgauges, fngauges, SimInf->gauge_num, 1, arc_flag);
 	}
 	//xu. default extra input
 	psthread = new int[rows*cols]{};
@@ -397,7 +397,10 @@ void	read_geo_images(struct patch_object *patch, struct CommandLineObject *ComLi
 	//xu. 2.MATCH PATHES WITH GAUGE_LISTS
 	//---------------------------------------------------------------------------------------------------------------------------
 	if (ComLin->gg == TRUE) {
-		for (int gauge_inx = 0; gauge_inx != GAUGE_NUM; gauge_inx++) {
+
+		SimInf->gauge_list = new int[SimInf->gauge_num];
+
+		for (int gauge_inx = 0; gauge_inx != SimInf->gauge_num; gauge_inx++) {
 
 			SimInf->gauge_list[gauge_inx] = pgauges[gauge_inx];
 
@@ -413,10 +416,10 @@ void	read_geo_images(struct patch_object *patch, struct CommandLineObject *ComLi
 
 
 	//free matrix memories
-	delete ppatch;delete pdem ;delete pslope ;delete paspect ;delete peast_horizon ;
-	delete pwest_horizon ;delete psoil ;delete pveg ;
-	delete pstreamorder ;delete psthread ;delete pcthread ;delete pgauges ;delete pclimate ;
-	delete platitude; delete proads; delete plon; delete plat; delete ppatchorder;
+	delete[] ppatch;delete[] pdem ;delete[] pslope ;delete[] paspect ;delete[] peast_horizon ;
+	delete[] pwest_horizon ;delete[] psoil ;delete[] pveg ;
+	delete[] pstreamorder ;delete[] psthread ;delete[] pcthread ;delete[] pgauges ;delete[] pclimate ;
+	delete[] platitude; delete[] proads; delete[] plon; delete[] plat; delete[] ppatchorder;
 
 	//deliver cellsize values to SimInf
 	SimInf->cell_size = InputGridData->cellsize;

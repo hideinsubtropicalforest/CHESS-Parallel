@@ -11,22 +11,32 @@ void construct_gauge_output_files(struct patch_object *patch, struct CommandLine
 	char* outPutPath = InFilePath->outPutPath;
 	int* gauge_list = SimInf->gauge_list;
 
-
+	
 	//define local variables
 	static int i = 0;
 
 	//define output file
 	//char  outPDHfile[120]; //Patch daily hydrology
 	//char  outPDGfile[120]; //Patch daily growth
-	char  outGDHfile[GAUGE_NUM][120]; //Basin daily hydrology
-	char  outGDGfile[GAUGE_NUM][120]; //Basin daily growth    
+	char** outGDHfile = new char *[SimInf->gauge_num];//Basin daily hydrology
+	for (int inx = 0; inx != SimInf->gauge_num; inx++)
+		outGDHfile[inx] = new char[120];
+	char** outGDGfile = new char* [SimInf->gauge_num];//Basin daily hydrology
+	for (int inx = 0; inx != SimInf->gauge_num; inx++)
+		outGDGfile[inx] = new char[120];
+	for (int inx = 0; inx != SimInf->gauge_num; inx++) {
+		DM_outfiles->fGaugeDailyHydro = new FILE * [SimInf->gauge_num];
+		DM_outfiles->fGaugeDailyPlant = new FILE * [SimInf->gauge_num];
+	}
+
+
 	char  gauge_name[100];
 	//char  outPMHfile[120]; //Patch monthly hydrology
 	//char  outPMGfile[120]; //Patch monthly growth
 	//char  outBMHfile[120]; //Basin monthly hydrology
 	//char  outBMGfile[120]; //Basin monthly growth 
 
-	for (int gauge_inx = 0; gauge_inx != GAUGE_NUM; gauge_inx++) {
+	for (int gauge_inx = 0; gauge_inx != SimInf->gauge_num; gauge_inx++) {
 		if (ComLin->b != NULL) { //basin level output
 			strcpy(outGDHfile[gauge_inx], outPutPath);
 			strcpy(outGDGfile[gauge_inx], outPutPath);

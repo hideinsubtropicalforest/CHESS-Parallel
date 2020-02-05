@@ -127,6 +127,7 @@
     <ClCompile Include="init\parse_veg_type.cpp" />
     <ClCompile Include="init\read_daily_climatedata.cpp" />
     <ClCompile Include="main_windows.cpp" />
+    <ClCompile Include="output\close_all_output_files.cpp" />
     <ClCompile Include="output\close_patch_output_files.cpp" />
     <ClCompile Include="output\construct_basin_output_files.cpp" />
     <ClCompile Include="output\construct_gauge_output_files.cpp" />
@@ -249,6 +250,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\CHESS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -267,6 +269,7 @@
       <AdditionalIncludeDirectories>..\CHESS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
       <OpenMPSupport>true</OpenMPSupport>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

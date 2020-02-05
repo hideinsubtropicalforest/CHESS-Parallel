@@ -52,7 +52,8 @@ void out_gauge_level_daily(struct patch_object* patch,struct CommandLineObject* 
 
 //close files
 void    close_patch_output_files(struct output_hydro_plant *, struct OutArray_object *OutArray);
-
+void    close_all_output_files(struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct output_hydro_plant* DM_outfiles);
 
 
 

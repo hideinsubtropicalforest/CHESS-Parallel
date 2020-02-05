@@ -88,30 +88,27 @@ int	main(int main_argc, char **main_argv)
 	struct  daily_clim_object* daily_clim=nullptr;
 
 	//others
-	int     kk = 0;
-	int     f_flag = 1, arc_flag = 1, CO2_flag = 1, out_flag = 0;
-	int     i = 0, j = 0, endyear = 0, spin_yrs = 0;
-	int     firstmonth, lastmonth, firstday, lastday;
-	double  time1=0, time2=0;
+	int     out_flag = 0,endyear = 0, spin_yrs = 0, firstmonth, lastmonth, firstday, lastday;//local parameters
+	double  time1=0, time2=0;//record time
 
 	//Simulation Information (Basic)
 	*SimInf = { "xf_ws",//basin name, the prefix in file systems
 				1,//threads in parallel simulations
 				1,//involved climate gauge
-				0 //number of output gauge 
+				1 //number of output gauge
 				};
 	//Simulation Date Range
 	*SimDate = {1960, //start_year
-				1964, //end_year
+				1960, //end_year
 				1, //start_month
-				12, //end_month
+				1, //end_month
 				1, //start_day
-				31, //end_day
+				5, //end_day
 				1,  //start_hour
 				24 //end_hour
 				};
 	//Output Date Range
-	*OutDate = { 1961, 1962, 1, 5, 1, 22, 1, 24 };
+	*OutDate = { 1960, 1960, 1, 5, 1, 22, 1, 24 };
 	//Spin Up Informations
 	*SpinInf = {0,//spin_years: years required for vegetation and soil carbon to reach the stable state with long-term balance
 				10,//spin_interval: the period of input climate data used for spin-up simulations
@@ -155,7 +152,7 @@ int	main(int main_argc, char **main_argv)
 	//=======================================================================================================================
 	//xu. SPIN UP and CHESS SIMULATION
 	//=======================================================================================================================
-	printf("\n Starting simulation:: \n"); 
+	printf("\nStarting simulation:: \n"); 
 	do {
 
 		if (spin_yrs < SpinInf->spin_years) { //&& ComLin->grow_flag>0
@@ -186,11 +183,11 @@ int	main(int main_argc, char **main_argv)
 		}
 
 		//=======================================================================================================================
-		//xu. STARTING CHESS SIMULATION by YEAR, MON and DAY
+		//CHESS SIMULATION by YEAR, MON and DAY
 		//=======================================================================================================================
 		for (current_date.year = SimDate->start_year; current_date.year <= endyear; current_date.year++) {
 
-
+			//record system time when annual simulation starts
 			time1= omp_get_wtime();
 
 			if (current_date.year == SimDate->start_year)
@@ -225,28 +222,25 @@ int	main(int main_argc, char **main_argv)
 				//determine if the year is leap year and thus the end day of February can be different
 				//end_day=end_day_norm_leap(current_date.year,=current_date.month-1);
 
-
-				//=======================================================================================================================
-				//xu. DAILY SIMULATION (THREE KEY PROCESSES)
-				//=======================================================================================================================
+			
 				for (current_date.day = firstday; current_date.day <= lastday; current_date.day++) {
 
-					//-----------------------------------------------------------------------------------------------------------------------
-					//xu. CLIMATE.. Read input climate data Precipitation, Tmin, Tmax and annual CO2
-					//---------------------------------------------------------------------------------------------------------------------------
+					//=======================================================================================================================
+					//xu. DAILY SIMULATION (THREE CORE PROCESSES)
+					//=======================================================================================================================
+					
+					//CLIMATE.. Read input climate data Precipitation, Tmin, Tmax and annual CO2
 					chess_climate_daily(patch,ComLin,SimInf, current_date, inClimFiles, daily_clim);
 
-					//---------------------------------------------------------------------------------------------------------------------------
-					//xu. PATCH.. Initial and run parallel CHESS daily Ecohydrological process and Transport of water and nutrients
-					//---------------------------------------------------------------------------------------------------------------------------
+					//PATCH.. Initial and run parallel CHESS daily Ecohydrological process and Transport of water and nutrients
 					chess_patch_daily(patch, ComLin, SimInf,current_date, daily_clim);//daily_clim is a pointer now, the changes through out chess land daily
 
-					//---------------------------------------------------------------------------------------------------------------------------
-					//xu. CHANNEL.. Channel flow routing process the route out the water
-					//---------------------------------------------------------------------------------------------------------------------------
+					//CHANNEL.. Channel flow routing process the route out the water
 					chess_channel_daily(patch, ComLin, SimInf, current_date, daily_clim);
 
-					//output daily-step variables
+					//END OF DAILY SIMULATION
+
+					//DAILY OUTPUT daily-step variables
 					if (!SpinInf->spin_flag) {
 						if (ComLin->b != NULL)
 							out_basin_level_daily( patch, ComLin,SimInf,current_date, OutDate, DM_outfiles);
@@ -256,18 +250,13 @@ int	main(int main_argc, char **main_argv)
 							out_gauge_level_daily(patch, ComLin, SimInf, current_date, OutDate, DM_outfiles);
 					}
 
-				}
-				//=======================================================================================================================
-				//END OF DAILY SIMULATION
-				//=======================================================================================================================
-
-
+				}//END OF A MONTH
 
 				//close patch_level_output_files
 				if (!SpinInf->spin_flag && ComLin->p == true)
 					close_patch_output_files(DM_outfiles, OutArray);
 
-			} //end of months
+			} // END OF A YEAR
 
 
 			time2 = omp_get_wtime();
@@ -277,12 +266,9 @@ int	main(int main_argc, char **main_argv)
 
 			spin_yrs += 1;
 			if (spin_yrs == SpinInf->spin_years && SpinInf->spin_flag) break;
-		}
+		}//END OF A TIME SERIES (SPIN INTERVAL OR SIMULATION PERIOD)
 
 
-		//=======================================================================================================================
-		//END OF YEARS
-		//=======================================================================================================================
 
 		if (SpinInf->spin_flag) {
 			rewind_daily_clim(inClimFiles);
@@ -291,24 +277,16 @@ int	main(int main_argc, char **main_argv)
 
 	} while (SpinInf->spin_flag);
 
-	//close basin output files
-	if (ComLin->b != NULL)
-	{
-		if(DM_outfiles->fBasinDailyHydro!=nullptr)
-			fclose(DM_outfiles->fBasinDailyHydro);
-		if (DM_outfiles->fBasinDailyHydro != nullptr)
-			fclose(DM_outfiles->fBasinDailyPlant);
-	}
+	//CLOSE basin output files
+	close_all_output_files(ComLin, SimInf, DM_outfiles);
 
 	//free memories
-	delete[] patch;
-	delete[] daily_clim;
-	delete ComLin;
-
+	delete SimInf;delete SimDate;delete OutDate;delete SpinInf;delete GridData;
+	delete[] patch;delete[] daily_clim;
 
 	//=======================================================================================================================
 	//END OF SIMULATION
 	//=======================================================================================================================
+
 	return (0);
-} //end of main programs
-  //=======================================================================================================================
+} //END OF CHESS
