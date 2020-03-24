@@ -68,56 +68,48 @@ int	main(int main_argc, char **main_argv)
 {
 
 	// Variables
-	//entity
-	struct  date current_date {};
-	struct  input_Clim_Files   inClimFiles {};
-
-	//pointer
+	// tunable
 	struct  CommandLineObject* ComLin = new struct CommandLineObject;
 	struct  SimulationInformation* SimInf = new struct SimulationInformation;
 	struct  SimulationDateRange * SimDate = new struct SimulationDateRange;
 	struct  OutputDateRange *OutDate = new struct  OutputDateRange;
 	struct  SpinInformation* SpinInf = new struct SpinInformation;
+	//Simulation Information (Basic)
+	*SimInf = { "lxh_sk",//basin name, the prefix in file systems
+				24,//threads in parallel simulations
+				1,//involved climate gauge
+				1 //number of output gauge
+	};
+	//Simulation Date Range
+	*SimDate = {1985, //start_year
+				2015, //end_year
+				1, //start_month
+				12, //end_month
+				1, //start_day
+				31, //end_day
+				1,  //start_hour
+				24 //end_hour
+	};
+	//Output Date Range
+	*OutDate = { 1985, 2017, 1, 12, 1, 31, 1, 24 };
+	//Spin Up Informations
+	*SpinInf = {40,//spin_years: years required for vegetation and soil carbon to reach the stable state with long-term balance
+				10,//spin_interval: the period of input climate data used for spin-up simulations
+				true//spin_flag
+	};
+	
+	// default
+	struct  date current_date {};
+	struct  input_Clim_Files   inClimFiles {};
 	struct  InputGridData *GridData = new struct InputGridData;
 	struct  InFilePath *InFilePath = new struct  InFilePath;
 	struct  OutArray_object *OutArray = new struct OutArray_object;
 	struct  output_hydro_plant* DM_outfiles = new struct output_hydro_plant;
-	
-	
-	struct patch_object *patch=nullptr;//allocate momeries in Fuc. construct_routing_topography
-	struct  daily_clim_object* daily_clim=nullptr;
-
+	struct  patch_object *patch = nullptr;//allocate momeries in Fuc. construct_routing_topography
+	struct  daily_clim_object* daily_clim = new struct daily_clim_object[SimInf->climate_num]{};
 	//others
 	int     out_flag = 0,endyear = 0, spin_yrs = 0, firstmonth, lastmonth, firstday, lastday;//local parameters
 	double  time1=0, time2=0;//record time
-
-	//Simulation Information (Basic)
-	*SimInf = { "xf_ws",//basin name, the prefix in file systems
-				1,//threads in parallel simulations
-				1,//involved climate gauge
-				1 //number of output gauge
-				};
-	//Simulation Date Range
-	*SimDate = {1960, //start_year
-				1960, //end_year
-				1, //start_month
-				1, //end_month
-				1, //start_day
-				5, //end_day
-				1,  //start_hour
-				24 //end_hour
-				};
-	//Output Date Range
-	*OutDate = { 1960, 1960, 1, 5, 1, 22, 1, 24 };
-	//Spin Up Informations
-	*SpinInf = {0,//spin_years: years required for vegetation and soil carbon to reach the stable state with long-term balance
-				10,//spin_interval: the period of input climate data used for spin-up simulations
-				true//spin_flag
-				};
-
-
-	//allocate memories for Climate
-	daily_clim = new struct daily_clim_object[SimInf->climate_num]{};
 
 	//=======================================================================================================================
 	//xu. BUILD AND INITIAL THE ENDVIRONMENT FOR SIMULATION
@@ -226,7 +218,7 @@ int	main(int main_argc, char **main_argv)
 				for (current_date.day = firstday; current_date.day <= lastday; current_date.day++) {
 
 					//=======================================================================================================================
-					//xu. DAILY SIMULATION (THREE CORE PROCESSES)
+					//xu. DAILY SIMULATION (THREE KEY FUNCTIONS)
 					//=======================================================================================================================
 					
 					//CLIMATE.. Read input climate data Precipitation, Tmin, Tmax and annual CO2
@@ -282,8 +274,9 @@ int	main(int main_argc, char **main_argv)
 
 	//free memories
 	delete SimInf;delete SimDate;delete OutDate;delete SpinInf;delete GridData;
-	delete[] patch;delete[] daily_clim;
-
+	delete[] patch;
+	//delete daily_clim;
+	//int a;
 	//=======================================================================================================================
 	//END OF SIMULATION
 	//=======================================================================================================================

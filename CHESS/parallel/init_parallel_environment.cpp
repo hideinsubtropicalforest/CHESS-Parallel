@@ -46,11 +46,12 @@ void	init_parallel_environment(struct patch_object *patch, struct  SimulationInf
 	for (int inx = 0; inx < SimInf->patch_num; inx++) {
 		
 		//start from 0
-		thread_inx = patch[inx].sthread -1;
-
-		SimInf->land_pch[thread_inx][(SimInf->land_thread_patch_num[thread_inx])] = inx;
-		
-		SimInf->land_thread_patch_num[thread_inx]++;
+		if(patch[inx].sthread > 0){
+			
+			thread_inx = patch[inx].sthread -1;
+			SimInf->land_pch[thread_inx][(SimInf->land_thread_patch_num[thread_inx])] = inx;
+			SimInf->land_thread_patch_num[thread_inx]++;
+		}
 
 		if (patch[inx].clayer > 0) {
 			thread_inx = patch[inx].cthread - 1;//start from 0
