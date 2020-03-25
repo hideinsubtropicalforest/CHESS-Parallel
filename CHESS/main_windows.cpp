@@ -74,6 +74,8 @@ int	main(int main_argc, char **main_argv)
 	struct  SimulationDateRange * SimDate = new struct SimulationDateRange;
 	struct  OutputDateRange *OutDate = new struct  OutputDateRange;
 	struct  SpinInformation* SpinInf = new struct SpinInformation;
+	
+	
 	//Simulation Information (Basic)
 	*SimInf = { "lxh_sk",//basin name, the prefix in file systems
 				24,//threads in parallel simulations
@@ -93,7 +95,7 @@ int	main(int main_argc, char **main_argv)
 	//Output Date Range
 	*OutDate = { 1985, 2017, 1, 12, 1, 31, 1, 24 };
 	//Spin Up Informations
-	*SpinInf = {40,//spin_years: years required for vegetation and soil carbon to reach the stable state with long-term balance
+	*SpinInf = {0,//spin_years: years required for vegetation and soil carbon to reach the stable state with long-term balance
 				10,//spin_interval: the period of input climate data used for spin-up simulations
 				true//spin_flag
 	};

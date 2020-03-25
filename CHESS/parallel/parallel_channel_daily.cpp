@@ -43,9 +43,6 @@ void  parallel_channel_daily(patch_object *patch, struct CommandLineObject *ComL
 			// 1... INITIALIZATION BEFORE ECO-HYDROLOGICAL SIMULATION
 			//=======================================================================================================================
 
-			// 1.1 Initializing ecohydrological Fluxes as 0 
-			zero_patch_object(&patch[pch]);
-
 			// 1.2 Initializing Climate Forcing
 			patch_climate_initial(&patch[pch], daily_clim[climate_inx], ComLin, current_date);
 

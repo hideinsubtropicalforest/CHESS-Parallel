@@ -39,8 +39,16 @@ void  chess_patch_daily(struct patch_object* patch,
 	delete[] thd;
 	*/
 	///*
-	//init and run all thread
+
+	//
 	int thread_num = SimInf->thread_num;
+	#pragma omp parallel for num_threads(thread_num)
+	for (int patch_inx = 0; patch_inx < SimInf->patch_num; patch_inx++) {
+		zero_patch_object(&patch[patch_inx]);
+	}
+
+
+	//init and run all thread
 	#pragma omp parallel for num_threads(thread_num)
 	for (int thread_inx = 0; thread_inx < thread_num; thread_inx++) {
 

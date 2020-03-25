@@ -7,7 +7,7 @@
 0.95            cover_fraction		  
 0.05	        gap_fraction		  
 1.5             root_depth (m)
-0.5	        snowpack_energy_deficit 
+0.5	            snowpack_energy_deficit 
 -10.0	        snowpack_T 
 -10.0           maximum_snow_energy_deficit //original -10
 0.000           snow_water_capacity

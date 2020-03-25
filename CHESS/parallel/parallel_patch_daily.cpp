@@ -31,8 +31,6 @@ void		parallel_patch_daily(struct 	patch_object *patch,
 		//=======================================================================================================================
 		
 		if (patch[pch].drainage_type != STREAM){
-		// 1.1 Initializing ecohydrological Fluxes as 0 
-		zero_patch_object(patch_current);
 
 		// 1.2 Initializing Climate Forcing
 		patch_climate_initial(patch_current, daily_clim[climate_inx], ComLin, current_date);
