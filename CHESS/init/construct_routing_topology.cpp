@@ -72,7 +72,7 @@ struct patch_object *construct_routing_topology(struct patch_object* patch,struc
 				&patch[i].neighbours[neigh].patchorder,//elevation order
 				&patch[i].neighbours[neigh].patchID,//ID
 				&patch[i].neighbours[neigh].gamma);
-				patch[i].neighbours[neigh].patch = &patch[patch[i].neighbours[neigh].patchorder];//address
+				patch[i].neighbours[neigh].patch = &(patch[patch[i].neighbours[neigh].patchorder]);//address
 		}
 
 	}

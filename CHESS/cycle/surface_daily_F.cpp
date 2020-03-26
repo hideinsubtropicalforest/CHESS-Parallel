@@ -383,12 +383,12 @@ void		surface_daily_F(
 	}
 
 	balance=balance -(patch->litter.rain_stored+patch->evaporation_surf_litter+patch->rain_throughfall);
-	/*
+	
 	if(balance> 0.0000001 || balance < -0.00000001){
 		printf(" surface daily balance is not zero patch_daily.f %12.8f \n",balance);
 		printf(" year month day patchid %d %d %d %d \n",current_date.year, current_date.month,current_date.day,patch->ID);
 		getchar();
 	}
-	*/
+	
 	return;
 } //end surface_daily_F.c

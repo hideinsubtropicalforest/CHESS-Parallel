@@ -432,17 +432,8 @@
     <ClCompile Include="init\construct_climate_defaults.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
-    <ClCompile Include="parallel\parallel_patch_daily.cpp">
-      <Filter>源文件\parallel</Filter>
-    </ClCompile>
     <ClCompile Include="chess\chess_patch_daily.cpp">
       <Filter>源文件\chess</Filter>
-    </ClCompile>
-    <ClCompile Include="hydro\update_drainage_stream.cpp">
-      <Filter>源文件\hydro</Filter>
-    </ClCompile>
-    <ClCompile Include="hydro\update_drainage_land.cpp">
-      <Filter>源文件\hydro</Filter>
     </ClCompile>
     <ClCompile Include="init\zero_patch_object.cpp">
       <Filter>源文件\patch</Filter>
@@ -468,9 +459,6 @@
     <ClCompile Include="init\construct_reservoir_correponding_data.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
-    <ClCompile Include="parallel\parallel_channel_daily.cpp">
-      <Filter>源文件\parallel</Filter>
-    </ClCompile>
     <ClCompile Include="parallel\init_parallel_environment.cpp">
       <Filter>源文件\parallel</Filter>
     </ClCompile>
@@ -488,6 +476,24 @@
     </ClCompile>
     <ClCompile Include="output\close_all_output_files.cpp">
       <Filter>源文件\output</Filter>
+    </ClCompile>
+    <ClCompile Include="tec\check_water_balance.cpp">
+      <Filter>源文件\tec</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\update_drainage_stream_new.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="hydro\update_drainage_land_new.cpp">
+      <Filter>源文件\hydro</Filter>
+    </ClCompile>
+    <ClCompile Include="parallel\parallel_hillslope_subunit.cpp">
+      <Filter>源文件\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="parallel\parallel_channel_subunit.cpp">
+      <Filter>源文件\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="parallel\parallel_route_subunit.cpp">
+      <Filter>源文件\parallel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

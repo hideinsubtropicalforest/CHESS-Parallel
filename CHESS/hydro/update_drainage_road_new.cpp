@@ -31,9 +31,9 @@
 /*											*/
 /*--------------------------------------------------------------*/
 #include <stdio.h>
-
-#include "CHESS.h"
-#include "Constants.h"
+#include "chess.h"
+#include "constants.h"
+#include "functions.h"
 
 void  update_drainage_road(  
 								 struct patch_object *patch,

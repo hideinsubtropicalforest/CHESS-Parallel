@@ -1,14 +1,6 @@
 # Coupled Hydrology Ecology Simulation System - Parallelized (CHESS)
 ## Brief introduction
-The "CHESS" is developed based on the Regional Hydroecological Simulation Systems (RHESSys, Tague and Band, 2004)
-but excluded basin, hillslope and zone related hierarchical framework/structure in its predecessor. It also excluded
-the TOP-MODEL embedded in its predecessor. It is a strictly cell-by-cell-based model and uses spatially explicit
-routing algorithm to simulate spatial connectivity and movement of water and dissolved nutrients among simulated cells.
-Since vegetation growth is dynamically simulated, a spin-up simulation control for vegetation growth and associated
-carbon dynamics was added. This enables users to model vegetation and cycling of C and N in terrestrial ecosystems.
-In addition, land surface water balance in each cell will be checked before routing water and solutes. The model codes
-were checked/debugged and greatly simplified compared to the original RHESSys model. In author's personal view, it is
-easier to handle than its predecessor while most subroutines are kept identical as their counterparts in its
+The "CHESS" is developed based on the Regional Hydroecological Simulation Systems (RHESSys, Tague and Band, 2004) but excluded basin, hillslope and zone related hierarchical framework/structure in its predecessor. It also excluded the TOP-MODEL embedded in its predecessor. It is a strictly cell-by-cell-based model and uses spatially explicit routing algorithm to simulate spatial connectivity and movement of water and dissolved nutrients among simulated cells. Since vegetation growth is dynamically simulated, a spin-up simulation control for vegetation growth and associated carbon dynamics was added. This enables users to model vegetation and cycling of C and N in terrestrial ecosystems. In addition, land surface water balance in each cell will be checked before routing water and solutes. The model codes were checked/debugged and greatly simplified compared to the original RHESSys model. In author's personal view, it is easier to handle than its predecessor while most subroutines are kept identical as their counterparts in its
 predecessor.
 
 ## Required data
