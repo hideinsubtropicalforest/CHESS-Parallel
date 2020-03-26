@@ -103,8 +103,8 @@
     <ClCompile Include="hydro\penman_monteith.cpp" />
     <ClCompile Include="hydro\recompute_gamma.cpp" />
     <ClCompile Include="hydro\snowpack_daily_F.cpp" />
-    <ClCompile Include="hydro\update_drainage_land.cpp" />
-    <ClCompile Include="hydro\update_drainage_stream.cpp" />
+    <ClCompile Include="hydro\update_drainage_land_new.cpp" />
+    <ClCompile Include="hydro\update_drainage_stream_new.cpp" />
     <ClCompile Include="hydro\update_gw_drainage.cpp" />
     <ClCompile Include="hydro\update_litter_interception_capacity.cpp" />
     <ClCompile Include="init\construct_canopy_strata.cpp" />
@@ -142,8 +142,9 @@
     <ClCompile Include="output\out_gauge_level_daily.cpp" />
     <ClCompile Include="output\out_patch_level_daily.cpp" />
     <ClCompile Include="parallel\init_parallel_environment.cpp" />
-    <ClCompile Include="parallel\parallel_channel_daily.cpp" />
-    <ClCompile Include="parallel\parallel_patch_daily.cpp" />
+    <ClCompile Include="parallel\parallel_route_subunit.cpp" />
+    <ClCompile Include="parallel\parallel_channel_subunit.cpp" />
+    <ClCompile Include="parallel\parallel_hillslope_subunit.cpp" />
     <ClCompile Include="patch\patch_land_initial.cpp" />
     <ClCompile Include="rad\compute_diffuse_radiative_fluxes.cpp" />
     <ClCompile Include="rad\compute_diffuse_radiative_PAR_fluxes.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="rad\compute_Lstar.cpp" />
     <ClCompile Include="rad\compute_radiative_fluxes.cpp" />
     <ClCompile Include="rad\compute_surface_heat_flux.cpp" />
+    <ClCompile Include="tec\check_water_balance.cpp" />
     <ClCompile Include="tec\math.cpp" />
     <ClCompile Include="tec\valid_option.cpp" />
     <ClCompile Include="util\alloc.cpp" />

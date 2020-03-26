@@ -26,9 +26,9 @@ void  chess_channel_daily(struct patch_object* patch, struct CommandLineObject* 
 	struct	date	current_date, struct  daily_clim_object* daily_clim);
 
 //sub
-void		parallel_patch_daily(struct patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+void		parallel_hillslope_subunit(struct patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
 	struct	date current_date, struct  daily_clim_object* daily_clim, int	thread_inx);
-void  parallel_channel_daily(patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf, struct	date current_date,
+void  parallel_route_subunit(patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf, struct	date current_date,
 	struct  daily_clim_object* daily_clim, int layer_inx, int thread_inx);
 
 
@@ -217,3 +217,9 @@ long 	yearday(struct date current_date);
 //---------------------------------------------------------------------------------------------------------------------------
 double max(double, double);
 double min(double, double);
+
+
+
+bool check_water_balance(struct patch_object* patch);
+void  parallel_channel_subunit(patch_object* patch, struct CommandLineObject* ComLin, struct  SimulationInformation* SimInf,
+	struct	date current_date, struct  daily_clim_object* daily_clim, int layer_inx, int thread_inx);

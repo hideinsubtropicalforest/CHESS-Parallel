@@ -33,7 +33,7 @@ void  chess_channel_daily(struct patch_object* patch,
 		for (int thread_inx = 0; thread_inx != parallel->thread_num; thread_inx++) {
 
 			//parallel patch daily is served to be a elementary function of patch daily process
-			thd[thread_inx] = thread(parallel_channel_daily, patch, ComLin, current_date, parallel, layer_inx, thread_inx);
+			thd[thread_inx] = thread(parallel_route_subunit, patch, ComLin, current_date, parallel, layer_inx, thread_inx);
 		}
 		//wait till all threads terminate
 		for (int thread_inx = 0; thread_inx != parallel->thread_num; thread_inx++) {
@@ -43,13 +43,19 @@ void  chess_channel_daily(struct patch_object* patch,
 	}
 	*/
 	
-	//init and run all thread
+	//hydrological simulation
 	int thread_num = SimInf->thread_num;
 	for (int layer_inx = 0; layer_inx != SimInf->layer_num; layer_inx++) {
-		
 		#pragma omp parallel for num_threads(thread_num)
 		for (int thread_inx = 0; thread_inx < SimInf->thread_num; thread_inx++) {
-		parallel_channel_daily(patch, ComLin, SimInf,current_date, daily_clim, layer_inx, thread_inx);
+			parallel_channel_subunit(patch, ComLin, SimInf, current_date, daily_clim, layer_inx, thread_inx);
+		}
+	}	
+	//routes out of all water 
+	for (int layer_inx = 0; layer_inx != SimInf->layer_num; layer_inx++) {
+		#pragma omp parallel for num_threads(thread_num)
+		for (int thread_inx = 0; thread_inx < SimInf->thread_num; thread_inx++) {
+			parallel_route_subunit(patch, ComLin, SimInf,current_date, daily_clim, layer_inx, thread_inx);
 		}
 	}
 

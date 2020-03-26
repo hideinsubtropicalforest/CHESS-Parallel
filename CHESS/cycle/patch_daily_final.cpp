@@ -60,12 +60,28 @@ void	patch_daily_final(struct 	patch_object *patch,
 	struct	canopy_strata_object	*strata;
 	double  water_balance, nitrate_balance, NH4_balance;
 
-
+	bool balance_index;
 	//---------------------------------------------------------------------------------------------------------------------------
 	// Zone_daily_F
 	// Daylength, Radiation, Rain_duration
 	//---------------------------------------------------------------------------------------------------------------------------
 	//zone_daily_final(patch,ComLin,current_date);
+	water_balance = patch->rain + patch->snow
+		+ patch->preday_rain_stored - patch->rain_stored                     // rain stored by canopy
+		+ patch->preday_snow_stored - patch->snow_stored                     // snow stored by canopy
+		+ patch->litter.preday_rain_stored - patch->litter.rain_stored              // rain stored by litter
+		+ patch->preday_snowpack - patch->snowpack.water_equivalent_depth // snowpack on the ground
+		+ patch->detention_store_preday - patch->detention_store                 // water detened on soil surface
+		+ patch->rz_storage_preday - patch->rz_storage                      // water stored in root zone layer
+		+ patch->unsat_storage_preday - patch->unsat_storage                   // water stored in unsat zone layer
+		- patch->sat_deficit_preday + patch->sat_deficit                     // water needed to saturate the whole soil
+		- patch->AET                                                                // water evapotranspirated
+		- patch->gw_drainage                                                        // groundwater drainage
+		- patch->subsurface_Qout - patch->surface_Qout
+		+ patch->subsurface_Qin + patch->surface_Qin;
+
+	balance_index = check_water_balance(patch);//1
+
 
 
 	if ((patch->daylength_flag == 0) && (patch->e_horizon == 0) && (patch->w_horizon == 0)) {
@@ -159,9 +175,6 @@ void	patch_daily_final(struct 	patch_object *patch,
 			patch->daytime_rain_duration = patch->metv.dayl / 10.; //guoping double check
 		}
 	}
-
-
-
 
 	//--------------------------------------------------------------------------------------------------------------------------
 	//	Set the patch rain and snow throughfall equivalent to the rain and snow coming down over the zone.
@@ -485,7 +498,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 																  //--------------------------------------------------------------------------------------------------------------------------
 																  // determine fate of hold infiltration excess in detention store infiltration excess will removed during routing portion
 																  //--------------------------------------------------------------------------------------------------------------------------
-	patch->detention_store = (net_inflow - infiltration);
+	patch->detention_store = (net_inflow - infiltration);//correct
 	patch->rain_throughfall = max(0, patch->rain_throughfall - patch->preday_detention_store);//just have throughfall to make it sense
 
 																							  //--------------------------------------------------------------------------------------------------------------------------
@@ -758,6 +771,9 @@ void	patch_daily_final(struct 	patch_object *patch,
 		}
 	}
 
+
+	balance_index = check_water_balance(patch);//2
+
 	//--------------------------------------------------------------------------------------------------------------------------
 	//	See how much of  unsat zone demand can be met and still field capacity.
 	//--------------------------------------------------------------------------------------------------------------------------
@@ -872,6 +888,8 @@ void	patch_daily_final(struct 	patch_object *patch,
 																  // loss of water from saturation zone will directly increase saturation deficit. Loss of water from unsaturation will first 
 																  // decrease the content of water in unsaturated zone and then content in root zone storage. Finally, it may increase the
 																  // saturation deficit.
+	
+	
 	patch->sat_deficit += (patch->transpiration_sat_zone + patch->exfiltration_sat_zone);
 	patch->unsat_storage -= (patch->transpiration_unsat_zone + patch->exfiltration_unsat_zone);
 
@@ -961,6 +979,7 @@ void	patch_daily_final(struct 	patch_object *patch,
 		patch->rz_storage -= patch->rz_drainage;
 		patch->sat_deficit -= patch->rz_drainage;
 	}
+
 
 	//--------------------------------------------------------------------------------------------------------------------------
 	//     Final rootzone saturation calculation
@@ -1184,45 +1203,24 @@ void	patch_daily_final(struct 	patch_object *patch,
 	getchar();
 	}
 	*/
-
-	/*
-	//==========================================================================================================================
-	// Checking water balance to see if it is zero
-	//==========================================================================================================================
+	
+	//checking water_balance does not has important meanings here as it do not count the Qin
 	water_balance = patch->rain + patch->snow
-	+ patch->preday_rain_stored        - patch->rain_stored                     // rain stored by canopy
-	+ patch->preday_snow_stored        - patch->snow_stored                     // snow stored by canopy
-	+ patch->preday_snowpack           - patch->snowpack.water_equivalent_depth // snowpack on the ground
-	+ patch->litter.preday_rain_stored - patch->litter.rain_stored              // rain stored by litter
-	+ patch->preday_detention_store    - patch->detention_store                 // water detened on soil surface
-	+ patch->preday_rz_storage         - patch->rz_storage                      // water stored in root zone layer
-	+ patch->preday_unsat_storage      - patch->unsat_storage                   // water stored in unsat zone layer
-	- patch->preday_sat_deficit        + patch->sat_deficit                     // water needed to saturate the whole soil
-	- patch->AET                                                                // water evapotranspirated
-	- patch->gw_drainage;                                                       // groundwater drainage
-
-	if ((water_balance > 0.00000001)|| (water_balance < -0.00000001)){
-	printf("water_balance in patch_daily_f_new.cpp is NOT ZERO %12.8f\n",water_balance);
-	printf("patch->rain %12.8f \n",patch->rain);
-	printf("patch->snow %12.8f \n",patch->snow);
-	printf("\n \n");
-
-	printf("Changes in canopy rain_stored %12.8f,%12.8f \n", patch->preday_rain_stored,patch->rain_stored);
-	printf("Changes in canopy snow_stored %12.8f,%12.8f \n", patch->preday_snow_stored,patch->snow_stored);
-	printf("Changes in snowpack %12.8f,%12.8f \n", patch->preday_snowpack,patch->snowpack.water_equivalent_depth);
-	printf("Changes in litter.rain_stored %12.8f,%12.8f \n", patch->litter.preday_rain_stored , patch->litter.rain_stored);
-	printf("Changes in surface detention_store %12.8f,%12.8f \n",patch->preday_detention_store, patch->detention_store);
-	printf("Changes in rz_storage %12.8f,%12.8f \n",patch->preday_rz_storage, patch->rz_storage);
-	printf("Changes in unsat_storage %12.8f,%12.8f \n",  patch->preday_unsat_storage,patch->unsat_storage);
-	printf("Changes in sat_deficit %12.8f,%12.8f \n", patch->sat_deficit, patch->preday_sat_deficit);
-	printf("Actual total evapotranspiration %12.8f \n", patch->AET);
-	printf("patch->gw_drainage is %12.8f \n",patch->gw_drainage);
-
-	printf("time and id is %d %d %d %d \n",current_date.year,current_date.month,current_date.day,patch->ID);
-	//getchar();
-	}
-	*/
-
+		+ patch->preday_rain_stored - patch->rain_stored                     // rain stored by canopy
+		+ patch->preday_snow_stored - patch->snow_stored                     // snow stored by canopy
+		+ patch->litter.preday_rain_stored - patch->litter.rain_stored              // rain stored by litter
+		+ patch->preday_snowpack - patch->snowpack.water_equivalent_depth // snowpack on the ground
+		+ patch->detention_store_preday - patch->detention_store                 // water detened on soil surface
+		+ patch->rz_storage_preday - patch->rz_storage                      // water stored in root zone layer
+		+ patch->unsat_storage_preday - patch->unsat_storage                   // water stored in unsat zone layer
+		- patch->sat_deficit_preday + patch->sat_deficit                     // water needed to saturate the whole soil
+		- patch->AET                                                                // water evapotranspirated
+		- patch->gw_drainage                                                        // groundwater drainage
+		- patch->subsurface_Qout - patch->surface_Qout
+		+ patch->subsurface_Qin + patch->surface_Qin;	
+	balance_index = check_water_balance(patch);
+	//if (balance_index == false)
+		//printf("time and id is %d %d %d %d %d \n", current_date.year, current_date.month, current_date.day, patch->ID, patch->drainage_type);
 	//---------------------------------------------------------------------------------------------------------------------------
 	//	get rid of any negative soil or litter stores
 	//---------------------------------------------------------------------------------------------------------------------------
