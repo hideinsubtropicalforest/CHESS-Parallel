@@ -105,14 +105,14 @@ int	main(int main_argc, char **main_argv)
 	//lxh_sk
 	
 	//Simulation Information (Basic)
-	*SimInf = { "lxh_sk",//basin name, the prefix in file systems
+	*SimInf = { "sk",//basin name, the prefix in file systems
 				24,//threads in parallel simulations
 				1,//involved climate gauge
 				1 //number of output gauge
 	};
 	//Simulation Date Range
 	*SimDate = {1985, //start_year
-				2018, //end_year
+				1988, //end_year
 				1, //start_month
 				12, //end_month
 				1, //start_day
@@ -123,7 +123,7 @@ int	main(int main_argc, char **main_argv)
 	//Output Date Range
 	*OutDate = { 1985, 2018, 1, 12, 1, 31, 1, 24 };
 	//Spin Up Informations
-	*SpinInf = {40,//spin_years: years required for vegetation and soil carbon to reach the stable state with long-term balance
+	*SpinInf = {0,//spin_years: years required for vegetation and soil carbon to reach the stable state with long-term balance
 				10,//spin_interval: the period of input climate data used for spin-up simulations
 				true//spin_flag
 	};
