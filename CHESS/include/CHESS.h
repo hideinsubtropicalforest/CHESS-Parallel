@@ -147,10 +147,10 @@ struct date
 //===============================================================================================================================
 struct output_hydro_plant
 {
-	FILE *fBasinDailyHydro;
-	FILE *fBasinDailyPlant;
-	FILE *fPatchDailyHydro;
-	FILE *fPatchDailyPlant;
+	FILE *fBasinDailyHydro = nullptr;
+	FILE *fBasinDailyPlant = nullptr;
+	FILE *fPatchDailyHydro = nullptr;
+	FILE *fPatchDailyPlant = nullptr;
 	FILE** fGaugeDailyHydro;
 	FILE** fGaugeDailyPlant;
 

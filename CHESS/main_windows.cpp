@@ -277,7 +277,7 @@ int	main(int main_argc, char **main_argv)
 
 				//close patch_level_output_files
 				if (!SpinInf->spin_flag && ComLin->p == true)
-					close_patch_output_files(DM_outfiles, OutArray);
+					close_patch_output_files(ComLin, DM_outfiles, OutArray);
 
 			} // END OF A YEAR
 
