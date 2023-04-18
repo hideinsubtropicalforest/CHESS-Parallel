@@ -1,44 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\CHESS\util\alloc.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\check_zero_stores.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\compute_year_day.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\end_day_leap.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\find_patch.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\julday.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\key_compare.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\match_patch.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\read_record.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\rewind_daily_clim.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\sort_patch_layers.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\spaveg.cpp">
-      <Filter>源文件\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\CHESS\util\yearday.cpp">
-      <Filter>源文件\util</Filter>
+    <ClCompile Include="..\CHESS\main.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="..\CHESS\chess\chess_channel_daily.cpp">
       <Filter>源文件\chess</Filter>
@@ -274,10 +238,10 @@
     <ClCompile Include="..\CHESS\hydro\snowpack_daily_F.cpp">
       <Filter>源文件\hydro</Filter>
     </ClCompile>
-    <ClCompile Include="..\CHESS\hydro\update_drainage_land.cpp">
+    <ClCompile Include="..\CHESS\hydro\update_drainage_land_new.cpp">
       <Filter>源文件\hydro</Filter>
     </ClCompile>
-    <ClCompile Include="..\CHESS\hydro\update_drainage_stream.cpp">
+    <ClCompile Include="..\CHESS\hydro\update_drainage_stream_new.cpp">
       <Filter>源文件\hydro</Filter>
     </ClCompile>
     <ClCompile Include="..\CHESS\hydro\update_gw_drainage.cpp">
@@ -307,7 +271,7 @@
     <ClCompile Include="..\CHESS\init\construct_reservoir_correponding_data.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
-    <ClCompile Include="..\CHESS\init\construct_routing_topology_new.cpp">
+    <ClCompile Include="..\CHESS\init\construct_routing_topology.cpp">
       <Filter>源文件\init</Filter>
     </ClCompile>
     <ClCompile Include="..\CHESS\init\construct_soil_defaults.cpp">
@@ -336,6 +300,9 @@
     </ClCompile>
     <ClCompile Include="..\CHESS\init\read_daily_climatedata.cpp">
       <Filter>源文件\init</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\output\close_all_output_files.cpp">
+      <Filter>源文件\output</Filter>
     </ClCompile>
     <ClCompile Include="..\CHESS\output\close_patch_output_files.cpp">
       <Filter>源文件\output</Filter>
@@ -379,10 +346,13 @@
     <ClCompile Include="..\CHESS\parallel\init_parallel_environment.cpp">
       <Filter>源文件\parallel</Filter>
     </ClCompile>
-    <ClCompile Include="..\CHESS\parallel\parallel_channel_daily.cpp">
+    <ClCompile Include="..\CHESS\parallel\parallel_route_subunit.cpp">
       <Filter>源文件\parallel</Filter>
     </ClCompile>
-    <ClCompile Include="..\CHESS\parallel\parallel_patch_daily.cpp">
+    <ClCompile Include="..\CHESS\parallel\parallel_channel_subunit.cpp">
+      <Filter>源文件\parallel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\parallel\parallel_hillslope_subunit.cpp">
       <Filter>源文件\parallel</Filter>
     </ClCompile>
     <ClCompile Include="..\CHESS\cycle\patch_daily_final.cpp">
@@ -424,58 +394,100 @@
     <ClCompile Include="..\CHESS\rad\compute_surface_heat_flux.cpp">
       <Filter>源文件\rad</Filter>
     </ClCompile>
-    <ClCompile Include="..\CHESS\tec\valid_option.cpp">
+    <ClCompile Include="..\CHESS\tec\check_water_balance.cpp">
       <Filter>源文件\tec</Filter>
     </ClCompile>
     <ClCompile Include="..\CHESS\tec\math.cpp">
       <Filter>源文件\tec</Filter>
     </ClCompile>
-    <ClCompile Include="main_linux.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="..\CHESS\tec\valid_option.cpp">
+      <Filter>源文件\tec</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\alloc.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\check_zero_stores.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\compute_year_day.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\end_day_leap.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\find_patch.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\julday.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\key_compare.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\match_patch.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\read_record.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\rewind_daily_clim.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\sort_patch_layers.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\spaveg.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CHESS\util\yearday.cpp">
+      <Filter>源文件\util</Filter>
+    </ClCompile>
+    <ClCompile Include="linux_src\construct_infile_path_linux.cpp">
+      <Filter>源文件\init</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="源文件">
       <UniqueIdentifier>{6daba755-a99f-48f4-bc18-8d32d40e8925}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\util">
-      <UniqueIdentifier>{2059bd98-40b9-4779-a02a-b22fedb1e107}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\chess">
-      <UniqueIdentifier>{bca7abb3-dc24-4489-b816-5eec937b18e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\clim">
-      <UniqueIdentifier>{e7cab893-f5c0-4d5b-8c91-5126f0c50545}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\cn">
-      <UniqueIdentifier>{ce4bc314-6f61-401b-9200-14bf22f1799c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\cycle">
-      <UniqueIdentifier>{fd04a4fd-96f1-4042-8c08-bb951ce5923b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\hydro">
-      <UniqueIdentifier>{acb3335c-1b14-43c0-87fd-2792c9454012}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\init">
-      <UniqueIdentifier>{d17dc30f-fe87-4109-956b-ebfe7d1231e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\output">
-      <UniqueIdentifier>{c7165ae5-3133-4578-b5a5-a55ddaaab806}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\parallel">
-      <UniqueIdentifier>{d683aacc-6313-4fea-ac9f-7984618376c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\patch">
-      <UniqueIdentifier>{94b49c4d-3632-4560-9149-7838ea84812d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\rad">
-      <UniqueIdentifier>{0fd7c48c-8aab-42d8-ae83-a69e0551a269}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\tec">
-      <UniqueIdentifier>{60879356-310f-417e-882a-6a57b9eb55cf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件">
       <UniqueIdentifier>{ae3bf79c-1218-4fd2-9612-3ae034765d97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\chess">
+      <UniqueIdentifier>{2675767e-2fac-4f7e-9394-fee202015bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\clim">
+      <UniqueIdentifier>{dc2c9f43-5e21-407a-b74b-ce3eb1c4ed38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\cn">
+      <UniqueIdentifier>{41e7831c-1104-485b-b83d-c8bc73a9234d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\cycle">
+      <UniqueIdentifier>{f573cd5c-5ce4-4daa-a020-78204d5d8c2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\hydro">
+      <UniqueIdentifier>{a2b5343a-f0ca-4d93-aed5-2662eed4fbd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\init">
+      <UniqueIdentifier>{c494cd5f-46df-46c8-806d-0d1e1cdd90bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\output">
+      <UniqueIdentifier>{87feeb15-e75d-4eae-a869-3e85f29d9eba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\parallel">
+      <UniqueIdentifier>{eb69d0b6-c949-47eb-932f-eb083d9582ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\patch">
+      <UniqueIdentifier>{806abca6-a00e-4868-ac3a-9df21236a825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\rad">
+      <UniqueIdentifier>{5ff1a1b6-8361-4886-9b44-0fde552ff0e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\tec">
+      <UniqueIdentifier>{6db354b1-572a-4ceb-818f-2b48ff61af81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\util">
+      <UniqueIdentifier>{530dfb14-e6f0-4701-8f47-5502f4e98c04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -484,13 +496,13 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\CHESS\include\chess.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="..\CHESS\include\constants.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="..\CHESS\include\functions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\CHESS\include\chess.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

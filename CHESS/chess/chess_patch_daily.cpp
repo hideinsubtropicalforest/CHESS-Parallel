@@ -27,7 +27,7 @@ void  chess_patch_daily(struct patch_object* patch,
 
 		//parallel patch daily is served to be a elementary function of patch daily process
 		parallel_hillslope_subunit(patch, ComLin, SimInf,current_date, daily_clim, thread_inx);
-		//printf("%d\n", omp_get_num_threads());
+		//printf("%d %d %d\n", thread_num, omp_get_num_threads(), thread_inx);
 	}//*/
 
 	return;

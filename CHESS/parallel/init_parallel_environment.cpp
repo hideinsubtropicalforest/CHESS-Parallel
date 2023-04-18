@@ -1,7 +1,3 @@
-//------------------------------------------------------------------------------------------------------------------------------
-//	A parallel way for computing daily F
-//	Designed by Xu.
-//------------------------------------------------------------------------------------------------------------------------------
 #include <stdio.h>
 #include <math.h>
 #include "chess.h"
@@ -10,7 +6,6 @@
 #include <iostream>
 
 using namespace std;
-
 
 void	init_parallel_environment(struct patch_object *patch, struct  SimulationInformation* SimInf)
 {

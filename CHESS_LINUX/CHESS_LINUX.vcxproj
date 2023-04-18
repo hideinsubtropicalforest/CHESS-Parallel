@@ -63,10 +63,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt />
+    <IncludePath>C:\Users\Administrator\source\repos\xuzhenwu\CHESS-Parallel\CHESS\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.out</TargetExt>
     <MultiProcNumber>4</MultiProcNumber>
+    <IncludePath>..\CHESS\include</IncludePath>
   </PropertyGroup>
   <ItemGroup>
     <ClCompile Include="..\CHESS\chess\chess_channel_daily.cpp" />
@@ -151,8 +153,8 @@
     <ClCompile Include="..\CHESS\hydro\penman_monteith.cpp" />
     <ClCompile Include="..\CHESS\hydro\recompute_gamma.cpp" />
     <ClCompile Include="..\CHESS\hydro\snowpack_daily_F.cpp" />
-    <ClCompile Include="..\CHESS\hydro\update_drainage_land.cpp" />
-    <ClCompile Include="..\CHESS\hydro\update_drainage_stream.cpp" />
+    <ClCompile Include="..\CHESS\hydro\update_drainage_land_new.cpp" />
+    <ClCompile Include="..\CHESS\hydro\update_drainage_stream_new.cpp" />
     <ClCompile Include="..\CHESS\hydro\update_gw_drainage.cpp" />
     <ClCompile Include="..\CHESS\hydro\update_litter_interception_capacity.cpp" />
     <ClCompile Include="..\CHESS\init\construct_canopy_strata.cpp" />
@@ -162,7 +164,7 @@
     <ClCompile Include="..\CHESS\init\construct_landuse_defaults.cpp" />
     <ClCompile Include="..\CHESS\init\construct_patch.cpp" />
     <ClCompile Include="..\CHESS\init\construct_reservoir_correponding_data.cpp" />
-    <ClCompile Include="..\CHESS\init\construct_routing_topology_new.cpp" />
+    <ClCompile Include="..\CHESS\init\construct_routing_topology.cpp" />
     <ClCompile Include="..\CHESS\init\construct_soil_defaults.cpp" />
     <ClCompile Include="..\CHESS\init\construct_stratum_defaults.cpp" />
     <ClCompile Include="..\CHESS\init\contruct_reservoir_default.cpp" />
@@ -173,6 +175,8 @@
     <ClCompile Include="..\CHESS\init\parse_veg_type.cpp" />
     <ClCompile Include="..\CHESS\init\read_daily_climatedata.cpp" />
     <ClCompile Include="..\CHESS\init\zero_patch_object.cpp" />
+    <ClCompile Include="..\CHESS\main.cpp" />
+    <ClCompile Include="..\CHESS\output\close_all_output_files.cpp" />
     <ClCompile Include="..\CHESS\output\close_patch_output_files.cpp" />
     <ClCompile Include="..\CHESS\output\construct_basin_output_files.cpp" />
     <ClCompile Include="..\CHESS\output\construct_gauge_output_files.cpp" />
@@ -187,8 +191,9 @@
     <ClCompile Include="..\CHESS\output\out_gauge_level_daily.cpp" />
     <ClCompile Include="..\CHESS\output\out_patch_level_daily.cpp" />
     <ClCompile Include="..\CHESS\parallel\init_parallel_environment.cpp" />
-    <ClCompile Include="..\CHESS\parallel\parallel_channel_daily.cpp" />
-    <ClCompile Include="..\CHESS\parallel\parallel_patch_daily.cpp" />
+    <ClCompile Include="..\CHESS\parallel\parallel_channel_subunit.cpp" />
+    <ClCompile Include="..\CHESS\parallel\parallel_hillslope_subunit.cpp" />
+    <ClCompile Include="..\CHESS\parallel\parallel_route_subunit.cpp" />
     <ClCompile Include="..\CHESS\patch\patch_land_initial.cpp" />
     <ClCompile Include="..\CHESS\rad\compute_diffuse_radiative_fluxes.cpp" />
     <ClCompile Include="..\CHESS\rad\compute_diffuse_radiative_PAR_fluxes.cpp" />
@@ -197,6 +202,7 @@
     <ClCompile Include="..\CHESS\rad\compute_Lstar.cpp" />
     <ClCompile Include="..\CHESS\rad\compute_radiative_fluxes.cpp" />
     <ClCompile Include="..\CHESS\rad\compute_surface_heat_flux.cpp" />
+    <ClCompile Include="..\CHESS\tec\check_water_balance.cpp" />
     <ClCompile Include="..\CHESS\tec\math.cpp" />
     <ClCompile Include="..\CHESS\tec\valid_option.cpp" />
     <ClCompile Include="..\CHESS\util\alloc.cpp" />
@@ -212,7 +218,7 @@
     <ClCompile Include="..\CHESS\util\sort_patch_layers.cpp" />
     <ClCompile Include="..\CHESS\util\spaveg.cpp" />
     <ClCompile Include="..\CHESS\util\yearday.cpp" />
-    <ClCompile Include="main_linux.cpp" />
+    <ClCompile Include="linux_src\construct_infile_path_linux.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\CHESS\tec\R_RHESSys_info.txt" />
@@ -224,7 +230,7 @@
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\xu\CHESS_PARALLEL\CHESS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\CHESS\include;\home\zwxu\projects\CHESS_LINUX\CHESS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RelaxIEEE>true</RelaxIEEE>
       <AdditionalOptions>-fopenmp %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>

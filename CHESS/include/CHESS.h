@@ -1049,7 +1049,7 @@ struct reservoir_object {
 	double i30_mean;
 	double i30_std;
 
-	//modificaion of power¡¢supply¡¢impound
+	//modificaion of powerï¿½ï¿½supplyï¿½ï¿½impound
 	double npow;
 	double nsup;
 	double nimp;
